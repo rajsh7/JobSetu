@@ -6,14 +6,14 @@ import { Category } from '@prisma/client'
 export class CreateJobDto {
   @IsString()
   @MaxLength(300)
-  title: string
+  title!: string
 
   @IsEnum(Category)
-  category: Category
+  category!: Category
 
   @IsString()
   @MaxLength(200)
-  organization: string
+  organization!: string
 
   @IsOptional()
   @IsInt()
@@ -28,7 +28,7 @@ export class CreateJobDto {
   lastDate?: string
 
   @IsUrl()
-  officialLink: string
+  officialLink!: string
 
   @IsOptional()
   @IsString()
