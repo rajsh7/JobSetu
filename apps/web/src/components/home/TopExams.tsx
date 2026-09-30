@@ -6,6 +6,7 @@ interface EnrichedExam extends Exam {
   eligibility?: string
   nextExamWindow?: string
   patternSummary?: string
+  badgeLabel?: string
 }
 
 interface Props {
@@ -23,7 +24,7 @@ export function TopExams({ exams }: Props) {
           <div>
             <div className="mb-3 flex items-center justify-between">
               <span className="rounded-md bg-black px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white">
-                {exam.category.replace('_', ' ')}
+                {exam.badgeLabel ?? exam.category.replace('_', ' ')}
               </span>
               <a
                 href={exam.officialSite}
@@ -32,7 +33,7 @@ export function TopExams({ exams }: Props) {
                 title={`Official ${exam.name} Portal`}
                 className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-black"
               >
-                <span>Portal</span>
+                <span>Official Site</span>
                 <ExternalLink size={12} />
               </a>
             </div>
@@ -44,6 +45,12 @@ export function TopExams({ exams }: Props) {
             </Link>
 
             <p className="mt-1 text-xs font-medium text-zinc-500">{exam.conductedBy}</p>
+
+            {exam.eligibility && (
+              <p className="mt-2 line-clamp-2 text-xs text-zinc-600">
+                🎓 {exam.eligibility}
+              </p>
+            )}
 
             {exam.nextExamWindow && (
               <p className="mt-2.5 rounded-lg bg-zinc-50 border border-zinc-200 px-2.5 py-1.5 text-xs font-semibold text-zinc-800">
@@ -60,7 +67,7 @@ export function TopExams({ exams }: Props) {
               href={`/top-exams/${exam.slug}`}
               className="inline-flex items-center gap-1 font-bold text-black hover:underline"
             >
-              <span>Exam Guide</span>
+              <span>Exam Details</span>
               <ArrowUpRight size={13} />
             </Link>
           </div>

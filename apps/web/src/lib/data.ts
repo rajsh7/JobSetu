@@ -698,6 +698,81 @@ export const SEED_EXAMS: (Exam & { eligibility?: string; nextExamWindow?: string
   },
 ]
 
+export const SEED_PRIVATE_EXAMS: (Exam & { eligibility?: string; nextExamWindow?: string; patternSummary?: string; badgeLabel?: string })[] = [
+  {
+    id: 'pexam-tcs-nqt',
+    name: 'TCS NQT (National Qualifier Test) — IT & Corporate Hiring',
+    slug: 'tcs-nqt',
+    category: ExamCategory.OTHER,
+    badgeLabel: 'IT / MNC Placement',
+    conductedBy: 'TCS iON & Tata Consultancy Services',
+    frequency: 'Quarterly Exams (Score Valid for 2 Years)',
+    officialSite: 'https://www.tcsion.com/hub/national-qualifier-test/',
+    description:
+      'India’s largest gateway exam for fresher hiring across TCS (Ninja ₹3.36 LPA, Digital ₹7.0 LPA, Prime ₹9–11.5 LPA) and 1,500+ partner IT & corporate employers.',
+    eligibility: 'Pre-final & Final Year UG/PG Students (B.E/B.Tech/MCA/M.Sc/BCA/B.Sc/B.Com).',
+    nextExamWindow: 'October & November 2026 Batch Registrations Active',
+    patternSummary: 'Foundation Section (Numerical, Verbal, Reasoning) + Advanced Coding Section',
+    isTop: true,
+    createdAt: '2026-09-01T00:00:00Z',
+    updatedAt: '2026-09-30T00:00:00Z',
+  },
+  {
+    id: 'pexam-elitmus-ph',
+    name: 'eLitmus pH Test (Hiring Potential Assessment)',
+    slug: 'elitmus',
+    category: ExamCategory.OTHER,
+    badgeLabel: 'Product Companies',
+    conductedBy: 'eLitmus Evaluation Pvt. Ltd.',
+    frequency: 'Every Weekend Across Major Indian Cities',
+    officialSite: 'https://www.elitmus.com',
+    description:
+      'Premier national assessment used by top product-based & high-package tech companies ( ₹6 LPA – ₹18 LPA) to shortlist fresh engineering graduates.',
+    eligibility: 'B.E. / B.Tech / MCA / M.E. / M.Tech / M.Sc (CS/IT).',
+    nextExamWindow: 'Weekly Offline & Proctored Test Slots Open',
+    patternSummary: 'Quantitative Aptitude, Logical Problem Solving & Verbal Ability (Percentile Scoring)',
+    isTop: true,
+    createdAt: '2026-09-01T00:00:00Z',
+    updatedAt: '2026-09-30T00:00:00Z',
+  },
+  {
+    id: 'pexam-amcat',
+    name: 'AMCAT (SHL Aspiring Minds Computer Adaptive Test)',
+    slug: 'amcat',
+    category: ExamCategory.OTHER,
+    badgeLabel: 'MNC & BFSI Jobs',
+    conductedBy: 'SHL India (Aspiring Minds)',
+    frequency: 'On-Demand Slot Booking Year-Round',
+    officialSite: 'https://www.myamcat.com',
+    description:
+      'Adaptive employability assessment accepted by 700+ MNCs, startups, and private banks (Cognizant, Mindtree, Axis Bank, Deloitte, Flipkart) for entry-level roles.',
+    eligibility: 'Final Year & Passed-Out Graduates across Engineering, Management & Arts/Commerce.',
+    nextExamWindow: 'Book Slot Anytime (Home / Center Based)',
+    patternSummary: 'English, Quantitative Ability, Logical Ability + Domain Specific Modules (Automata Coding / Finance)',
+    isTop: true,
+    createdAt: '2026-09-01T00:00:00Z',
+    updatedAt: '2026-09-30T00:00:00Z',
+  },
+  {
+    id: 'pexam-cocubes',
+    name: 'CoCubes (Aon) National Placement Assessment',
+    slug: 'cocubes',
+    category: ExamCategory.OTHER,
+    badgeLabel: 'Campus & Off-Campus',
+    conductedBy: 'Aon Assessment Solutions (CoCubes)',
+    frequency: 'Multiple Drives Throughout Academic Year',
+    officialSite: 'https://www.aon.com',
+    description:
+      'Standardized pre-hire test connecting engineering and MBA students with 450+ corporate recruiters across IT services, core engineering, and consulting.',
+    eligibility: 'B.E. / B.Tech / MBA / MCA students.',
+    nextExamWindow: '2026–2027 Placement Season Active',
+    patternSummary: 'Aptitude, Psychometric, Computer Fundamentals, Wet/Coding & Domain Test',
+    isTop: true,
+    createdAt: '2026-09-01T00:00:00Z',
+    updatedAt: '2026-09-30T00:00:00Z',
+  },
+]
+
 // ─── Data Access Layer (Supabase First → Seed Fallback) ─────────────────────
 
 export async function getPortalItems(category?: Category, limit = 50): Promise<DetailedPortalItem[]> {
@@ -814,15 +889,25 @@ export async function getTopExamsList() {
   return SEED_EXAMS
 }
 
+export async function getPrivateExamsList() {
+  return SEED_PRIVATE_EXAMS
+}
+
 export async function getExamBySlug(slug: string) {
-  const exams = await getTopExamsList()
-  return exams.find((exam) => exam.slug === slug) ?? null
+  const [govtExams, privateExams] = await Promise.all([
+    getTopExamsList(),
+    getPrivateExamsList(),
+  ])
+  return [...govtExams, ...privateExams].find((exam) => exam.slug === slug) ?? null
 }
 
 export async function searchPortal(query: string) {
   const q = query.trim().toLowerCase()
   if (!q) {
-    return { items: SEED_ITEMS.slice(0, 9), exams: SEED_EXAMS.slice(0, 4) }
+    return {
+      items: SEED_ITEMS.slice(0, 8),
+      exams: [...SEED_EXAMS.slice(0, 4), ...SEED_PRIVATE_EXAMS.slice(0, 4)],
+    }
   }
 
   const allItems = await getPortalItems(undefined, 100)
@@ -835,7 +920,11 @@ export async function searchPortal(query: string) {
       (item.qualification?.toLowerCase().includes(q) ?? false),
   )
 
-  const allExams = await getTopExamsList()
+  const [govtExams, privateExams] = await Promise.all([
+    getTopExamsList(),
+    getPrivateExamsList(),
+  ])
+  const allExams = [...govtExams, ...privateExams]
   const matchedExams = allExams.filter(
     (exam) =>
       exam.name.toLowerCase().includes(q) ||

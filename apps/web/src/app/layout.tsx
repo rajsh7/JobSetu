@@ -1,47 +1,60 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
+const SITE_URL = process.env['NEXT_PUBLIC_SITE_URL'] ?? 'https://jobsetu.dpdns.org'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jobsetu.in'),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: '/',
+  },
   title: {
-    default: 'JobSetu — Your Bridge to a Brighter Career | Sarkari Results, Jobs, Admit Cards',
-    template: '%s | JobSetu',
+    default:
+      'JobSetu — Sarkari Result, Top Govt Jobs,Govt Exams, Private Jobs & Private Exams 2026',
+    template: '%s | JobSetu (jobsetu.dpdns.org)',
   },
   description:
-    "JobSetu is India's fastest student career portal for Sarkari Results, Latest Government Jobs, Admit Cards, Private Jobs, and Top Exams (UPSC, SSC, IBPS, Railways, State PSC). Direct official links — no login required.",
+    'JobSetu (jobsetu.dpdns.org) — Your Bridge to a Brighter Career. Find Latest Sarkari Results, Top Government Jobs, Top Government Exams (UPSC, SSC, IBPS, Railway, State PSC), Private MNC Jobs, Private Placement Exams (TCS NQT, eLitmus, AMCAT, CoCubes, CAT, GATE), and Admit Cards. No login required — direct official links.',
   keywords: [
     'jobsetu',
+    'jobsetu.dpdns.org',
     'sarkari result',
+    'sarkari result 2026',
     'sarkari job',
     'sarkari naukri',
-    'admit card',
-    'govt jobs',
-    'government jobs india',
-    'private jobs for freshers',
-    'ssc jobs',
-    'upsc',
-    'ibps',
-    'railway jobs',
-    'latest government jobs 2026',
-    'exam results 2026',
+    'sarkari exam',
+    'top government jobs 2026',
+    'top government exams in india',
+    'private jobs for freshers 2026',
+    'private exams for jobs',
+    'tcs nqt 2026 apply online',
+    'elitmus exam 2026',
+    'amcat exam registration',
+    'infosys off campus drive 2026',
+    'ssc cgl 2026 notification',
+    'upsc cse result 2026',
+    'railway rrb ntpc 2026',
+    'ibps po 2026',
+    'sbi clerk 2026',
+    'admit card download 2026',
+    'free job alert india',
   ],
-  authors: [{ name: 'JobSetu Team' }],
+  authors: [{ name: 'JobSetu Team', url: SITE_URL }],
   creator: 'JobSetu',
+  publisher: 'JobSetu',
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-    ],
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
     shortcut: '/favicon.png',
     apple: '/favicon.png',
   },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://jobsetu.in',
+    url: SITE_URL,
     siteName: 'JobSetu',
-    title: 'JobSetu — Your Bridge to a Brighter Career',
+    title: 'JobSetu — Your Bridge to a Brighter Career | Govt & Private Jobs & Exams',
     description:
-      "India's fastest student portal for Sarkari Results, Govt Jobs, Admit Cards, Private Jobs & Top Exams.",
+      'Explore Top Govt Jobs, Top Govt Exams, Private MNC Jobs, Private Placement Exams, Sarkari Results & Admit Cards with direct official links.',
     images: [
       {
         url: '/logo.png',
@@ -55,7 +68,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'JobSetu — Your Bridge to a Brighter Career',
     description:
-      "India's fastest student portal for Sarkari Results, Govt Jobs, Admit Cards, Private Jobs & Top Exams.",
+      'Top Govt Jobs, Govt Exams, Private Jobs, Private Exams, Sarkari Results & Admit Cards on jobsetu.dpdns.org.',
     images: ['/logo.png'],
   },
   robots: {

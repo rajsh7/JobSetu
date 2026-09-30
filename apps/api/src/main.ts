@@ -13,8 +13,9 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       process.env['FRONTEND_URL'] ?? 'http://localhost:3000',
+      'https://jobsetu.dpdns.org',
+      'https://www.jobsetu.dpdns.org',
       'https://jobsetu.in',
-      'https://www.jobsetu.in',
     ],
     credentials: true,
   })

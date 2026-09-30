@@ -10,14 +10,16 @@ import { CategoryGrid } from '@/components/home/CategoryGrid'
 import { SarkariBoard } from '@/components/home/SarkariBoard'
 import { LatestUpdates } from '@/components/home/LatestUpdates'
 import { TopExams } from '@/components/home/TopExams'
-import { getPortalItems, getTopExamsList } from '@/lib/data'
+import { PortalJsonLd } from '@/components/seo/PortalJsonLd'
+import { getPortalItems, getTopExamsList, getPrivateExamsList } from '@/lib/data'
 
 export const revalidate = 120 // ISR: revalidate homepage every 2 minutes
 
 export default async function HomePage() {
-  const [allItems, topExams] = await Promise.all([
+  const [allItems, topGovtExams, topPrivateExams] = await Promise.all([
     getPortalItems(undefined, 50),
     getTopExamsList(),
+    getPrivateExamsList(),
   ])
 
   const govtJobs = allItems.filter((item) => item.category === Category.GOVT_JOB)
@@ -27,13 +29,14 @@ export default async function HomePage() {
 
   return (
     <>
+      <PortalJsonLd />
       <Header />
 
       {/* Live Trending Ticker */}
       <BreakingTicker jobs={allItems.slice(0, 6)} />
 
       <main>
-        {/* Hero Section — Matched to JobSetu Logo & Jost Typography */}
+        {/* Hero Section */}
         <section className="relative overflow-hidden border-b border-zinc-200 bg-white py-10 sm:py-14">
           <div className="container-main relative z-10 text-center">
             <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-zinc-50 px-3.5 py-1 text-xs font-semibold text-zinc-800">
@@ -44,7 +47,7 @@ export default async function HomePage() {
                 height={18}
                 className="rounded-xs object-contain"
               />
-              <span>India&apos;s Student-First Career Aggregator • No Login Required</span>
+              <span>jobsetu.dpdns.org • Student Career Portal • Zero Login Required</span>
             </div>
 
             <h1 className="mx-auto max-w-3xl text-3xl font-extrabold tracking-tight text-black sm:text-5xl">
@@ -55,9 +58,10 @@ export default async function HomePage() {
             </h1>
 
             <p className="mx-auto mt-3 mb-7 max-w-2xl text-sm font-medium text-zinc-600 sm:text-lg">
-              Instant access to <strong>Sarkari Results</strong>, <strong>Sarkari Jobs</strong>,{' '}
-              <strong>Admit Cards</strong>, <strong>Private Jobs</strong> &amp;{' '}
-              <strong>Top Exams</strong> — with direct 1-click official portal redirects.
+              Category-wise <strong>Top Govt Jobs</strong>, <strong>Top Govt Exams</strong>,{' '}
+              <strong>Private MNC Jobs</strong>, <strong>Private Placement Exams</strong>,{' '}
+              <strong>Sarkari Results</strong> &amp; <strong>Admit Cards</strong> — with direct
+              official links.
             </p>
 
             <HeroSearch />
@@ -70,36 +74,42 @@ export default async function HomePage() {
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck size={14} className="text-black" />
-                Zero Login / Zero Spam
+                No Login / No Signup
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <ExternalLink size={14} className="text-black" />
-                Verified Official Govt &amp; MNC Links
+                Direct Official Govt &amp; MNC Redirects
               </span>
             </div>
           </div>
         </section>
 
-        {/* 5 Core Category Cards */}
+        {/* 6 Category Quick Navigation Cards */}
         <section className="py-8">
           <div className="container-main">
             <CategoryGrid />
           </div>
         </section>
 
-        {/* 3-Column Sarkari Result Board (Jobs | Results | Admit Cards) */}
-        <section className="pb-10">
+        {/* Category 1: Top Govt Jobs, Sarkari Results & Admit Cards Board */}
+        <section id="govt-jobs" className="pb-12 scroll-mt-20">
           <div className="container-main">
             <div className="mb-5 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
               <div>
-                <h2 className="text-2xl font-extrabold text-black sm:text-3xl">
-                  Live Sarkari Board
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+                  Category 01 • Central &amp; State Sarkari Portal
+                </span>
+                <h2 className="mt-0.5 text-2xl font-extrabold text-black sm:text-3xl">
+                  Top Government Jobs, Sarkari Results &amp; Admit Cards
                 </h2>
-                <p className="text-sm font-medium text-zinc-600">
-                  Click any notification for full eligibility &amp; dates, or click the external icon
-                  to jump straight to the official website.
-                </p>
               </div>
+              <Link
+                href="/latest-jobs"
+                className="btn-outline text-xs sm:text-sm py-2 px-3.5 self-start sm:self-auto"
+              >
+                <span>All Govt Jobs</span>
+                <ArrowUpRight size={15} />
+              </Link>
             </div>
 
             <SarkariBoard
@@ -110,21 +120,46 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Private & MNC Jobs Section */}
-        <section className="border-t border-zinc-200 bg-white py-10">
+        {/* Category 2: Top Government Exams (Category-Wise) */}
+        <section id="govt-exams" className="border-t border-zinc-200 bg-white py-12 scroll-mt-20">
           <div className="container-main">
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">
-                  Corporate &amp; Off-Campus Drives
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
+                  Category 02 • UPSC • SSC • Banking • Railways • Defence • State PSC
                 </span>
                 <h2 className="mt-0.5 text-2xl font-extrabold text-black sm:text-3xl">
-                  Private &amp; MNC Jobs for Freshers
+                  Top Government Exams in India (Category-Wise)
+                </h2>
+              </div>
+              <Link
+                href="/top-exams#govt-exams"
+                className="btn-outline text-xs sm:text-sm py-2 px-3.5 self-start sm:self-auto"
+              >
+                <span>Explore All Govt Exams</span>
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
+
+            <TopExams exams={topGovtExams} />
+          </div>
+        </section>
+
+        {/* Category 3: Top Private & MNC Jobs */}
+        <section id="private-jobs" className="border-t border-zinc-200 py-12 scroll-mt-20">
+          <div className="container-main">
+            <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-violet-700">
+                  Category 03 • IT, Software, Banking &amp; Corporate Hiring
+                </span>
+                <h2 className="mt-0.5 text-2xl font-extrabold text-black sm:text-3xl">
+                  Top Private &amp; MNC Jobs for Freshers
                 </h2>
               </div>
               <Link
                 href="/private-jobs"
-                className="btn-outline text-xs sm:text-sm py-2 px-3.5"
+                className="btn-outline text-xs sm:text-sm py-2 px-3.5 self-start sm:self-auto"
               >
                 <span>All Private Jobs</span>
                 <ArrowUpRight size={15} />
@@ -135,28 +170,32 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Top Competitive Exams Section */}
-        <section className="border-t border-zinc-200 py-10">
+        {/* Category 4: Top Private & Corporate Placement Exams */}
+        <section id="private-exams" className="border-t border-zinc-200 bg-white py-12 scroll-mt-20">
           <div className="container-main">
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">
-                  Explore Career Pathways
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
+                  Category 04 • National Qualifier &amp; Employability Tests
                 </span>
                 <h2 className="mt-0.5 text-2xl font-extrabold text-black sm:text-3xl">
-                  Top Exams in India
+                  Top Private &amp; Corporate Placement Exams
                 </h2>
+                <p className="mt-1 text-sm font-medium text-zinc-600">
+                  Score once in these national private placement exams and get interviewed directly by
+                  1,500+ IT &amp; corporate companies.
+                </p>
               </div>
               <Link
-                href="/top-exams"
-                className="btn-outline text-xs sm:text-sm py-2 px-3.5"
+                href="/top-exams#private-exams"
+                className="btn-outline text-xs sm:text-sm py-2 px-3.5 self-start sm:self-auto"
               >
-                <span>View All Exams</span>
+                <span>All Private Exams</span>
                 <ArrowUpRight size={15} />
               </Link>
             </div>
 
-            <TopExams exams={topExams} />
+            <TopExams exams={topPrivateExams} />
           </div>
         </section>
       </main>
