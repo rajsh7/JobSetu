@@ -1,52 +1,70 @@
 import Link from 'next/link'
+import { ArrowUpRight, ExternalLink } from 'lucide-react'
 import { type Exam } from '@jobsetu/types'
 
-const examColors: Record<string, string> = {
-  UPSC: 'border-l-4 border-l-red-500',
-  SSC: 'border-l-4 border-l-blue-500',
-  BANKING: 'border-l-4 border-l-green-500',
-  RAILWAY: 'border-l-4 border-l-orange-500',
-  STATE_PSC: 'border-l-4 border-l-purple-500',
-  DEFENCE: 'border-l-4 border-l-slate-500',
-  TEACHING: 'border-l-4 border-l-yellow-500',
-  POLICE: 'border-l-4 border-l-cyan-500',
-  OTHER: 'border-l-4 border-l-gray-400',
+interface EnrichedExam extends Exam {
+  eligibility?: string
+  nextExamWindow?: string
+  patternSummary?: string
 }
 
 interface Props {
-  exams: Exam[]
+  exams: EnrichedExam[]
 }
 
 export function TopExams({ exams }: Props) {
-  if (!exams.length) {
-    return (
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {['UPSC', 'SSC', 'IBPS', 'Railway', 'State PSC', 'Defence', 'Teaching', 'Police'].map((name) => (
-          <div key={name} className={`job-card p-4 ${examColors['OTHER']}`}>
-            <p className="font-semibold text-sm text-slate-700">{name}</p>
-            <p className="text-xs text-slate-400 mt-1">Coming soon</p>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {exams.map((exam) => (
-        <Link
+        <div
           key={exam.id}
-          href={`/top-exams/${exam.slug}`}
-          className={`job-card block p-4 hover:no-underline ${examColors[exam.category] ?? examColors['OTHER']}`}
+          className="job-card group flex flex-col justify-between p-5"
         >
-          <p className="font-semibold text-sm text-slate-700 group-hover:text-brand-blue">
-            {exam.name}
-          </p>
-          <p className="text-xs text-slate-500 mt-1">{exam.conductedBy}</p>
-          {exam.frequency && (
-            <p className="mt-2 text-xs text-brand-orange font-medium">{exam.frequency}</p>
-          )}
-        </Link>
+          <div>
+            <div className="mb-3 flex items-center justify-between">
+              <span className="rounded-md bg-black px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white">
+                {exam.category.replace('_', ' ')}
+              </span>
+              <a
+                href={exam.officialSite}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Official ${exam.name} Portal`}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-black"
+              >
+                <span>Portal</span>
+                <ExternalLink size={12} />
+              </a>
+            </div>
+
+            <Link href={`/top-exams/${exam.slug}`}>
+              <h3 className="text-base font-bold text-zinc-900 group-hover:text-black group-hover:underline">
+                {exam.name}
+              </h3>
+            </Link>
+
+            <p className="mt-1 text-xs font-medium text-zinc-500">{exam.conductedBy}</p>
+
+            {exam.nextExamWindow && (
+              <p className="mt-2.5 rounded-lg bg-zinc-50 border border-zinc-200 px-2.5 py-1.5 text-xs font-semibold text-zinc-800">
+                📌 {exam.nextExamWindow}
+              </p>
+            )}
+          </div>
+
+          <div className="mt-4 flex items-center justify-between border-t border-zinc-100 pt-3 text-xs">
+            <span className="text-zinc-500 font-medium truncate max-w-[60%]">
+              {exam.frequency ?? 'Annual Exam'}
+            </span>
+            <Link
+              href={`/top-exams/${exam.slug}`}
+              className="inline-flex items-center gap-1 font-bold text-black hover:underline"
+            >
+              <span>Exam Guide</span>
+              <ArrowUpRight size={13} />
+            </Link>
+          </div>
+        </div>
       ))}
     </div>
   )

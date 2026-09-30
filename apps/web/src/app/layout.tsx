@@ -1,56 +1,62 @@
 import type { Metadata } from 'next'
-import { Poppins, Inter } from 'next/font/google'
 import './globals.css'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  variable: '--font-heading',
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://jobsetu.in'),
   title: {
-    default: 'JobSetu — Your Bridge to a Better Career | Sarkari Jobs, Results, Admit Cards',
+    default: 'JobSetu — Your Bridge to a Brighter Career | Sarkari Results, Jobs, Admit Cards',
     template: '%s | JobSetu',
   },
   description:
-    'JobSetu is India\'s fastest career portal for Sarkari Jobs, Government Exam Results, Admit Cards, Private Jobs, and Top Exams like UPSC, SSC, IBPS, Railways. Find your dream job today.',
+    "JobSetu is India's fastest student career portal for Sarkari Results, Latest Government Jobs, Admit Cards, Private Jobs, and Top Exams (UPSC, SSC, IBPS, Railways, State PSC). Direct official links — no login required.",
   keywords: [
-    'sarkari result', 'sarkari job', 'sarkari naukri', 'admit card', 'govt jobs',
-    'government jobs india', 'ssc jobs', 'upsc', 'ibps', 'railway jobs',
-    'latest government jobs 2026', 'exam results 2026',
+    'jobsetu',
+    'sarkari result',
+    'sarkari job',
+    'sarkari naukri',
+    'admit card',
+    'govt jobs',
+    'government jobs india',
+    'private jobs for freshers',
+    'ssc jobs',
+    'upsc',
+    'ibps',
+    'railway jobs',
+    'latest government jobs 2026',
+    'exam results 2026',
   ],
   authors: [{ name: 'JobSetu Team' }],
   creator: 'JobSetu',
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     url: 'https://jobsetu.in',
     siteName: 'JobSetu',
-    title: 'JobSetu — Your Bridge to a Better Career',
-    description: 'India\'s fastest portal for Sarkari Jobs, Results, Admit Cards & Private Jobs.',
+    title: 'JobSetu — Your Bridge to a Brighter Career',
+    description:
+      "India's fastest student portal for Sarkari Results, Govt Jobs, Admit Cards, Private Jobs & Top Exams.",
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'JobSetu — Your Bridge to a Better Career',
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'JobSetu — Your Bridge to a Brighter Career',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'JobSetu — Your Bridge to a Better Career',
-    description: 'India\'s fastest portal for Sarkari Jobs, Results, Admit Cards & Private Jobs.',
-    images: ['/og-image.png'],
+    title: 'JobSetu — Your Bridge to a Brighter Career',
+    description:
+      "India's fastest student portal for Sarkari Results, Govt Jobs, Admit Cards, Private Jobs & Top Exams.",
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -70,12 +76,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+    <html lang="en">
       <head>
-        {/* Google AdSense — add your publisher ID here when approved */}
-        {/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXX" crossOrigin="anonymous" /> */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="min-h-screen bg-slate-50 font-body antialiased">
+      <body className="min-h-screen bg-[#FAFAFA] text-[#09090B] antialiased selection:bg-black selection:text-white">
         {children}
       </body>
     </html>
