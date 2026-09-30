@@ -1,0 +1,132 @@
+// This is your Prisma schema file for JobSetu
+// Prisma 7 (stable recommended) — PostgreSQL via Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Category {
+  GOVT_JOB
+  PRIVATE_JOB
+  ADMIT_CARD
+  RESULT
+  EXAM
+  ANSWER_KEY
+  SYLLABUS
+}
+
+enum ExamCategory {
+  UPSC
+  SSC
+  BANKING
+  RAILWAY
+  STATE_PSC
+  DEFENCE
+  TEACHING
+  POLICE
+  OTHER
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model Job {
+  id            String    @id @default(cuid())
+  title         String    @db.VarChar(300)
+  slug          String    @unique @db.VarChar(300)
+  category      Category
+  organization  String    @db.VarChar(200)
+  postCount     Int?
+  qualification String?   @db.VarChar(300)
+  lastDate      DateTime?
+  officialLink  String    // Redirect URL — no scraping, links to official govt site
+  state         String?   @db.VarChar(100)
+  examName      String?   @db.VarChar(200)
+  description   String?   @db.Text
+  isActive      Boolean   @default(true)
+  isFeatured    Boolean   @default(false)
+  views         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  tags          Tag[]     @relation("JobTags")
+
+  @@index([category])
+  @@index([state])
+  @@index([createdAt(sort: Desc)])
+  @@index([isFeatured])
+  @@index([isActive])
+}
+
+model Result {
+  id           String    @id @default(cuid())
+  title        String    @db.VarChar(300)
+  slug         String    @unique @db.VarChar(300)
+  examName     String    @db.VarChar(200)
+  organization String    @db.VarChar(200)
+  resultDate   DateTime?
+  officialLink String
+  description  String?   @db.Text
+  isActive     Boolean   @default(true)
+  views        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([createdAt(sort: Desc)])
+  @@index([isActive])
+}
+
+model AdmitCard {
+  id           String    @id @default(cuid())
+  title        String    @db.VarChar(300)
+  slug         String    @unique @db.VarChar(300)
+  examName     String    @db.VarChar(200)
+  organization String    @db.VarChar(200)
+  examDate     DateTime?
+  downloadLink String    // Redirect to official portal
+  isActive     Boolean   @default(true)
+  views        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([createdAt(sort: Desc)])
+  @@index([isActive])
+}
+
+model Exam {
+  id           String       @id @default(cuid())
+  name         String       @db.VarChar(200)
+  slug         String       @unique @db.VarChar(200)
+  category     ExamCategory
+  conductedBy  String       @db.VarChar(200)
+  frequency    String?      @db.VarChar(100)
+  officialSite String
+  description  String?      @db.Text
+  isTop        Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([category])
+  @@index([isTop])
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique @db.VarChar(100)
+  jobs Job[]  @relation("JobTags")
+}
+
+model Admin {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String   // bcrypt hashed — never store plain text
+  name          String   @db.VarChar(100)
+  refreshToken  String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

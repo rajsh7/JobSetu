@@ -1,0 +1,26 @@
+{
+  "name": "jobsetu",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "db:migrate": "pnpm --filter @jobsetu/api prisma migrate dev",
+    "db:generate": "pnpm --filter @jobsetu/api prisma generate",
+    "db:studio": "pnpm --filter @jobsetu/api prisma studio",
+    "db:seed": "pnpm --filter @jobsetu/api prisma db seed"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.5",
+    "typescript": "^7.0.2",
+    "prettier": "^3.4.2",
+    "eslint": "^9.x"
+  },
+  "packageManager": "pnpm@12.8.2",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=12.0.0"
+  }
+}
