@@ -1,5 +1,6 @@
 import { Category, ExamCategory, type Job, type Exam } from '@jobsetu/types'
 import { supabase } from './supabase'
+import { redisGet, redisSet } from './redis'
 
 export interface DetailedPortalItem extends Job {
   shortInfo?: string
@@ -773,15 +774,19 @@ export const SEED_PRIVATE_EXAMS: (Exam & { eligibility?: string; nextExamWindow?
   },
 ]
 
-// ─── Data Access Layer (Supabase First → Seed Fallback) ─────────────────────
+// ─── Data Access Layer (Upstash Redis → Supabase PostgreSQL → Seed Enrichment) ─
 
 export async function getPortalItems(category?: Category, limit = 50): Promise<DetailedPortalItem[]> {
+  const cacheKey = `jobsetu:items:${category ?? 'ALL'}:${limit}`
+  const cached = await redisGet<DetailedPortalItem[]>(cacheKey)
+  if (cached && cached.length > 0) return cached
+
   try {
     let query = supabase
-      .from('jobs')
+      .from('Job')
       .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false })
+      .eq('isActive', true)
+      .order('createdAt', { ascending: false })
       .limit(limit)
 
     if (category) {
@@ -790,102 +795,104 @@ export async function getPortalItems(category?: Category, limit = 50): Promise<D
 
     const { data, error } = await query
     if (!error && data && data.length > 0) {
-      return data.map((row: Record<string, unknown>) => ({
-        id: String(row['id']),
-        title: String(row['title']),
-        slug: String(row['slug']),
-        category: (row['category'] as Category) ?? Category.GOVT_JOB,
-        organization: String(row['organization'] ?? ''),
-        postCount: typeof row['post_count'] === 'number' ? row['post_count'] : undefined,
-        qualification: row['qualification'] ? String(row['qualification']) : undefined,
-        lastDate: row['last_date'] ? String(row['last_date']) : undefined,
-        officialLink: String(row['official_link'] ?? '#'),
-        state: row['state'] ? String(row['state']) : undefined,
-        examName: row['exam_name'] ? String(row['exam_name']) : undefined,
-        description: row['description'] ? String(row['description']) : undefined,
-        shortInfo: row['description'] ? String(row['description']) : undefined,
-        isActive: Boolean(row['is_active'] ?? true),
-        isFeatured: Boolean(row['is_featured'] ?? false),
-        views: Number(row['views'] ?? 0),
-        createdAt: String(row['created_at'] ?? new Date().toISOString()),
-        updatedAt: String(row['updated_at'] ?? new Date().toISOString()),
-      }))
+      const mapped: DetailedPortalItem[] = data.map((row: Record<string, unknown>) => {
+        const slug = String(row['slug'])
+        const seedMatch = SEED_ITEMS.find((s) => s.slug === slug)
+        return {
+          ...seedMatch,
+          id: String(row['id']),
+          title: String(row['title']),
+          slug,
+          category: (row['category'] as Category) ?? Category.GOVT_JOB,
+          organization: String(row['organization'] ?? ''),
+          postCount: typeof row['postCount'] === 'number' ? row['postCount'] : seedMatch?.postCount,
+          qualification: row['qualification'] ? String(row['qualification']) : seedMatch?.qualification,
+          lastDate: row['lastDate'] ? String(row['lastDate']) : seedMatch?.lastDate,
+          officialLink: String(row['officialLink'] ?? seedMatch?.officialLink ?? '#'),
+          state: row['state'] ? String(row['state']) : seedMatch?.state,
+          examName: row['examName'] ? String(row['examName']) : seedMatch?.examName,
+          description: row['description'] ? String(row['description']) : seedMatch?.description,
+          shortInfo: seedMatch?.shortInfo ?? (row['description'] ? String(row['description']) : undefined),
+          isActive: Boolean(row['isActive'] ?? true),
+          isFeatured: Boolean(row['isFeatured'] ?? false),
+          views: Number(row['views'] ?? 0),
+          createdAt: String(row['createdAt'] ?? new Date().toISOString()),
+          updatedAt: String(row['updatedAt'] ?? new Date().toISOString()),
+        }
+      })
+
+      await redisSet(cacheKey, mapped, 300)
+      return mapped
     }
   } catch {
-    // Fallback to seed data when Supabase table isn't created yet
+    // Fallback to seed data
   }
 
-  const items = category
+  const fallback = (category
     ? SEED_ITEMS.filter((item) => item.category === category)
     : SEED_ITEMS
+  ).slice(0, limit)
 
-  return items.slice(0, limit)
+  await redisSet(cacheKey, fallback, 300)
+  return fallback
 }
 
 export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalItem | null> {
+  const cacheKey = `jobsetu:item:${slug}`
+  const cached = await redisGet<DetailedPortalItem>(cacheKey)
+  if (cached) return cached
+
+  const seedMatch = SEED_ITEMS.find((item) => item.slug === slug)
+
   try {
     const { data, error } = await supabase
-      .from('jobs')
+      .from('Job')
       .select('*')
       .eq('slug', slug)
       .single()
 
     if (!error && data) {
       const row = data as Record<string, unknown>
-      return {
+      const item: DetailedPortalItem = {
+        ...seedMatch,
         id: String(row['id']),
         title: String(row['title']),
         slug: String(row['slug']),
         category: (row['category'] as Category) ?? Category.GOVT_JOB,
         organization: String(row['organization'] ?? ''),
-        postCount: typeof row['post_count'] === 'number' ? row['post_count'] : undefined,
-        qualification: row['qualification'] ? String(row['qualification']) : undefined,
-        lastDate: row['last_date'] ? String(row['last_date']) : undefined,
-        officialLink: String(row['official_link'] ?? '#'),
-        state: row['state'] ? String(row['state']) : undefined,
-        examName: row['exam_name'] ? String(row['exam_name']) : undefined,
-        description: row['description'] ? String(row['description']) : undefined,
-        shortInfo: row['description'] ? String(row['description']) : undefined,
-        isActive: Boolean(row['is_active'] ?? true),
-        isFeatured: Boolean(row['is_featured'] ?? false),
+        postCount: typeof row['postCount'] === 'number' ? row['postCount'] : seedMatch?.postCount,
+        qualification: row['qualification'] ? String(row['qualification']) : seedMatch?.qualification,
+        lastDate: row['lastDate'] ? String(row['lastDate']) : seedMatch?.lastDate,
+        officialLink: String(row['officialLink'] ?? seedMatch?.officialLink ?? '#'),
+        state: row['state'] ? String(row['state']) : seedMatch?.state,
+        examName: row['examName'] ? String(row['examName']) : seedMatch?.examName,
+        description: row['description'] ? String(row['description']) : seedMatch?.description,
+        shortInfo: seedMatch?.shortInfo ?? (row['description'] ? String(row['description']) : undefined),
+        isActive: Boolean(row['isActive'] ?? true),
+        isFeatured: Boolean(row['isFeatured'] ?? false),
         views: Number(row['views'] ?? 0),
-        createdAt: String(row['created_at'] ?? new Date().toISOString()),
-        updatedAt: String(row['updated_at'] ?? new Date().toISOString()),
+        createdAt: String(row['createdAt'] ?? new Date().toISOString()),
+        updatedAt: String(row['updatedAt'] ?? new Date().toISOString()),
       }
+      await redisSet(cacheKey, item, 600)
+      return item
     }
   } catch {
     // Fallback to seed data
   }
 
-  return SEED_ITEMS.find((item) => item.slug === slug) ?? null
+  if (seedMatch) {
+    await redisSet(cacheKey, seedMatch, 600)
+  }
+  return seedMatch ?? null
 }
 
 export async function getTopExamsList() {
-  try {
-    const { data, error } = await supabase
-      .from('exams')
-      .select('*')
-      .order('created_at', { ascending: true })
+  const cacheKey = 'jobsetu:exams:govt'
+  const cached = await redisGet<typeof SEED_EXAMS>(cacheKey)
+  if (cached && cached.length > 0) return cached
 
-    if (!error && data && data.length > 0) {
-      return data.map((row: Record<string, unknown>) => ({
-        id: String(row['id']),
-        name: String(row['name']),
-        slug: String(row['slug']),
-        category: (row['category'] as ExamCategory) ?? ExamCategory.OTHER,
-        conductedBy: String(row['conducted_by'] ?? ''),
-        frequency: row['frequency'] ? String(row['frequency']) : undefined,
-        officialSite: String(row['official_site'] ?? '#'),
-        description: row['description'] ? String(row['description']) : undefined,
-        isTop: Boolean(row['is_top'] ?? true),
-        createdAt: String(row['created_at'] ?? new Date().toISOString()),
-        updatedAt: String(row['updated_at'] ?? new Date().toISOString()),
-      }))
-    }
-  } catch {
-    // Fallback to seed exams
-  }
-
+  await redisSet(cacheKey, SEED_EXAMS, 600)
   return SEED_EXAMS
 }
 
