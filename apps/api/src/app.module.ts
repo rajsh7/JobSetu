@@ -10,6 +10,7 @@ import { ExamsModule } from './exams/exams.module'
 import { SearchModule } from './search/search.module'
 import { AuthModule } from './auth/auth.module'
 import { HealthModule } from './health/health.module'
+import { CronModule } from './cron/cron.module'
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { HealthModule } from './health/health.module'
     SearchModule,
     AuthModule,
     HealthModule,
+    CronModule,
   ],
 })
 export class AppModule {}

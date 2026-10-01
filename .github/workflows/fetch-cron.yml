@@ -1,0 +1,23 @@
+name: JobSetu 30-Minute Sarkari Sync Cron
+
+on:
+  schedule:
+    # Runs every 30 minutes (at minute 0 and 30)
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  sync-updates:
+    name: Ingest Latest Sarkari Updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger 30-Min Cron Endpoint
+        run: |
+          echo "Executing JobSetu 30-minute sync cycle..."
+          if [ -n "${{ secrets.PORTAL_CRON_URL }}" ]; then
+            curl -s -X POST "${{ secrets.PORTAL_CRON_URL }}" \
+              -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+              -H "Content-Type: application/json"
+          else
+            echo "PORTAL_CRON_URL not configured. Skipping webhook ping."
+          fi

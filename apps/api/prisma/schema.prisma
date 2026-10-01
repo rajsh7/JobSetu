@@ -19,6 +19,8 @@ enum Category {
   EXAM
   ANSWER_KEY
   SYLLABUS
+  ADMISSION
+  DOCUMENT
 }
 
 enum ExamCategory {

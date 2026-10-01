@@ -47,3 +47,22 @@ export async function redisSet(key: string, value: unknown, ttlSeconds = 300): P
     // Non-blocking cache write
   }
 }
+
+export async function redisDel(key: string): Promise<void> {
+  if (!UPSTASH_URL || !UPSTASH_TOKEN) return
+
+  try {
+    await fetch(UPSTASH_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${UPSTASH_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(['DEL', key]),
+      cache: 'no-store',
+    })
+  } catch {
+    // Non-blocking cache delete
+  }
+}
+
