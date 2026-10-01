@@ -11,13 +11,21 @@ jobs:
     name: Ingest Latest Sarkari Updates
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger 30-Min Cron Endpoint
+      - name: Trigger Vercel Cron Endpoint (GET)
         run: |
           echo "Executing JobSetu 30-minute sync cycle..."
-          if [ -n "${{ secrets.PORTAL_CRON_URL }}" ]; then
-            curl -s -X POST "${{ secrets.PORTAL_CRON_URL }}" \
-              -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-              -H "Content-Type: application/json"
+          SITE_URL="${{ secrets.PORTAL_CRON_URL }}"
+          if [ -z "$SITE_URL" ]; then
+            SITE_URL="https://job-setu.vercel.app/api/cron"
+          fi
+          echo "Hitting: $SITE_URL"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "$SITE_URL" \
+            -H "x-vercel-cron: 1" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          echo "Response status: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "✅ Sync successful"
           else
-            echo "PORTAL_CRON_URL not configured. Skipping webhook ping."
+            echo "⚠️ Sync returned status $STATUS (non-fatal)"
           fi
