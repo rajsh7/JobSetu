@@ -27,7 +27,9 @@ export function PortalDetailView({ item }: Props) {
     { label: 'Go to Official Portal / Apply Online', url: item.officialLink, highlight: true },
   ]
 
-  const isPast = !item.isUpcoming && item.lastDate && new Date(item.lastDate) < new Date('2026-10-01')
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const isPast = !item.isUpcoming && Boolean(item.lastDate && new Date(item.lastDate) < today)
 
   return (
     <>

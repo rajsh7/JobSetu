@@ -78,11 +78,20 @@ export function PortalListView({ title, subtitle, badgeText, items, basePath }: 
                         <span>{item.qualification}</span>
                       </span>
                     )}
-                    {item.lastDate && item.category !== Category.RESULT && (
-                      <span className="font-semibold text-rose-600">
-                        Last Date: {new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </span>
-                    )}
+                    {item.lastDate && item.category !== Category.RESULT && (() => {
+                      const today = new Date()
+                      today.setHours(0, 0, 0, 0)
+                      const isExpired = !item.isUpcoming && new Date(item.lastDate) < today
+                      return isExpired ? (
+                        <span className="font-bold text-slate-700 bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded text-[11px]">
+                          Form Closed: {new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      ) : (
+                        <span className="font-semibold text-rose-600">
+                          Last Date: {new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      )
+                    })()}
                     {item.resultDateText && (
                       <span className="font-semibold text-emerald-600">
                         Declared: {item.resultDateText}

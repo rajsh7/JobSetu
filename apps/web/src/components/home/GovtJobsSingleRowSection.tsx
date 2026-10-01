@@ -164,7 +164,10 @@ function matchesState(job: DetailedPortalItem, stateId: string): boolean {
 
 function isPastJob(job: DetailedPortalItem): boolean {
   if (!job.lastDate) return false
-  return new Date(job.lastDate) < new Date('2026-10-01')
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const last = new Date(job.lastDate)
+  return last < today
 }
 
 const SPECIFICATIONS: SpecificationOption[] = [
@@ -371,7 +374,13 @@ export function GovtJobsSingleRowSection({
 
   // Dedicated list of closed jobs ("also the closed jobs go beside")
   const closedJobs = useMemo(() => {
-    return jobs.filter((j) => !j.isUpcoming && isPastJob(j)).slice(0, 10)
+    return jobs
+      .filter((j) => !j.isUpcoming && isPastJob(j))
+      .sort((a, b) => {
+        const da = a.lastDate ? new Date(a.lastDate).getTime() : 0
+        const db = b.lastDate ? new Date(b.lastDate).getTime() : 0
+        return db - da
+      })
   }, [jobs])
   const closedCount = useMemo(() => jobs.filter((j) => !j.isUpcoming && isPastJob(j)).length, [jobs])
 
@@ -1045,8 +1054,8 @@ export function GovtJobsSingleRowSection({
                 </span>
               </div>
 
-              <div className="divide-y divide-slate-100">
-                {closedJobs.slice(0, 6).map((item) => (
+              <div className="divide-y divide-slate-100 max-h-[560px] overflow-y-auto pr-1">
+                {closedJobs.slice(0, 12).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-slate-50 px-1 transition-colors opacity-85 hover:opacity-100">
                     <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-semibold text-slate-500 truncate max-w-[145px]">
