@@ -5,7 +5,6 @@ import Link from 'next/link'
 import {
   ExternalLink,
   ArrowUpRight,
-  Calendar,
   Building2,
   GraduationCap,
   Briefcase,
@@ -16,13 +15,14 @@ import {
   Train,
   BadgeAlert,
   Compass,
-  CheckCircle2,
   Clock,
   Flame,
   Wrench,
   Stethoscope,
   Search,
   Archive,
+  MapPin,
+  Calendar,
 } from 'lucide-react'
 import { type DetailedPortalItem } from '@/lib/data'
 
@@ -51,16 +51,32 @@ const SPECIFICATIONS: SpecificationOption[] = [
   { id: 'Medical',     label: 'Medical & Nursing',     icon: Stethoscope, keyword: 'medic' },
 ]
 
+const SPEC_STYLES: Record<string, { bg: string; text: string; border: string; iconColor: string }> = {
+  Teaching:    { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', iconColor: 'text-emerald-600' },
+  Defence:     { bg: 'bg-amber-50',   text: 'text-amber-700',   border: 'border-amber-200',   iconColor: 'text-amber-600' },
+  UPSC:        { bg: 'bg-indigo-50',  text: 'text-indigo-700',  border: 'border-indigo-200',  iconColor: 'text-indigo-600' },
+  SSC:         { bg: 'bg-sky-50',     text: 'text-[#0284c7]',   border: 'border-sky-200',     iconColor: 'text-[#0A9FFC]' },
+  Railway:     { bg: 'bg-teal-50',    text: 'text-teal-700',    border: 'border-teal-200',    iconColor: 'text-teal-600' },
+  Police:      { bg: 'bg-rose-50',    text: 'text-rose-700',    border: 'border-rose-200',    iconColor: 'text-rose-600' },
+  Banking:     { bg: 'bg-blue-50',    text: 'text-blue-700',    border: 'border-blue-200',    iconColor: 'text-blue-600' },
+  'State PSC': { bg: 'bg-purple-50',  text: 'text-purple-700',  border: 'border-purple-200',  iconColor: 'text-purple-600' },
+  Engineering: { bg: 'bg-cyan-50',    text: 'text-cyan-800',    border: 'border-cyan-200',    iconColor: 'text-cyan-600' },
+  Medical:     { bg: 'bg-pink-50',    text: 'text-pink-700',    border: 'border-pink-200',    iconColor: 'text-pink-600' },
+}
+
+const QUAL_FILTERS = ['All', '10th Pass', '12th Pass', 'Graduate', 'B.Tech/Engg', 'Medical']
+
 const INITIAL_PAGE_SIZE = 40
 const PAGE_STEP = 40
 
 export function GovtJobsSingleRowSection({ jobs }: Props) {
   const [selectedSpec, setSelectedSpec] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'upcoming' | 'past'>('all')
+  const [selectedQual, setSelectedQual] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE)
 
-  // Categorize jobs matching specification, status filter & search query
+  // Categorize jobs matching specification, status filter, qualification & search query
   const filteredJobs = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
 
@@ -87,7 +103,17 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
         }
       }
 
-      // 3. Search Query Filter
+      // 3. Qualification Filter
+      if (selectedQual !== 'All') {
+        const qualText = (job.qualification ?? '').toLowerCase()
+        if (selectedQual === '10th Pass' && !qualText.includes('10th') && !qualText.includes('matric')) return false
+        if (selectedQual === '12th Pass' && !qualText.includes('12th') && !qualText.includes('10+2') && !qualText.includes('intermediate')) return false
+        if (selectedQual === 'Graduate' && !qualText.includes('graduat') && !qualText.includes('degree') && !qualText.includes('bachelor')) return false
+        if (selectedQual === 'B.Tech/Engg' && !qualText.includes('eng') && !qualText.includes('b.tech') && !qualText.includes('b.e') && !qualText.includes('diploma')) return false
+        if (selectedQual === 'Medical' && !qualText.includes('mbbs') && !qualText.includes('nurs') && !qualText.includes('medic') && !qualText.includes('b.sc')) return false
+      }
+
+      // 4. Search Query Filter
       if (q) {
         const text = `${job.title} ${job.organization} ${job.state ?? ''} ${job.qualification ?? ''}`.toLowerCase()
         if (!text.includes(q)) return false
@@ -95,7 +121,7 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
 
       return true
     })
-  }, [jobs, selectedSpec, statusFilter, searchQuery])
+  }, [jobs, selectedSpec, statusFilter, selectedQual, searchQuery])
 
   // Count jobs per specification
   const counts = useMemo(() => {
@@ -138,28 +164,29 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
 
   return (
     <div className="w-full">
-      {/* 2-Column Flex Layout: Compact Left Sidebar + Wide Right Jobs List */}
-      <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 w-full">
+      {/* 2-Column Layout: Left Specification Sidebar + Wide Right Vacancy Stream */}
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 w-full">
 
-        {/* ── LEFT SIDEBAR: Clean, unboxed specifications column ─────────── */}
-        <aside className="w-full lg:w-[210px] shrink-0">
-          <div className="sticky top-16 pt-1">
-            <div className="mb-2.5 flex items-center justify-between border-b border-slate-200 pb-2">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <span className="h-3 w-1 rounded-full bg-[#0A9FFC]"></span>
-                Specifications
+        {/* ── LEFT SIDEBAR: Clean & Attractive Specifications ────────────── */}
+        <aside className="w-full lg:w-[240px] shrink-0">
+          <div className="sticky top-16 rounded-2xl border border-slate-200 bg-white p-3.5 shadow-xs">
+            <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <span className="h-3.5 w-1 rounded-full bg-[#0A9FFC]" />
+                Govt Categories
               </h2>
-              <span className="text-[11px] font-bold text-[#0A9FFC]">
-                {jobs.length.toLocaleString('en-IN')} Total
+              <span className="rounded-full bg-sky-100 px-2.5 py-0.5 text-[11px] font-black text-[#0284c7]">
+                {jobs.length.toLocaleString('en-IN')}
               </span>
             </div>
 
-            {/* Desktop: Vertical Compact List | Mobile: Horizontal Scrollable Chips */}
+            {/* Desktop: Vertical List | Mobile: Horizontal Scrollable Chips */}
             <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
               {SPECIFICATIONS.map((spec) => {
                 const Icon = spec.icon
                 const isActive = selectedSpec === spec.id
                 const count = counts[spec.id] ?? 0
+                const style = SPEC_STYLES[spec.id]
 
                 return (
                   <button
@@ -168,21 +195,24 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                       setSelectedSpec(spec.id)
                       setVisibleCount(INITIAL_PAGE_SIZE)
                     }}
-                    className={`flex shrink-0 items-center justify-between rounded-lg px-2.5 py-2 text-xs font-semibold transition-all lg:w-full ${
+                    className={`flex shrink-0 items-center justify-between rounded-xl px-3 py-2.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
                       isActive
-                        ? 'bg-[#0A9FFC] text-white shadow-xs font-bold'
+                        ? 'bg-gradient-to-r from-[#0A9FFC] to-[#0284c7] text-white shadow-xs font-bold'
                         : 'text-slate-700 hover:bg-[#f0f9ff] hover:text-[#0A9FFC] bg-slate-50 lg:bg-transparent'
                     }`}
                   >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Icon size={14} className={isActive ? 'text-white' : 'text-[#0A9FFC] shrink-0'} />
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon
+                        size={15}
+                        className={isActive ? 'text-white' : style ? style.iconColor : 'text-[#0A9FFC]'}
+                      />
                       <span className="truncate">{spec.label}</span>
                     </div>
                     <span
-                      className={`ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-bold shrink-0 ${
+                      className={`ml-1 rounded-full px-2 py-0.5 text-[10px] font-bold shrink-0 ${
                         isActive
                           ? 'bg-white/25 text-white'
-                          : 'bg-slate-100 text-slate-500'
+                          : 'bg-slate-100 text-slate-600'
                       }`}
                     >
                       {count.toLocaleString('en-IN')}
@@ -194,38 +224,38 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
           </div>
         </aside>
 
-        {/* ── RIGHT CONTENT: Single Row Job Listings (Fills all remaining width) ─ */}
-        <div className="flex-1 min-w-0 space-y-1">
-          {/* Top Status Tabs & Search Bar — Clean unboxed filter row */}
-          <div className="flex flex-col gap-2.5 pb-3 border-b border-slate-200">
-            {/* Quick Status Tabs */}
+        {/* ── RIGHT CONTENT: Single Row Vacancies Stream ─────────────────── */}
+        <div className="flex-1 min-w-0 space-y-3">
+          {/* Top Status Tabs + Search Bar + Qualification Pills */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-xs space-y-3">
+            {/* Status Filter Tabs */}
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
                 <button
                   onClick={() => {
                     setStatusFilter('all')
                     setVisibleCount(INITIAL_PAGE_SIZE)
                   }}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                     statusFilter === 'all'
-                      ? 'bg-slate-900 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
-                  All ({jobs.length.toLocaleString('en-IN')})
+                  All Vacancies ({jobs.length.toLocaleString('en-IN')})
                 </button>
                 <button
                   onClick={() => {
                     setStatusFilter('active')
                     setVisibleCount(INITIAL_PAGE_SIZE)
                   }}
-                  className={`inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                     statusFilter === 'active'
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
                   }`}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span>Active Now ({activeCount})</span>
                 </button>
                 <button
@@ -233,13 +263,13 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                     setStatusFilter('upcoming')
                     setVisibleCount(INITIAL_PAGE_SIZE)
                   }}
-                  className={`inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                     statusFilter === 'upcoming'
-                      ? 'bg-amber-600 text-white'
-                      : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                      ? 'bg-amber-600 text-white shadow-xs'
+                      : 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
                   }`}
                 >
-                  <Clock size={11} />
+                  <Clock size={12} />
                   <span>Upcoming 2026-27 ({upcomingCount})</span>
                 </button>
                 <button
@@ -247,145 +277,193 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                     setStatusFilter('past')
                     setVisibleCount(INITIAL_PAGE_SIZE)
                   }}
-                  className={`inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                     statusFilter === 'past'
-                      ? 'bg-slate-700 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-700 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
-                  <Archive size={11} />
+                  <Archive size={12} />
                   <span>Past Archive ({pastCount.toLocaleString('en-IN')})</span>
                 </button>
               </div>
 
-              <span className="text-xs font-semibold text-slate-500">
+              <span className="text-xs font-bold text-slate-500">
                 Showing {Math.min(visibleCount, filteredJobs.length)} of {filteredJobs.length.toLocaleString('en-IN')}
               </span>
             </div>
 
-            {/* Quick Live Filter Input */}
-            <div className="relative">
-              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value)
-                  setVisibleCount(INITIAL_PAGE_SIZE)
-                }}
-                placeholder="Quick search across 1,000+ vacancies (e.g. CGL, Station Master, Clerk, Constable, Teacher)..."
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/60 py-2 pl-9 pr-3 text-xs sm:text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-[#0A9FFC] focus:bg-white transition-all"
-              />
+            {/* Live Search Input + Quick Eligibility Chips */}
+            <div className="flex flex-col sm:flex-row gap-2.5">
+              <div className="relative flex-1">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    setVisibleCount(INITIAL_PAGE_SIZE)
+                  }}
+                  placeholder="Search jobs by Exam, Department, Post (e.g. SSC CGL, Railway NTPC, Constable, Bank PO, UPPSC)..."
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-2.5 pl-10 pr-3 text-xs sm:text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-[#0A9FFC] focus:bg-white transition-all"
+                />
+              </div>
+
+              {/* Student Eligibility Chips */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                {QUAL_FILTERS.map((qual) => {
+                  const isSelected = selectedQual === qual
+                  return (
+                    <button
+                      key={qual}
+                      onClick={() => {
+                        setSelectedQual(qual)
+                        setVisibleCount(INITIAL_PAGE_SIZE)
+                      }}
+                      className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#0A9FFC] text-white shadow-xs'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                      }`}
+                    >
+                      {qual === 'All' ? 'All Eligibility' : qual}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Job Rows (Clean Flat Horizontal Rows without background cards) */}
+          {/* Vacancy Rows List */}
           {filteredJobs.length === 0 ? (
-            <div className="py-16 text-center text-slate-500">
-              <p className="font-semibold text-base">No vacancies found matching your current filter.</p>
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center text-slate-500">
+              <p className="font-bold text-base text-slate-700">No vacancies found matching your current filter.</p>
               <button
                 onClick={() => {
                   setSelectedSpec('all')
                   setStatusFilter('all')
+                  setSelectedQual('All')
                   setSearchQuery('')
                 }}
-                className="mt-3 text-xs font-bold text-[#0A9FFC] hover:underline"
+                className="mt-3 inline-flex items-center gap-1 rounded-xl bg-[#0A9FFC] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#008be3] cursor-pointer"
               >
-                Reset All Filters →
+                Reset All Filters
               </button>
             </div>
           ) : (
-            <div>
+            <div className="space-y-2.5">
               {displayedJobs.map((job) => {
                 const isPast = !job.isUpcoming && job.lastDate && new Date(job.lastDate) < new Date('2026-10-01')
+                const specStyle = job.specification ? SPEC_STYLES[job.specification] : null
 
                 return (
                   <div
                     key={job.id}
-                    className="border-b border-slate-100 hover:bg-[#f0f9ff]/60 py-3 sm:py-3.5 px-1 sm:px-2 transition-colors"
+                    className="group rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs hover:border-[#0A9FFC] hover:shadow-md transition-all duration-150"
                   >
-                    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-                      {/* Left Details Block */}
-                      <div className="space-y-1 flex-1 min-w-0 pr-2">
-                        {/* Meta Tags: Org + Category + Status + State */}
-                        <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                          <span className="inline-flex items-center gap-1 font-bold text-slate-800">
-                            <Building2 size={13} className="text-[#0A9FFC] shrink-0" />
-                            <span className="truncate max-w-[240px] sm:max-w-[320px]">{job.organization}</span>
+                      {/* Left: Organization + Badges + Title + Qualification */}
+                      <div className="space-y-1.5 flex-1 min-w-0 pr-2">
+                        {/* Meta Tags Row */}
+                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                          {/* Organization with Icon */}
+                          <span className="inline-flex items-center gap-1.5 font-bold text-slate-800">
+                            <span className="flex h-5 w-5 items-center justify-center rounded-md bg-sky-100 text-[#0284c7]">
+                              <Building2 size={12} />
+                            </span>
+                            <span className="truncate max-w-[260px] sm:max-w-[340px]">{job.organization}</span>
                           </span>
-                          {job.specification && (
-                            <span className="rounded bg-[#e0f2fe] px-2 py-0.5 font-bold text-[#0284c7] text-[10px]">
+
+                          {/* Specification Tag with Distinct Color */}
+                          {job.specification && specStyle && (
+                            <span className={`rounded-md border px-2 py-0.5 font-bold text-[11px] ${specStyle.bg} ${specStyle.text} ${specStyle.border}`}>
                               {job.specification}
                             </span>
                           )}
+
+                          {/* Status Badge with Visual Indicator */}
                           {job.isUpcoming ? (
-                            <span className="inline-flex items-center gap-1 rounded bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700">
-                              <Clock size={10} />
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-300 px-2.5 py-0.5 text-[11px] font-bold text-amber-800">
+                              <Clock size={11} className="text-amber-700" />
                               Upcoming 2026-27
                             </span>
                           ) : isPast ? (
-                            <span className="inline-flex items-center gap-1 rounded bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600">
-                              <Archive size={10} />
+                            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 border border-slate-300 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600">
+                              <Archive size={11} className="text-slate-500" />
                               Past Recruitment
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                              <Flame size={10} className="text-amber-500 fill-amber-500" />
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-300 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              <Flame size={11} className="text-amber-500 fill-amber-500" />
                               Active Form
                             </span>
                           )}
+
+                          {/* State Tag */}
                           {job.state && (
-                            <span className="text-[11px] font-medium text-slate-400">
-                              • {job.state}
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500">
+                              <MapPin size={11} className="text-slate-400" />
+                              {job.state}
                             </span>
                           )}
                         </div>
 
-                        {/* Job Title Link */}
+                        {/* Title (Prominent, High Readability) */}
                         <Link href={`/latest-jobs/${job.slug}`} className="block">
-                          <h2 className="text-sm sm:text-base font-bold text-slate-900 hover:text-[#0A9FFC] transition-colors leading-snug">
+                          <h2 className="text-base sm:text-[17px] font-extrabold text-slate-900 group-hover:text-[#0A9FFC] transition-colors leading-snug">
                             {job.title}
                           </h2>
                         </Link>
 
-                        {/* Qualification info & Tentative Date */}
-                        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                        {/* Eligibility & Dates Pills */}
+                        <div className="flex flex-wrap items-center gap-2 pt-0.5">
                           {job.qualification && (
-                            <span className="flex items-center gap-1 line-clamp-1">
+                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-sky-50 border border-sky-200/80 px-2.5 py-1 text-xs font-medium text-slate-700">
                               <GraduationCap size={13} className="shrink-0 text-[#0A9FFC]" />
-                              <span>{job.qualification}</span>
+                              <strong className="text-[#0284c7] font-bold">Eligibility:</strong>
+                              <span className="line-clamp-1">{job.qualification}</span>
                             </span>
                           )}
                           {job.tentativeDate && (
-                            <span className="font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded text-[11px]">
-                              📌 {job.tentativeDate}
+                            <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 border border-amber-200/80 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                              <Calendar size={12} className="text-amber-600" />
+                              <span>{job.tentativeDate}</span>
                             </span>
                           )}
                         </div>
                       </div>
 
-                      {/* Right Block: Posts Count + Last Date + Action Buttons */}
-                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:shrink-0 pt-1 lg:pt-0">
-                        {/* Posts */}
+                      {/* Right: Posts Count + Last Date + Buttons */}
+                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:shrink-0 pt-2 lg:pt-0 border-t border-slate-100 lg:border-t-0">
+                        {/* Posts Count Badge */}
                         {job.postCount ? (
-                          <div className="text-left sm:text-right min-w-[70px]">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block leading-none">
-                              Posts
+                          <div className="rounded-xl bg-sky-50 border border-sky-200/90 px-3.5 py-1.5 text-center min-w-[85px]">
+                            <span className="text-[9px] uppercase font-bold tracking-wider text-sky-600 block leading-none">
+                              Vacancies
                             </span>
-                            <span className="text-sm font-extrabold text-[#0284c7] leading-tight">
+                            <span className="text-sm sm:text-base font-black text-[#0284c7] leading-tight block mt-0.5">
                               {job.postCount.toLocaleString('en-IN')}
                             </span>
                           </div>
                         ) : null}
 
-                        {/* Last Date */}
+                        {/* Last Date Badge */}
                         {job.lastDate ? (
-                          <div className="text-left sm:text-right min-w-[82px]">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block leading-none">
-                              {job.isUpcoming ? 'Tentative' : (isPast ? 'Closed' : 'Last Date')}
+                          <div className={`rounded-xl border px-3.5 py-1.5 text-center min-w-[95px] ${
+                            isPast
+                              ? 'bg-slate-50 border-slate-200 text-slate-500'
+                              : 'bg-rose-50 border-rose-200/90 text-rose-700'
+                          }`}>
+                            <span className={`text-[9px] uppercase font-bold tracking-wider block leading-none ${
+                              isPast ? 'text-slate-400' : 'text-rose-600'
+                            }`}>
+                              {job.isUpcoming ? 'Tentative' : (isPast ? 'Form Closed' : 'Last Date')}
                             </span>
-                            <span className={`text-xs font-bold leading-tight ${isPast ? 'text-slate-400' : 'text-rose-600'}`}>
+                            <span className={`text-xs sm:text-[13px] font-black leading-tight block mt-0.5 ${
+                              isPast ? 'text-slate-600' : 'text-rose-700'
+                            }`}>
                               {new Date(job.lastDate).toLocaleDateString('en-IN', {
                                 day: '2-digit',
                                 month: 'short',
@@ -395,14 +473,14 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                           </div>
                         ) : null}
 
-                        {/* Action Buttons: Details + Direct Official Apply */}
-                        <div className="flex items-center gap-1.5 ml-auto lg:ml-0">
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2 ml-auto lg:ml-0">
                           <Link
                             href={`/latest-jobs/${job.slug}`}
-                            className="btn-outline text-xs py-1.5 px-3 font-semibold"
+                            className="inline-flex items-center gap-1 rounded-xl border-2 border-[#0A9FFC] bg-white px-3.5 py-2 text-xs font-bold text-[#0A9FFC] hover:bg-sky-50 transition-all cursor-pointer"
                           >
                             <span>Details</span>
-                            <ArrowUpRight size={12} />
+                            <ArrowUpRight size={13} />
                           </Link>
 
                           <a
@@ -412,14 +490,14 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                             title="Direct Official Government Application Portal"
                             className={
                               job.isUpcoming
-                                ? 'inline-flex items-center gap-1 rounded-lg border border-amber-600 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs py-1.5 px-3 transition-colors'
+                                ? 'inline-flex items-center gap-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs py-2 px-4 transition-all shadow-xs'
                                 : isPast
-                                ? 'inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-1.5 px-3 transition-colors'
-                                : 'btn-primary text-xs py-1.5 px-3.5 font-bold shadow-none'
+                                ? 'inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2 px-4 transition-all'
+                                : 'inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#0A9FFC] to-[#0284c7] hover:from-[#008be3] hover:to-[#0369a1] text-white font-bold text-xs py-2 px-4 transition-all shadow-xs hover:shadow-md'
                             }
                           >
                             <span>{job.isUpcoming ? 'Portal' : (isPast ? 'Notice' : 'Apply Online')}</span>
-                            <ExternalLink size={11} />
+                            <ExternalLink size={13} />
                           </a>
                         </div>
 
@@ -430,18 +508,18 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                 )
               })}
 
-              {/* Load More & Pagination Controls */}
+              {/* Load More & Show All Controls */}
               {displayedJobs.length < filteredJobs.length && (
                 <div className="pt-6 pb-8 flex items-center justify-center gap-3">
                   <button
                     onClick={handleLoadMore}
-                    className="btn-primary text-xs py-2.5 px-6 font-bold cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#0A9FFC] to-[#0284c7] px-6 py-3 text-xs font-bold text-white shadow-xs hover:from-[#008be3] hover:to-[#0369a1] cursor-pointer"
                   >
                     Load More 40 Vacancies (Showing {displayedJobs.length} of {filteredJobs.length.toLocaleString('en-IN')})
                   </button>
                   <button
                     onClick={handleShowAll}
-                    className="btn-outline text-xs py-2.5 px-5 font-bold cursor-pointer"
+                    className="inline-flex items-center gap-1 rounded-xl border-2 border-slate-300 bg-white px-5 py-3 text-xs font-bold text-slate-700 hover:border-[#0A9FFC] hover:text-[#0A9FFC] cursor-pointer"
                   >
                     Show All ({filteredJobs.length.toLocaleString('en-IN')})
                   </button>

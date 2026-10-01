@@ -19,7 +19,7 @@ export default async function HomePage() {
       <BreakingTicker jobs={govtJobs.slice(0, 10)} />
 
       {/* ── ONLY 1 MAIN SECTION — Starts from left with 5px margin and min 30px right margin ── */}
-      <main className="min-h-[calc(100dvh-180px)] bg-white py-4 pl-[5px] pr-[30px] w-full">
+      <main className="min-h-[calc(100dvh-180px)] bg-[#f8fafc] py-4 pl-[5px] pr-[30px] w-full">
         <GovtJobsSingleRowSection jobs={govtJobs} />
       </main>
 
