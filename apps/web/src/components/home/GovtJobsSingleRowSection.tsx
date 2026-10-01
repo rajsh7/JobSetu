@@ -473,136 +473,139 @@ export function GovtJobsSingleRowSection({
       </div>
 
       {/* Centered Layout: Categories on Left + Center Active Vacancies + Right Columns (Natural Height, No Internal Scrolling) */}
-      <div className="flex flex-col lg:flex-row justify-center items-start gap-3 xl:gap-3.5 2xl:gap-4 w-full">
+      <div className="flex flex-col xl:flex-row justify-center items-start gap-3 xl:gap-3 2xl:gap-3.5 w-full">
 
-        {/* ── COLUMN 1 (LEFT): Compact Category Navigation & State/City Filter (Natural Height) ── */}
-        <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 space-y-3">
-          {/* Categories Box */}
-          <div className="border border-black rounded-lg p-2.5 bg-white">
-            <div
-              className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
-              style={{ backgroundColor: '#FF0801' }}
-            >
-              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                <Briefcase size={13} className="text-white" />
-                <span>Categories</span>
-              </h2>
-              <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
-                {counts['all']?.toLocaleString('en-IN') ?? jobs.length.toLocaleString('en-IN')}
-              </span>
-            </div>
+        {/* ── COLUMN 1 (LEFT) & COLUMN 2 (MIDDLE) GROUP ON SMALLER SCREENS ── */}
+        <div className="flex flex-col md:flex-row items-start gap-3 w-full xl:w-auto xl:flex-1 min-w-0">
 
-            {/* Desktop: Compact Vertical List | Mobile: Horizontal Scrollable Chips */}
-            <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
-              {SPECIFICATIONS.map((spec) => {
-                const Icon = spec.icon
-                const isActive = selectedSpec === spec.id
-                const count = counts[spec.id] ?? 0
+          {/* ── COLUMN 1 (LEFT): Compact Category Navigation & State/City Filter (Natural Height) ── */}
+          <aside className="w-full md:w-[185px] xl:w-[175px] 2xl:w-[190px] shrink-0 space-y-3">
+            {/* Categories Box */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#FF0801' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Briefcase size={13} className="text-white" />
+                  <span>Categories</span>
+                </h2>
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                  {counts['all']?.toLocaleString('en-IN') ?? jobs.length.toLocaleString('en-IN')}
+                </span>
+              </div>
 
-                return (
-                  <button
-                    key={spec.id}
-                    onClick={() => {
-                      setSelectedSpec(spec.id)
-                      setCurrentPage(1)
-                    }}
-                    className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
-                      isActive
-                        ? 'bg-purple-600 text-white shadow-xs font-bold'
-                        : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 lg:bg-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <Icon
-                        size={13}
-                        className={isActive ? 'text-white' : 'text-purple-600 shrink-0'}
-                      />
-                      <span className="truncate">{spec.label}</span>
-                    </div>
-                    <span
-                      className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+              {/* Desktop: Compact Vertical List | Mobile: Horizontal Scrollable Chips */}
+              <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar md:flex-col md:overflow-visible md:pb-0">
+                {SPECIFICATIONS.map((spec) => {
+                  const Icon = spec.icon
+                  const isActive = selectedSpec === spec.id
+                  const count = counts[spec.id] ?? 0
+
+                  return (
+                    <button
+                      key={spec.id}
+                      onClick={() => {
+                        setSelectedSpec(spec.id)
+                        setCurrentPage(1)
+                      }}
+                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all md:w-full cursor-pointer ${
                         isActive
-                          ? 'bg-white/25 text-white'
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-purple-600 text-white shadow-xs font-bold'
+                          : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 md:bg-transparent'
                       }`}
                     >
-                      {count.toLocaleString('en-IN')}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* ── STATE / CITY FILTER BOX ── */}
-          <div className="border border-black rounded-lg p-2.5 bg-white">
-            <div
-              className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
-              style={{ backgroundColor: '#9F000E' }}
-            >
-              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                <MapPin size={12} className="text-white" />
-                <span>State / City</span>
-              </h2>
-              {selectedState !== 'all' && (
-                <button
-                  onClick={() => {
-                    setSelectedState('all')
-                    setCurrentPage(1)
-                  }}
-                  className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5 cursor-pointer"
-                >
-                  Reset
-                </button>
-              )}
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Icon
+                          size={13}
+                          className={isActive ? 'text-white' : 'text-purple-600 shrink-0'}
+                        />
+                        <span className="truncate">{spec.label}</span>
+                      </div>
+                      <span
+                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                          isActive
+                            ? 'bg-white/25 text-white'
+                            : 'bg-slate-100 text-slate-500'
+                        }`}
+                      >
+                        {count.toLocaleString('en-IN')}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
-            <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
-              {STATE_OPTIONS.map((st) => {
-                const isActive = selectedState === st.id
-                const count = stateCounts[st.id] ?? 0
-
-                return (
+            {/* ── STATE / CITY FILTER BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#9F000E' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <MapPin size={12} className="text-white" />
+                  <span>State / City</span>
+                </h2>
+                {selectedState !== 'all' && (
                   <button
-                    key={st.id}
                     onClick={() => {
-                      setSelectedState(st.id)
+                      setSelectedState('all')
                       setCurrentPage(1)
                     }}
-                    className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
-                      isActive
-                        ? 'bg-purple-600 text-white shadow-xs font-bold'
-                        : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 lg:bg-transparent'
-                    }`}
+                    className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5 cursor-pointer"
                   >
-                    <span className="truncate">{st.label}</span>
-                    <span
-                      className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                    Reset
+                  </button>
+                )}
+              </div>
+
+              <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar md:flex-col md:overflow-visible md:pb-0">
+                {STATE_OPTIONS.map((st) => {
+                  const isActive = selectedState === st.id
+                  const count = stateCounts[st.id] ?? 0
+
+                  return (
+                    <button
+                      key={st.id}
+                      onClick={() => {
+                        setSelectedState(st.id)
+                        setCurrentPage(1)
+                      }}
+                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all md:w-full cursor-pointer ${
                         isActive
-                          ? 'bg-white/25 text-white'
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-purple-600 text-white shadow-xs font-bold'
+                          : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 md:bg-transparent'
                       }`}
                     >
-                      {count.toLocaleString('en-IN')}
-                    </span>
-                  </button>
-                )
-              })}
+                      <span className="truncate">{st.label}</span>
+                      <span
+                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                          isActive
+                            ? 'bg-white/25 text-white'
+                            : 'bg-slate-100 text-slate-500'
+                        }`}
+                      >
+                        {count.toLocaleString('en-IN')}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
 
-        {/* ── COLUMN 2 (MIDDLE): Compact Stream for Active Govt Vacancies (Natural Height) ── */}
-        <div className="w-full lg:max-w-[460px] xl:max-w-[500px] 2xl:max-w-[540px] flex-1 min-w-0 space-y-1 border border-black rounded-lg p-2.5 sm:p-3 bg-white">
-          {/* Category Header */}
-          <div
-            id="vacancies-stream-top"
-            className="mb-2.5 flex items-center justify-between px-2.5 py-2 -mx-2.5 -mt-2.5 sm:-mx-3 sm:-mt-3 rounded-t-[7px] text-white scroll-mt-28"
-            style={{ backgroundColor: '#A91103' }}
-          >
-            <div className="flex items-center gap-2 flex-wrap min-w-0">
-              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                <Briefcase size={13} className="text-white" />
+          {/* ── COLUMN 2 (MIDDLE): Compact Stream for Active Govt Vacancies (Natural Height) ── */}
+          <div className="w-full flex-1 min-w-0 space-y-1 border border-black rounded-lg p-2.5 sm:p-3 bg-white">
+            {/* Category Header */}
+            <div
+              id="vacancies-stream-top"
+              className="mb-2.5 flex items-center justify-between px-2.5 py-2 -mx-2.5 -mt-2.5 sm:-mx-3 sm:-mt-3 rounded-t-[7px] text-white scroll-mt-28"
+              style={{ backgroundColor: '#A91103' }}
+            >
+              <div className="flex items-center gap-2 flex-wrap min-w-0">
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Briefcase size={13} className="text-white" />
                 <span>
                   {selectedSpec === 'all'
                     ? 'Latest Govt Vacancies'
@@ -654,76 +657,71 @@ export function GovtJobsSingleRowSection({
                   return (
                     <div
                       key={job.id}
-                      className="hover:bg-sky-50/40 py-2 sm:py-2.5 px-1 sm:px-1.5 transition-colors"
+                      className="hover:bg-sky-50/40 py-2.5 px-1 sm:px-1.5 transition-colors"
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                      {/* Line 1: Organization + Category Badge + Active Indicator + State */}
+                      <div className="flex flex-wrap items-center gap-1.5 text-xs mb-1">
+                        <span className="font-bold text-slate-800 flex items-center gap-1">
+                          <Building2 size={12} className="text-[#0A9FFC] shrink-0" />
+                          <span className="truncate max-w-[180px] sm:max-w-[240px]">{job.organization}</span>
+                        </span>
 
-                        {/* Left Block: Org + Category + Title in VIOLET + Qualification */}
-                        <div className="flex-1 min-w-0 space-y-0.5">
-                          {/* Meta Tags Line */}
-                          <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                            <span className="font-bold text-slate-800 flex items-center gap-1">
-                              <Building2 size={12} className="text-[#0A9FFC] shrink-0" />
-                              <span className="truncate max-w-[190px] sm:max-w-[240px]">{job.organization}</span>
+                        {job.specification && (
+                          <span className={`rounded px-1.5 py-0.2 font-bold text-[10px] ${specStyle?.bg ?? 'bg-sky-50'} ${specStyle?.text ?? 'text-sky-700'}`}>
+                            {job.specification}
+                          </span>
+                        )}
+
+                        <span className="rounded bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 text-[10px] inline-flex items-center gap-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          Active
+                        </span>
+
+                        {job.state && (
+                          <span className="text-slate-400 text-[11px]">• {job.state}</span>
+                        )}
+                      </div>
+
+                      {/* Line 2: Full-Width Title in VIOLET — Never squished! */}
+                      <Link href={`/latest-jobs/${job.slug}`} className="block job-title-violet mb-1">
+                        <h2 className="text-xs sm:text-[13.5px] font-bold text-[#7c3aed] leading-snug hover:underline">
+                          {job.title}
+                        </h2>
+                      </Link>
+
+                      {/* Line 3: Eligibility / Qualification (if available) */}
+                      {job.qualification && (
+                        <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-600 mb-1.5">
+                          <span className="inline-flex items-center gap-1 text-[#0284c7] font-bold shrink-0">
+                            <GraduationCap size={12} className="text-[#0A9FFC] shrink-0" />
+                            Eligibility:
+                          </span>
+                          <span className="text-slate-600 line-clamp-1">{job.qualification}</span>
+                          {job.tentativeDate && (
+                            <span className="font-semibold text-amber-700 text-[10px] ml-1">
+                              📌 {job.tentativeDate}
                             </span>
-
-                            {job.specification && (
-                              <span className={`rounded px-1.5 py-0.2 font-bold text-[10px] ${specStyle?.bg ?? 'bg-sky-50'} ${specStyle?.text ?? 'text-sky-700'}`}>
-                                {job.specification}
-                              </span>
-                            )}
-
-                            <span className="rounded bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 text-[10px] inline-flex items-center gap-1">
-                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                              Active
-                            </span>
-
-                            {job.state && (
-                              <span className="text-slate-400 text-[11px]">• {job.state}</span>
-                            )}
-                          </div>
-
-                          {/* Title in VIOLET */}
-                          <Link href={`/latest-jobs/${job.slug}`} className="block job-title-violet">
-                            <h2 className="text-sm sm:text-[14.5px] font-bold text-[#7c3aed] leading-snug">
-                              {job.title}
-                            </h2>
-                          </Link>
-
-                          {/* Qualification Pill */}
-                          {job.qualification && (
-                            <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 pt-0.5">
-                              <span className="inline-flex items-center gap-1 text-[#0284c7] font-bold">
-                                <GraduationCap size={13} className="text-[#0A9FFC] shrink-0" />
-                                Eligibility:
-                              </span>
-                              <span className="text-slate-600 line-clamp-1">{job.qualification}</span>
-                              {job.tentativeDate && (
-                                <span className="font-semibold text-amber-700 text-[11px] ml-1">
-                                  📌 {job.tentativeDate}
-                                </span>
-                              )}
-                            </div>
                           )}
                         </div>
+                      )}
 
-                        {/* Right Block: Posts + Last Date + Buttons */}
-                        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 self-start sm:self-center pt-1 sm:pt-0">
+                      {/* Line 4: Bottom Meta & Action Buttons Row (Responsive alignment) */}
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100/70">
+                        {/* Left: Posts & Last Date */}
+                        <div className="flex items-center gap-2.5 sm:gap-3 text-xs flex-wrap">
                           {job.postCount ? (
-                            <div className="text-left sm:text-right min-w-[55px]">
-                              <span className="text-[9px] uppercase font-bold text-slate-400 block leading-none">Posts</span>
-                              <span className="text-xs sm:text-sm font-extrabold text-[#0284c7] leading-tight">
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-[9px] uppercase font-bold text-slate-400">Posts</span>
+                              <span className="text-xs font-black text-[#0284c7]">
                                 {job.postCount.toLocaleString('en-IN')}
                               </span>
                             </div>
                           ) : null}
 
                           {job.lastDate ? (
-                            <div className="text-left sm:text-right min-w-[65px]">
-                              <span className="text-[9px] uppercase font-bold text-slate-400 block leading-none">
-                                Last Date
-                              </span>
-                              <span className="text-xs font-bold leading-tight text-rose-600">
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-[9px] uppercase font-bold text-slate-400">Last</span>
+                              <span className="text-xs font-bold text-rose-600">
                                 {new Date(job.lastDate).toLocaleDateString('en-IN', {
                                   day: '2-digit',
                                   month: 'short',
@@ -732,30 +730,29 @@ export function GovtJobsSingleRowSection({
                               </span>
                             </div>
                           ) : null}
-
-                          <div className="flex items-center gap-1">
-                            <Link
-                              href={`/latest-jobs/${job.slug}`}
-                              className="btn-outline text-xs py-1 px-2 font-bold"
-                            >
-                              <span>Details</span>
-                              <ArrowUpRight size={11} />
-                            </Link>
-
-                            <a
-                              href={job.officialLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Direct Official Government Application Portal"
-                              className="btn-primary text-xs py-1 px-2.5 font-bold"
-                            >
-                              <span>Apply</span>
-                              <ExternalLink size={11} />
-                            </a>
-                          </div>
-
                         </div>
 
+                        {/* Right: Details & Apply Action Buttons */}
+                        <div className="flex items-center gap-1 shrink-0">
+                          <Link
+                            href={`/latest-jobs/${job.slug}`}
+                            className="btn-outline text-[11px] py-0.5 px-2 font-bold"
+                          >
+                            <span>Details</span>
+                            <ArrowUpRight size={10} />
+                          </Link>
+
+                          <a
+                            href={job.officialLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Direct Official Government Application Portal"
+                            className="btn-primary text-[11px] py-0.5 px-2.5 font-bold"
+                          >
+                            <span>Apply</span>
+                            <ExternalLink size={10} />
+                          </a>
+                        </div>
                       </div>
                     </div>
                   )
@@ -847,14 +844,15 @@ export function GovtJobsSingleRowSection({
             )}
           </div>
         </div>
+      </div>
 
         {/* ── RIGHT SIDE COLUMNS (Natural Height — NO Inside Scrolling, Takes height as per needed) ── */}
-        <div className="flex flex-wrap lg:flex-nowrap gap-3 xl:gap-3.5 2xl:gap-4 shrink-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:flex xl:flex-row gap-3 xl:gap-3 2xl:gap-3.5 w-full xl:w-auto xl:shrink-0">
 
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 1: Results, Answer Key, 10th/ITI, Closed Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 space-y-3">
+          <aside className="w-full xl:w-[210px] 2xl:w-[225px] xl:shrink-0 space-y-3">
             
             {/* ── SECTION 1: RESULTS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
@@ -1096,7 +1094,7 @@ export function GovtJobsSingleRowSection({
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 2: Admit Cards, Admission, Outsourcing Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 space-y-3">
+          <aside className="w-full xl:w-[210px] 2xl:w-[225px] xl:shrink-0 space-y-3">
 
             {/* ── SECTION 1: ADMIT CARDS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
@@ -1281,7 +1279,7 @@ export function GovtJobsSingleRowSection({
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 3: Upcoming Jobs, Syllabus, Documents, News
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 space-y-3">
+          <aside className="w-full sm:col-span-2 md:col-span-1 xl:w-[210px] 2xl:w-[225px] xl:shrink-0 space-y-3">
 
             {/* ── SECTION 1: SYLLABUS BOX (Swapped to Top) ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
