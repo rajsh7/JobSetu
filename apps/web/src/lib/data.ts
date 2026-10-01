@@ -201,7 +201,7 @@ export const SEED_ITEMS: DetailedPortalItem[] = [
     category: Category.GOVT_JOB,
     organization: 'Uttar Pradesh Public Service Commission (UPPSC)',
     postCount: 620,
-    qualification: 'Bachelor Degree in Any Stream from any Recogonised University/College in India',
+    qualification: 'Bachelor Degree in Any Stream from any Recognized University/College in India',
     lastDate: '2026-11-02',
     officialLink: 'https://uppsc.up.nic.in',
     state: 'Uttar Pradesh',
@@ -1474,7 +1474,14 @@ export const ALL_CATALOG_ITEMS: DetailedPortalItem[] = [...SEED_ITEMS, ...EXTEND
 export async function getPortalItems(category?: Category, limit = 2000): Promise<DetailedPortalItem[]> {
   const cacheKey = `jobsetu:items:${category ?? 'ALL'}:${limit}`
   const cached = await redisGet<DetailedPortalItem[]>(cacheKey)
-  if (cached && cached.length > 50) return cached
+  if (cached && cached.length > 50) {
+    for (const item of cached) {
+      if (item.qualification && item.qualification.includes('OTR Required')) {
+        item.qualification = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
+      }
+    }
+    return cached
+  }
 
   let result = category ? ALL_CATALOG_ITEMS.filter((i) => i.category === category) : ALL_CATALOG_ITEMS
 
@@ -1491,9 +1498,14 @@ export async function getPortalItems(category?: Category, limit = 2000): Promise
       const dbMapped = data.map((row: Record<string, unknown>) => {
         const slug = String(row['slug'])
         const match = ALL_CATALOG_ITEMS.find((s) => s.slug === slug)
+        let qual = (match?.qualification) ?? (row['qualification'] as string)
+        if (qual && qual.includes('OTR Required')) {
+          qual = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
+        }
         return {
           ...match,
           ...row,
+          qualification: qual,
           category: (row['category'] as Category) ?? match?.category ?? Category.GOVT_JOB,
         } as DetailedPortalItem
       })
@@ -1507,6 +1519,12 @@ export async function getPortalItems(category?: Category, limit = 2000): Promise
     // Fallback to catalog
   }
 
+  for (const item of result) {
+    if (item.qualification && item.qualification.includes('OTR Required')) {
+      item.qualification = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
+    }
+  }
+
   const finalItems = result.slice(0, limit)
   await redisSet(cacheKey, finalItems, 300)
   return finalItems
@@ -1517,7 +1535,7 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
   const cached = await redisGet<DetailedPortalItem>(cacheKey)
   if (cached) {
     if (cached.qualification && cached.qualification.includes('OTR Required')) {
-      cached.qualification = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+      cached.qualification = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
       await redisSet(cacheKey, cached, 600)
     }
     return cached
@@ -1536,7 +1554,7 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
       const row = data as Record<string, unknown>
       let qual = (match?.qualification) ?? (row['qualification'] as string)
       if (qual && qual.includes('OTR Required')) {
-        qual = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+        qual = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
         supabase.from('Job').update({ qualification: qual }).eq('slug', slug).then(() => {})
       }
       const item: DetailedPortalItem = {
@@ -1554,7 +1572,7 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
 
   if (match) {
     if (match.qualification && match.qualification.includes('OTR Required')) {
-      match.qualification = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+      match.qualification = 'Bachelor Degree in Any Stream from any Recognized University/College in India'
     }
     await redisSet(cacheKey, match, 600)
   }

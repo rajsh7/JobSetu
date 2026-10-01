@@ -99,7 +99,7 @@ async function main() {
       category: Category.GOVT_JOB,
       organization: 'Uttar Pradesh Public Service Commission (UPPSC)',
       postCount: 620,
-      qualification: 'Bachelor Degree in Any Stream from any Recogonised University/College in India',
+      qualification: 'Bachelor Degree in Any Stream from any Recognized University/College in India',
       lastDate: new Date('2026-11-02'),
       officialLink: 'https://uppsc.up.nic.in',
       state: 'Uttar Pradesh',

@@ -59,6 +59,44 @@
 
 /* ─── Global Base Styles ─────────────────────────────────────────────────── */
 
+/* ─── Global Selection & Violet Job Title Styling ───────────────────────── */
+
+::selection {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+::-moz-selection {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+.job-title-violet,
+.job-title-violet * {
+  color: #7c3aed !important;
+}
+
+.job-title-violet:hover,
+.job-title-violet:hover * {
+  color: #7c3aed !important;
+  text-decoration: underline;
+}
+
+.job-title-violet:focus,
+.job-title-violet:active,
+.job-title-violet:visited,
+.job-title-violet:focus *,
+.job-title-violet:active *,
+.job-title-violet:visited * {
+  color: #7c3aed !important;
+}
+
+.job-title-violet::selection,
+.job-title-violet *::selection {
+  background-color: #ede9fe !important;
+  color: #7c3aed !important;
+}
+
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;

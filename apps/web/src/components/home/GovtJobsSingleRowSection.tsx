@@ -405,9 +405,9 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                           )}
                         </div>
 
-                        {/* Title in MAGENTA Colour Text (as explicitly requested) */}
-                        <Link href={`/latest-jobs/${job.slug}`} className="block group/title">
-                          <h2 className="text-sm sm:text-[15px] font-bold text-[#c026d3] hover:text-[#0A9FFC] transition-colors leading-snug">
+                        {/* Title in VIOLET Colour Text (stays violet on hover and selection) */}
+                        <Link href={`/latest-jobs/${job.slug}`} className="block job-title-violet">
+                          <h2 className="text-sm sm:text-[15px] font-bold text-[#7c3aed] leading-snug">
                             {job.title}
                           </h2>
                         </Link>
@@ -548,10 +548,10 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                     )}
                   </div>
 
-                  {/* Title in Magenta */}
+                  {/* Title in VIOLET */}
                   <Link
                     href={`/latest-jobs/${item.slug}`}
-                    className="block text-xs font-bold text-[#c026d3] hover:text-[#0A9FFC] leading-snug mt-0.5 line-clamp-2"
+                    className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                   >
                     {item.title}
                   </Link>
