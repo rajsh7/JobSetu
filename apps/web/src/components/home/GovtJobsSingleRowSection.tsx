@@ -476,7 +476,7 @@ export function GovtJobsSingleRowSection({
       <div className="flex flex-col lg:flex-row justify-center items-start gap-3 xl:gap-3.5 2xl:gap-4 w-full">
 
         {/* ── COLUMN 1 (LEFT): Compact Category Navigation & State/City Filter (Natural Height) ── */}
-        <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 pt-0.5">
+        <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 border border-black rounded-lg p-2.5 bg-white">
           <div>
             <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -587,7 +587,7 @@ export function GovtJobsSingleRowSection({
         </aside>
 
         {/* ── COLUMN 2 (MIDDLE): Compact Stream for Active Govt Vacancies (Natural Height) ── */}
-        <div className="w-full lg:max-w-[460px] xl:max-w-[500px] 2xl:max-w-[540px] flex-1 min-w-0 space-y-1">
+        <div className="w-full lg:max-w-[460px] xl:max-w-[500px] 2xl:max-w-[540px] flex-1 min-w-0 space-y-1 border border-black rounded-lg p-2.5 sm:p-3 bg-white">
           {/* Subtle Category Header */}
           <div id="vacancies-stream-top" className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5 scroll-mt-28">
             <div className="flex items-center gap-2 flex-wrap min-w-0">
@@ -844,7 +844,7 @@ export function GovtJobsSingleRowSection({
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 1: Results & Answer Key
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 pt-0.5 space-y-4">
+          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
             
             {/* ── SECTION 1: RESULTS ── */}
             <div>
@@ -1074,7 +1074,7 @@ export function GovtJobsSingleRowSection({
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 2: Admit Cards, Admission & Outsourcing Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 pt-0.5 space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
 
             {/* ── SECTION 1: ADMIT CARDS ── */}
             <div>
@@ -1250,7 +1250,7 @@ export function GovtJobsSingleRowSection({
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 3: Upcoming Jobs, Syllabus & Documents
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 pt-0.5 space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
 
             {/* ── SECTION 1: UPCOMING JOBS ── */}
             <div>
