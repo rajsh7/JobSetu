@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Users,
   Archive,
+  Newspaper,
 } from 'lucide-react'
 import { type DetailedPortalItem } from '@/lib/data'
 
@@ -246,6 +247,15 @@ const FALLBACK_TENTH_ITI = [
   { id: 'ti-3', title: 'SSC Multi-Tasking Staff (MTS) & Havaldar 10th Pass Form (9,583 Posts)', slug: 'ssc-mts-havaldar-recruitment-2026-27', organization: 'SSC', postCount: 9583, lastDate: '2026-12-20', officialLink: 'https://ssc.gov.in' },
   { id: 'ti-4', title: 'Rajasthan Safai Karmchari 10th / 8th Pass Direct Form (24,752 Posts)', slug: 'rajasthan-safai-karmchari-2026', organization: 'DLB Rajasthan', postCount: 24752, lastDate: '2026-10-28', officialLink: 'https://lsg.urban.rajasthan.gov.in' },
   { id: 'ti-5', title: 'Ordnance Factories YIL Trade Apprentice 58th Batch for ITI / 10th (3,500 Posts)', slug: 'ordnance-factory-trade-apprentice-2026', organization: 'Yantra India Ltd', postCount: 3500, lastDate: '2026-11-12', officialLink: 'https://yantraindia.co.in' },
+]
+
+const FALLBACK_CURRENT_AFFAIRS = [
+  { id: 'news-1', title: 'UPSC Releases Annual Examination & Recruitment Calendar 2026-27', source: 'UPSC Portal', date: 'Today', tag: 'Official', officialLink: 'https://upsc.gov.in' },
+  { id: 'news-2', title: 'Indian Railways Announces 1 Lakh+ Vacancy Notification for 2026-27', source: 'Railway Board', date: '01 Oct', tag: 'Mega Bharti', officialLink: 'https://indianrailways.gov.in' },
+  { id: 'news-3', title: 'UP Govt Approves 25,000 Contractual & Health Department Posts', source: 'UP Samachar', date: '30 Sep', tag: 'State News', officialLink: 'https://sewayojan.up.nic.in' },
+  { id: 'news-4', title: 'CTET 2026 Exam City Intimation Slip Live — Check Allotted District', source: 'CBSE CTET', date: '29 Sep', tag: 'Advisory', officialLink: 'https://ctet.nic.in' },
+  { id: 'news-5', title: 'SSC One-Time Registration (OTR) Mandatory for All Upcoming 2026 Exams', source: 'SSC Notice', date: '28 Sep', tag: 'Important', officialLink: 'https://ssc.gov.in' },
+  { id: 'news-6', title: 'BPSC 71st CCE Notification & Syllabus Scheme Detailed Breakdown', source: 'BPSC Notice', date: '27 Sep', tag: 'Updates', officialLink: 'https://www.bpsc.bih.nic.in' },
 ]
 
 // Helper to generate pagination numbers: always shows 1st, 2nd, intermediate window, and last page
@@ -470,10 +480,10 @@ export function GovtJobsSingleRowSection({
           <div>
             <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <span className="h-3 w-1 rounded-full bg-[#0A9FFC]" />
+                <span className="h-3 w-1 rounded-full bg-purple-600" />
                 Categories
               </h2>
-              <span className="text-[11px] font-bold text-[#0A9FFC]">
+              <span className="text-[11px] font-bold text-purple-600">
                 {counts['all']?.toLocaleString('en-IN') ?? jobs.length.toLocaleString('en-IN')}
               </span>
             </div>
@@ -494,14 +504,14 @@ export function GovtJobsSingleRowSection({
                     }}
                     className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
                       isActive
-                        ? 'bg-[#0A9FFC] text-white shadow-xs font-bold'
-                        : 'text-slate-700 hover:bg-sky-50 hover:text-[#0A9FFC] bg-slate-50/70 lg:bg-transparent'
+                        ? 'bg-purple-600 text-white shadow-xs font-bold'
+                        : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 lg:bg-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 min-w-0">
                       <Icon
                         size={13}
-                        className={isActive ? 'text-white' : 'text-[#0A9FFC] shrink-0'}
+                        className={isActive ? 'text-white' : 'text-purple-600 shrink-0'}
                       />
                       <span className="truncate">{spec.label}</span>
                     </div>
@@ -741,9 +751,20 @@ export function GovtJobsSingleRowSection({
                   )
                 })}
 
+                {/* View More Button for Quick Exploration */}
+                <div className="pt-3 pb-2 border-t border-slate-100">
+                  <Link
+                    href="/latest-jobs"
+                    className="w-full text-center py-2.5 px-4 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 font-bold text-xs border border-purple-200 transition-all flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs cursor-pointer"
+                  >
+                    <span>Explore All 1,000+ Latest Govt Vacancies</span>
+                    <ArrowUpRight size={13} />
+                  </Link>
+                </div>
+
                 {/* Numbered Pagination: 1st, 2nd, ... last page */}
                 {totalPages > 1 && (
-                  <nav aria-label="Vacancies Pagination" className="pt-5 pb-8 border-t border-slate-100 mt-4">
+                  <nav aria-label="Vacancies Pagination" className="pt-3 pb-8 border-t border-slate-100 mt-2">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
                       <span className="text-xs font-semibold text-slate-500 order-2 sm:order-1">
                         Showing{' '}
@@ -1382,6 +1403,65 @@ export function GovtJobsSingleRowSection({
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* ── SECTION 4: CURRENT AFFAIRS & NEWS (Below Documents) ── */}
+            <div className="pt-2 border-t border-slate-200">
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Newspaper size={13} className="text-rose-600" />
+                  <span>Current Affairs &amp; News</span>
+                </h2>
+                <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.2 rounded inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
+                  Live
+                </span>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {FALLBACK_CURRENT_AFFAIRS.map((news) => (
+                  <div key={news.id} className="py-2 hover:bg-rose-50/30 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                        {news.source}
+                      </span>
+                      {news.tag && (
+                        <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1 py-0.2 rounded">
+                          {news.tag}
+                        </span>
+                      )}
+                    </div>
+
+                    <a
+                      href={news.officialLink || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {news.title}
+                    </a>
+
+                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-400">
+                      <span>{news.date}</span>
+                      <a
+                        href={news.officialLink || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5"
+                      >
+                        <span>Read</span>
+                        <ArrowUpRight size={10} />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 border-t border-slate-100">
+                <span className="block text-center text-xs font-bold text-slate-500 py-1 cursor-default">
+                  Daily Exam &amp; Educational News
+                </span>
               </div>
             </div>
 
