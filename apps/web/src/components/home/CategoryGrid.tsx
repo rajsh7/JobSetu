@@ -54,31 +54,35 @@ const categories = [
 
 export function CategoryGrid() {
   return (
-    <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-3 md:grid-cols-6">
       {categories.map((cat) => {
         const Icon = cat.icon
         return (
           <Link
             key={cat.label}
             href={cat.href}
-            className="job-card group relative flex flex-col justify-between p-4"
+            className="job-card group flex flex-col items-center gap-2 p-3 text-center sm:p-4"
           >
-            <div className="flex items-center justify-between gap-1">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-black transition-colors group-hover:bg-black group-hover:text-white">
-                <Icon size={19} />
-              </div>
-              <span className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
-                <span className={`h-1.5 w-1.5 rounded-full ${cat.dotColor}`} />
-                {cat.badge}
-              </span>
+            {/* Icon */}
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-black transition-colors group-hover:bg-black group-hover:text-white sm:h-11 sm:w-11">
+              <Icon size={18} />
             </div>
 
-            <div className="mt-3.5">
-              <h3 className="text-[15px] font-bold text-black group-hover:underline">
+            {/* Label */}
+            <div>
+              <p className="text-[11px] font-bold leading-tight text-black group-hover:underline sm:text-xs">
                 {cat.label}
-              </h3>
-              <p className="mt-0.5 text-xs font-medium text-zinc-500">{cat.sublabel}</p>
+              </p>
+              <p className="mt-0.5 hidden text-[10px] font-medium text-zinc-500 sm:block">
+                {cat.sublabel}
+              </p>
             </div>
+
+            {/* Badge */}
+            <span className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-[9px] font-bold text-zinc-600 sm:text-[10px]">
+              <span className={`h-1.5 w-1.5 rounded-full ${cat.dotColor}`} />
+              {cat.badge}
+            </span>
           </Link>
         )
       })}

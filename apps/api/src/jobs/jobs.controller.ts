@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Post, Put, Delete,
+  Controller, Get, Post, Put, Delete, Inject,
   Param, Body, Query, UseGuards, HttpCode, HttpStatus,
 } from '@nestjs/common'
 import { ThrottlerGuard } from '@nestjs/throttler'
@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 @Controller('jobs')
 @UseGuards(ThrottlerGuard)
 export class JobsController {
-  constructor(private readonly jobsService: JobsService) {}
+  constructor(@Inject(JobsService) private readonly jobsService: JobsService) {}
 
   // ─── Public Routes ─────────────────────────────────────────────────────────
 

@@ -1,40 +1,61 @@
 @import "tailwindcss";
 
-/* ─── JobSetu Design System (Logo-Matched Monochrome Theme + Jost Font) ───── */
+/* ─── JobSetu Design System — Teal & Earthy Palette ────────────────────── */
+/* Colors: #88BDBC · #254E58 · #112D32 · #4F4A41 · #6E6658               */
 /* Tailwind v4: CSS-first config                                            */
 
 @theme {
-  /* Core Brand Colors — Matched to JobSetu Logo (Jet Black & Crisp White) */
-  --color-brand-black: #09090b;
-  --color-brand-dark: #18181b;
-  --color-brand-muted: #52525b;
-  --color-brand-border: #e4e4e7;
-  --color-brand-surface: #ffffff;
-  --color-brand-canvas: #fafafa;
+  /* ── Brand Core ── */
+  --color-brand-darkest:  #112D32;  /* deepest teal — hero text, board headers */
+  --color-brand-dark:     #254E58;  /* primary teal — buttons, nav active      */
+  --color-brand-teal:     #88BDBC;  /* light teal   — accents, highlights      */
+  --color-brand-brown:    #4F4A41;  /* dark earth   — body text                */
+  --color-brand-sand:     #6E6658;  /* mid earth    — muted / secondary text   */
 
-  /* Backwards-compatible aliases mapped to the new Monochrome Brand Theme */
-  --color-brand-blue: #09090b;
-  --color-brand-orange: #27272a;
-  --color-brand-light: #f4f4f5;
+  /* ── Backwards-compat aliases ── */
+  --color-brand-black:    #112D32;
+  --color-brand-muted:    #4F4A41;
+  --color-brand-border:   #d1dfe0;
+  --color-brand-surface:  #ffffff;
+  --color-brand-canvas:   #f4f8f8;  /* very faint teal tint on page bg */
+  --color-brand-light:    #e8f2f2;  /* light teal surface               */
 
-  /* Semantic Category Colors for Quick Visual Scanning */
-  --color-govt: #15803d;
-  --color-private: #6d28d9;
-  --color-result: #be123c;
-  --color-admit: #0369a1;
-  --color-exam: #b45309;
+  /* ── Semantic Category Colors ── */
+  --color-govt:    #254E58;
+  --color-private: #4F4A41;
+  --color-result:  #be123c;
+  --color-admit:   #0369a1;
+  --color-exam:    #b45309;
 
-  /* Typography — Jost Exclusively */
+  /* ── Typography ── */
   --font-heading: 'Jost', system-ui, -apple-system, sans-serif;
-  --font-body: 'Jost', system-ui, -apple-system, sans-serif;
-  --font-sans: 'Jost', system-ui, -apple-system, sans-serif;
+  --font-body:    'Jost', system-ui, -apple-system, sans-serif;
+  --font-sans:    'Jost', system-ui, -apple-system, sans-serif;
 
-  /* Border Radius */
-  --radius-card: 0.75rem;
-
-  /* Shadows */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  /* ── Shape & Shadow ── */
+  --radius-card:  0.75rem;
+  --shadow-card:  0 1px 3px 0 rgb(17 45 50 / 0.08), 0 1px 2px -1px rgb(17 45 50 / 0.06);
 }
+
+/* ─── Marquee Animation (Breaking Ticker) ───────────────────────────────── */
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Hide Scrollbar Utility ─────────────────────────────────────────────── */
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ─── Global Base Styles ─────────────────────────────────────────────────── */
 
@@ -48,13 +69,16 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     font-family: 'Jost', system-ui, -apple-system, sans-serif;
+    height: 100%;
   }
 
   body {
     font-family: 'Jost', system-ui, -apple-system, sans-serif;
-    background-color: var(--color-brand-canvas);
-    color: var(--color-brand-black);
+    background-color: #f4f8f8;
+    color: #112D32;
     line-height: 1.6;
+    min-height: 100%;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -62,6 +86,7 @@
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.015em;
+    color: #112D32;
   }
 
   a {
@@ -70,43 +95,50 @@
   }
 }
 
+/* ─── DVH / Full-Screen Section Utilities ───────────────────────────────── */
+
+.min-h-dvh {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 /* ─── Utility Components ─────────────────────────────────────────────────── */
 
 @layer components {
+
+  /* Card */
   .job-card {
     background: #ffffff;
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
-    border: 1px solid #e4e4e7;
+    border: 1px solid #d1dfe0;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
   .job-card:hover {
-    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
-    border-color: #09090b;
+    box-shadow: 0 10px 25px -5px rgb(17 45 50 / 0.12), 0 4px 10px -6px rgb(17 45 50 / 0.08);
+    border-color: #254E58;
     transform: translateY(-2px);
   }
 
+  /* Category Badges */
   .badge-govt {
-    background: #f0fdf4;
-    color: #15803d;
-    border: 1px solid #bbf7d0;
+    background: #e8f2f2;
+    color: #254E58;
+    border: 1px solid #88BDBC;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
-
   .badge-private {
-    background: #f5f3ff;
-    color: #6d28d9;
-    border: 1px solid #ddd6fe;
+    background: #efede9;
+    color: #4F4A41;
+    border: 1px solid #c9c3b8;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
-
   .badge-result {
     background: #fff1f2;
     color: #be123c;
@@ -116,17 +148,15 @@
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
-
   .badge-admit {
-    background: #f0f9ff;
-    color: #0369a1;
-    border: 1px solid #bae6fd;
+    background: #e8f2f2;
+    color: #112D32;
+    border: 1px solid #88BDBC;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
-
   .badge-exam {
     background: #fffbeb;
     color: #b45309;
@@ -137,13 +167,14 @@
     border-radius: 9999px;
   }
 
+  /* Buttons */
   .btn-primary {
-    background: #09090b;
+    background: #254E58;
     color: #ffffff;
     font-weight: 600;
     padding: 0.625rem 1.35rem;
     border-radius: 0.625rem;
-    border: 1px solid #09090b;
+    border: 1px solid #254E58;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
@@ -151,19 +182,18 @@
     justify-content: center;
     gap: 0.5rem;
   }
-
   .btn-primary:hover {
-    background: #27272a;
-    border-color: #27272a;
+    background: #112D32;
+    border-color: #112D32;
   }
 
   .btn-outline {
     background: #ffffff;
-    color: #09090b;
+    color: #254E58;
     font-weight: 600;
     padding: 0.625rem 1.35rem;
     border-radius: 0.625rem;
-    border: 1.5px solid #09090b;
+    border: 1.5px solid #254E58;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
@@ -171,12 +201,13 @@
     justify-content: center;
     gap: 0.5rem;
   }
-
   .btn-outline:hover {
-    background: #09090b;
+    background: #254E58;
     color: #ffffff;
+    border-color: #254E58;
   }
 
+  /* Container */
   .container-main {
     max-width: 1240px;
     margin: 0 auto;

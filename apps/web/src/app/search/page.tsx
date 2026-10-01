@@ -22,17 +22,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <>
       <Header />
-      <main className="py-10">
+      <main className="py-10 bg-[#f4f8f8] min-h-[calc(100dvh-112px)]">
         <div className="container-main">
-          <div className="mb-8 rounded-2xl border-2 border-black bg-white p-6 text-center sm:p-8">
-            <h1 className="mb-4 text-2xl font-extrabold text-black sm:text-3xl">
+          <div className="mb-8 rounded-2xl border-2 border-[#254E58] bg-white p-6 text-center shadow-sm sm:p-8">
+            <h1 className="mb-4 text-2xl font-extrabold text-[#112D32] sm:text-3xl">
               {q ? `Search Results for "${q}"` : 'Search JobSetu Portal'}
             </h1>
             <HeroSearch />
           </div>
 
           <section className="mb-10">
-            <h2 className="mb-4 text-xl font-extrabold text-black">
+            <h2 className="mb-4 text-xl font-extrabold text-[#112D32]">
               Matching Jobs, Results &amp; Admit Cards ({items.length})
             </h2>
             <LatestUpdates jobs={items} />
@@ -40,7 +40,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
           {exams.length > 0 && (
             <section>
-              <h2 className="mb-4 text-xl font-extrabold text-black">
+              <h2 className="mb-4 text-xl font-extrabold text-[#112D32]">
                 Matching Top Exams ({exams.length})
               </h2>
               <TopExams exams={exams} />

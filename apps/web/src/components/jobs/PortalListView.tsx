@@ -17,15 +17,15 @@ export function PortalListView({ title, subtitle, badgeText, items, basePath }: 
   return (
     <>
       <Header />
-      <main className="py-10">
+      <main className="py-10 bg-[#f4f8f8]">
         <div className="container-main">
           {/* Page Header */}
-          <div className="mb-8 rounded-2xl border-2 border-black bg-white p-6 sm:p-8">
-            <span className="inline-block rounded-full bg-black px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+          <div className="mb-8 rounded-2xl border-2 border-[#254E58] bg-white p-6 shadow-sm sm:p-8">
+            <span className="inline-block rounded-full bg-[#254E58] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
               {badgeText}
             </span>
-            <h1 className="mt-3 text-2xl font-extrabold text-black sm:text-4xl">{title}</h1>
-            <p className="mt-2 max-w-2xl text-sm font-medium text-zinc-600 sm:text-base">
+            <h1 className="mt-3 text-2xl font-extrabold text-[#112D32] sm:text-4xl">{title}</h1>
+            <p className="mt-2 max-w-2xl text-sm font-medium text-[#6E6658] sm:text-base">
               {subtitle}
             </p>
           </div>
@@ -39,33 +39,33 @@ export function PortalListView({ title, subtitle, badgeText, items, basePath }: 
               >
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-zinc-500">
-                      <Building2 size={13} />
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-[#6E6658]">
+                      <Building2 size={13} className="text-[#88BDBC]" />
                       {item.organization}
                     </span>
                     {item.state && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-700">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#e8f2f2] px-2.5 py-0.5 text-xs font-semibold text-[#254E58]">
                         <MapPin size={11} />
                         {item.state}
                       </span>
                     )}
                     {item.postCount && (
-                      <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
+                      <span className="rounded-full bg-[#e8f2f2] border border-[#88BDBC] px-2.5 py-0.5 text-xs font-bold text-[#254E58]">
                         {item.postCount.toLocaleString('en-IN')} Posts
                       </span>
                     )}
                   </div>
 
                   <Link href={`${basePath}/${item.slug}`} className="block">
-                    <h2 className="text-lg font-bold text-black hover:underline sm:text-xl">
+                    <h2 className="text-lg font-bold text-[#112D32] hover:text-[#254E58] hover:underline sm:text-xl">
                       {item.title}
                     </h2>
                   </Link>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-zinc-600">
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-[#4F4A41]">
                     {item.qualification && (
                       <span className="inline-flex items-center gap-1">
-                        <GraduationCap size={14} className="text-zinc-400" />
+                        <GraduationCap size={14} className="text-[#88BDBC]" />
                         {item.qualification}
                       </span>
                     )}
@@ -81,7 +81,7 @@ export function PortalListView({ title, subtitle, badgeText, items, basePath }: 
                       </span>
                     )}
                     {item.examDateText && (
-                      <span className="font-semibold text-sky-700">
+                      <span className="font-semibold text-[#254E58]">
                         Exam Date: {item.examDateText}
                       </span>
                     )}

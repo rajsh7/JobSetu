@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { type DetailedPortalItem } from '@/lib/data'
 import { Category } from '@jobsetu/types'
-import { Flame } from 'lucide-react'
 
 interface Props {
   jobs: DetailedPortalItem[]
@@ -9,38 +8,33 @@ interface Props {
 
 function getCategoryPath(cat: Category, slug: string) {
   switch (cat) {
-    case Category.RESULT:
-      return `/results/${slug}`
-    case Category.ADMIT_CARD:
-      return `/admit-cards/${slug}`
-    case Category.PRIVATE_JOB:
-      return `/private-jobs/${slug}`
-    default:
-      return `/latest-jobs/${slug}`
+    case Category.RESULT:     return `/results/${slug}`
+    case Category.ADMIT_CARD: return `/admit-cards/${slug}`
+    case Category.PRIVATE_JOB: return `/private-jobs/${slug}`
+    default:                  return `/latest-jobs/${slug}`
   }
 }
 
 export function BreakingTicker({ jobs }: Props) {
   if (!jobs.length) return null
 
-  return (
-    <div className="border-b border-zinc-800 bg-[#09090B] text-white text-sm">
-      <div className="container-main flex items-center gap-3 overflow-hidden py-2">
-        {/* Badge */}
-        <div className="flex shrink-0 items-center gap-1.5 rounded bg-white px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-black">
-          <Flame size={13} className="fill-black" />
-          <span>Trending</span>
-        </div>
+  const items = [...jobs, ...jobs]
 
-        {/* Ticker Links */}
-        <div className="flex items-center gap-6 overflow-x-auto whitespace-nowrap py-0.5 text-xs sm:text-sm no-scrollbar">
-          {jobs.map((job) => (
+  return (
+    <div className="overflow-hidden border-b border-[#112D32]/40 bg-[#112D32] text-white text-sm">
+      <div className="relative overflow-hidden">
+        {/* Fade edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#112D32] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#112D32] to-transparent z-10" />
+
+        <div className="flex animate-marquee whitespace-nowrap py-2 gap-8 px-4">
+          {items.map((job, idx) => (
             <Link
-              key={job.id}
+              key={`${job.id ?? job.slug}-${idx}`}
               href={getCategoryPath(job.category, job.slug)}
-              className="inline-flex items-center gap-1.5 font-medium text-zinc-200 transition-colors hover:text-white hover:underline"
+              className="inline-flex shrink-0 items-center gap-1.5 text-xs font-medium text-[#88BDBC] transition-colors hover:text-white hover:underline sm:text-sm"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-white" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#88BDBC]" />
               <span>{job.title}</span>
             </Link>
           ))}
