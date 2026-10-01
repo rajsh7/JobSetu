@@ -479,12 +479,15 @@ export function GovtJobsSingleRowSection({
         <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 space-y-3">
           {/* Categories Box */}
           <div className="border border-black rounded-lg p-2.5 bg-white">
-            <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <span className="h-3 w-1 rounded-full bg-purple-600" />
-                Categories
+            <div
+              className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+              style={{ backgroundColor: '#FF0801' }}
+            >
+              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                <Briefcase size={13} className="text-white" />
+                <span>Categories</span>
               </h2>
-              <span className="text-[11px] font-bold text-purple-600">
+              <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                 {counts['all']?.toLocaleString('en-IN') ?? jobs.length.toLocaleString('en-IN')}
               </span>
             </div>
@@ -533,10 +536,13 @@ export function GovtJobsSingleRowSection({
 
           {/* ── STATE / CITY FILTER BOX ── */}
           <div className="border border-black rounded-lg p-2.5 bg-white">
-            <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <MapPin size={12} className="text-purple-600" />
-                State / City
+            <div
+              className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+              style={{ backgroundColor: '#9F000E' }}
+            >
+              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                <MapPin size={12} className="text-white" />
+                <span>State / City</span>
               </h2>
               {selectedState !== 'all' && (
                 <button
@@ -544,7 +550,7 @@ export function GovtJobsSingleRowSection({
                     setSelectedState('all')
                     setCurrentPage(1)
                   }}
-                  className="text-[10px] font-bold text-rose-500 hover:underline cursor-pointer"
+                  className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5 cursor-pointer"
                 >
                   Reset
                 </button>
