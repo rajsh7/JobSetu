@@ -8,6 +8,8 @@ export enum Category {
   EXAM = 'EXAM',
   ANSWER_KEY = 'ANSWER_KEY',
   SYLLABUS = 'SYLLABUS',
+  ADMISSION = 'ADMISSION',
+  DOCUMENT = 'DOCUMENT',
 }
 
 export enum ExamCategory {

@@ -11,6 +11,8 @@ const categoryBadge: Record<Category, string> = {
   [Category.EXAM]: 'badge-exam',
   [Category.ANSWER_KEY]: 'badge-govt',
   [Category.SYLLABUS]: 'badge-govt',
+  [Category.ADMISSION]: 'badge-exam',
+  [Category.DOCUMENT]: 'badge-govt',
 }
 
 const categoryLabel: Record<Category, string> = {
@@ -21,6 +23,8 @@ const categoryLabel: Record<Category, string> = {
   [Category.EXAM]: 'Exam',
   [Category.ANSWER_KEY]: 'Answer Key',
   [Category.SYLLABUS]: 'Syllabus',
+  [Category.ADMISSION]: 'Admission',
+  [Category.DOCUMENT]: 'Document',
 }
 
 function getDetailHref(item: DetailedPortalItem) {
