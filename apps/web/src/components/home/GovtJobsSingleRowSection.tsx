@@ -19,6 +19,8 @@ import {
   Wrench,
   Stethoscope,
   Calendar,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { type DetailedPortalItem } from '@/lib/data'
 
@@ -72,12 +74,50 @@ const SPEC_STYLES: Record<string, { bg: string; text: string }> = {
   Medical:     { bg: 'bg-pink-50',    text: 'text-pink-700' },
 }
 
-const INITIAL_PAGE_SIZE = 40
-const PAGE_STEP = 40
+const ITEMS_PER_PAGE = 25
 
-export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Props) {
+// Helper to generate pagination numbers: always shows 1st, 2nd, intermediate window, and last page
+function getPaginationPages(current: number, total: number): (number | 'ellipsis-start' | 'ellipsis-end')[] {
+  if (total <= 5) {
+    return Array.from({ length: total }, (_, i) => i + 1)
+  }
+
+  const pages: (number | 'ellipsis-start' | 'ellipsis-end')[] = []
+  
+  // Always include 1st and 2nd page
+  pages.push(1)
+  pages.push(2)
+
+  if (current > 4) {
+    pages.push('ellipsis-start')
+  }
+
+  // Intermediate pages around current
+  const middlePages = [current - 1, current, current + 1].filter(
+    (p) => p > 2 && p < total
+  )
+
+  for (const p of middlePages) {
+    if (!pages.includes(p)) {
+      pages.push(p)
+    }
+  }
+
+  if (current < total - 3) {
+    pages.push('ellipsis-end')
+  }
+
+  // Always include last page
+  if (!pages.includes(total)) {
+    pages.push(total)
+  }
+
+  return pages
+}
+
+export function GovtJobsSingleRowSection({ jobs, results = [] }: Props) {
   const [selectedSpec, setSelectedSpec] = useState<string>('all')
-  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   // Categorize jobs matching specification
   const filteredJobs = useMemo(() => {
@@ -126,24 +166,35 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
 
   const upcomingCount = useMemo(() => jobs.filter((j) => j.isUpcoming).length, [jobs])
 
-  const displayedJobs = filteredJobs.slice(0, visibleCount)
+  // Pagination calculation
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / ITEMS_PER_PAGE))
+  const safeCurrentPage = Math.min(currentPage, totalPages)
+  const paginatedJobs = useMemo(() => {
+    const start = (safeCurrentPage - 1) * ITEMS_PER_PAGE
+    return filteredJobs.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredJobs, safeCurrentPage])
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + PAGE_STEP)
-  }
-
-  const handleShowAll = () => {
-    setVisibleCount(filteredJobs.length)
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === safeCurrentPage) return
+    setCurrentPage(page)
+    if (typeof window !== 'undefined') {
+      const el = document.getElementById('vacancies-stream-top')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        window.scrollTo({ top: 100, behavior: 'smooth' })
+      }
+    }
   }
 
   return (
-    <div className="w-full">
-      {/* 3-Column Layout: Left Spec Sidebar + Shrunk Middle Stream + Right Upcoming Jobs */}
-      <div className="flex flex-col lg:flex-row gap-3.5 xl:gap-5 w-full">
+    <div className="w-full max-w-[1360px] xl:max-w-[1400px] mx-auto">
+      {/* Centered Layout: Categories on Left + Center Vacancies + Right Columns */}
+      <div className="flex flex-col lg:flex-row justify-center items-start gap-3.5 xl:gap-5 w-full">
 
         {/* ── COLUMN 1 (LEFT): Compact Category Navigation (No background cards) ── */}
         <aside className="w-full lg:w-[175px] xl:w-[185px] shrink-0">
-          <div className="sticky top-16 pt-0.5">
+          <div className="sticky top-20 lg:top-24 pt-0.5 z-10">
             <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <span className="h-3 w-1 rounded-full bg-[#0A9FFC]" />
@@ -166,7 +217,7 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                     key={spec.id}
                     onClick={() => {
                       setSelectedSpec(spec.id)
-                      setVisibleCount(INITIAL_PAGE_SIZE)
+                      setCurrentPage(1)
                     }}
                     className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
                       isActive
@@ -198,9 +249,9 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
         </aside>
 
         {/* ── COLUMN 2 (MIDDLE): Shrunk Compact Stream for Latest Govt Vacancies ── */}
-        <div className="w-full lg:max-w-[450px] xl:max-w-[510px] 2xl:max-w-[560px] flex-1 min-w-0 space-y-1">
+        <div className="w-full lg:max-w-[560px] xl:max-w-[620px] 2xl:max-w-[660px] flex-1 min-w-0 space-y-1">
           {/* Subtle Category Header (NO JOBS RESULT EXAMS text tabs) */}
-          <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+          <div id="vacancies-stream-top" className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5 scroll-mt-28">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
               <span className="h-3 w-1 rounded-full bg-[#0A9FFC]" />
               <span>
@@ -216,11 +267,14 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
 
           {/* Jobs List (Shrunk & Compact, Violet Titles) */}
           <div>
-              {displayedJobs.length === 0 ? (
+              {paginatedJobs.length === 0 ? (
                 <div className="py-10 text-center text-slate-500 text-xs">
                   <p className="font-bold text-slate-700">No active vacancies found for this category.</p>
                   <button
-                    onClick={() => setSelectedSpec('all')}
+                    onClick={() => {
+                      setSelectedSpec('all')
+                      setCurrentPage(1)
+                    }}
                     className="mt-2 text-[#0A9FFC] font-bold hover:underline cursor-pointer"
                   >
                     View All Jobs →
@@ -228,7 +282,7 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                 </div>
               ) : (
                 <div className="divide-y divide-slate-100">
-                  {displayedJobs.map((job) => {
+                  {paginatedJobs.map((job) => {
                     const isPast = job.lastDate && new Date(job.lastDate) < new Date('2026-10-01')
                     const specStyle = job.specification ? SPEC_STYLES[job.specification] : null
 
@@ -359,34 +413,93 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                     )
                   })}
 
-                  {/* Load More Controls */}
-                  {displayedJobs.length < filteredJobs.length && (
-                    <div className="pt-4 pb-6 flex items-center justify-center gap-2.5">
-                      <button
-                        onClick={handleLoadMore}
-                        className="btn-primary text-xs py-2 px-5 font-bold cursor-pointer"
-                      >
-                        Load More ({displayedJobs.length} of {filteredJobs.length.toLocaleString('en-IN')})
-                      </button>
-                      <button
-                        onClick={handleShowAll}
-                        className="btn-outline text-xs py-2 px-4 font-bold cursor-pointer"
-                      >
-                        Show All ({filteredJobs.length.toLocaleString('en-IN')})
-                      </button>
-                    </div>
+                  {/* Numbered Pagination: 1st page, 2nd page, ... last page */}
+                  {totalPages > 1 && (
+                    <nav aria-label="Vacancies Pagination" className="pt-5 pb-8 border-t border-slate-100 mt-4">
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        {/* Count Summary */}
+                        <span className="text-xs font-semibold text-slate-500 order-2 sm:order-1">
+                          Showing{' '}
+                          <span className="font-bold text-slate-800">
+                            {(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(safeCurrentPage * ITEMS_PER_PAGE, filteredJobs.length)}
+                          </span>{' '}
+                          of <span className="font-bold text-slate-800">{filteredJobs.length.toLocaleString('en-IN')}</span> vacancies
+                        </span>
+
+                        {/* Pagination Controls */}
+                        <div className="flex items-center gap-1.5 order-1 sm:order-2 flex-wrap justify-center">
+                          {/* Prev Button */}
+                          <button
+                            onClick={() => handlePageChange(safeCurrentPage - 1)}
+                            disabled={safeCurrentPage === 1}
+                            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                            aria-label="Previous Page"
+                          >
+                            <ChevronLeft size={14} />
+                            <span className="hidden sm:inline">Prev</span>
+                          </button>
+
+                          {/* Page Numbers */}
+                          {getPaginationPages(safeCurrentPage, totalPages).map((p, idx) => {
+                            if (p === 'ellipsis-start' || p === 'ellipsis-end') {
+                              return (
+                                <span key={`ellipsis-${idx}`} className="px-1 text-slate-400 font-bold select-none text-xs">
+                                  …
+                                </span>
+                              )
+                            }
+
+                            const isCurrent = p === safeCurrentPage
+                            const isFirst = p === 1
+                            const isSecond = p === 2
+                            const isLast = p === totalPages
+
+                            let label = `${p}`
+                            if (isFirst) label = '1st'
+                            else if (isSecond) label = '2nd'
+                            else if (isLast && totalPages > 2) label = `${p} (Last)`
+
+                            return (
+                              <button
+                                key={p}
+                                onClick={() => handlePageChange(p)}
+                                className={`min-w-[34px] px-2 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                                  isCurrent
+                                    ? 'bg-[#0A9FFC] text-white shadow-xs font-black'
+                                    : 'border border-slate-200 bg-white text-slate-700 hover:border-[#0A9FFC] hover:text-[#0A9FFC] hover:bg-sky-50/50'
+                                }`}
+                                aria-current={isCurrent ? 'page' : undefined}
+                              >
+                                {label}
+                              </button>
+                            )
+                          })}
+
+                          {/* Next Button */}
+                          <button
+                            onClick={() => handlePageChange(safeCurrentPage + 1)}
+                            disabled={safeCurrentPage === totalPages}
+                            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                            aria-label="Next Page"
+                          >
+                            <span className="hidden sm:inline">Next</span>
+                            <ChevronRight size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    </nav>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-        {/* ── RIGHT SIDE COLUMNS: Results, Exams, Upcoming Jobs (Same Style) ── */}
-        <div className="flex flex-col sm:flex-row flex-wrap 2xl:flex-nowrap gap-3 xl:gap-3.5 shrink-0">
+        {/* ── RIGHT SIDE COLUMNS: Results & Upcoming Jobs (No Exams Column) ── */}
+        <div className="flex flex-col sm:flex-row gap-3 xl:gap-4 shrink-0">
 
           {/* ── RIGHT COLUMN 1: RESULTS ── */}
-          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
-            <div className="sticky top-16">
+          <aside className="w-full sm:w-[220px] lg:w-[215px] xl:w-[235px] shrink-0 pt-0.5">
+            <div className="sticky top-20 lg:top-24 z-10">
               {/* Header */}
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -403,7 +516,7 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                 {results.slice(0, 15).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-emerald-50/40 px-1 transition-colors">
                     <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
                       <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
@@ -446,73 +559,9 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
             </div>
           </aside>
 
-          {/* ── RIGHT COLUMN 2: EXAMS ── */}
-          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
-            <div className="sticky top-16">
-              {/* Header */}
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <GraduationCap size={13} className="text-indigo-600" />
-                  <span>Top Exams</span>
-                </h2>
-                <Link href="/top-exams" className="text-[11px] font-bold text-indigo-700 hover:underline">
-                  {exams.length} Total
-                </Link>
-              </div>
-
-              {/* Exams List */}
-              <div className="divide-y divide-slate-100">
-                {exams.slice(0, 15).map((ex) => (
-                  <div key={ex.id} className="py-2 hover:bg-indigo-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
-                        {ex.conductedBy || 'Govt Body'}
-                      </span>
-                      {ex.frequency && (
-                        <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
-                          {ex.frequency}
-                        </span>
-                      )}
-                    </div>
-
-                    <Link
-                      href={`/top-exams/${ex.slug}`}
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
-                    >
-                      {ex.name}
-                    </Link>
-
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="font-semibold text-amber-700 text-[10px]">
-                        {ex.nextExamWindow ? `📌 ${ex.nextExamWindow}` : 'Annual Exam'}
-                      </span>
-                      <Link
-                        href={`/top-exams/${ex.slug}`}
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
-                      >
-                        <span>Details</span>
-                        <ArrowUpRight size={10} />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* View All Footer Link */}
-              <div className="pt-2 border-t border-slate-100">
-                <Link
-                  href="/top-exams"
-                  className="block text-center text-xs font-bold text-[#0A9FFC] hover:underline py-1"
-                >
-                  View All Top Exams ({exams.length}) →
-                </Link>
-              </div>
-            </div>
-          </aside>
-
-          {/* ── RIGHT COLUMN 3: UPCOMING JOBS ── */}
-          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
-            <div className="sticky top-16">
+          {/* ── RIGHT COLUMN 2: UPCOMING JOBS ── */}
+          <aside className="w-full sm:w-[220px] lg:w-[215px] xl:w-[235px] shrink-0 pt-0.5">
+            <div className="sticky top-20 lg:top-24 z-10">
               {/* Header */}
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -529,7 +578,7 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                 {upcomingJobs.map((item) => (
                   <div key={item.id} className="py-2 hover:bg-amber-50/40 px-1 transition-colors">
                     <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
                       {item.postCount && (

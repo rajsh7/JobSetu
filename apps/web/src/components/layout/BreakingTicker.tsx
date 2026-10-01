@@ -27,7 +27,7 @@ export function BreakingTicker({ jobs }: Props) {
         <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-red-600 to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-red-600 to-transparent z-10" />
 
-        <div className="flex animate-marquee whitespace-nowrap py-2 gap-8 pl-[5px] pr-[30px]">
+        <div className="flex animate-marquee whitespace-nowrap py-2 gap-8 px-4">
           {items.map((job, idx) => (
             <Link
               key={`${job.id ?? job.slug}-${idx}`}

@@ -13,7 +13,7 @@ const navLinks = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
-      <div className="w-full pl-[5px] pr-[30px] flex items-center justify-between py-2.5">
+      <div className="w-full max-w-[1360px] xl:max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 flex items-center justify-between py-2.5">
 
         {/* Logo */}
         <Link href="/" className="group flex items-center">
@@ -53,7 +53,7 @@ export function Header() {
 
       {/* Mobile Pill Bar */}
       <nav className="border-t border-slate-100 bg-slate-50/80 lg:hidden">
-        <div className="w-full pl-[5px] pr-[30px] flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
+        <div className="w-full max-w-[1360px] xl:max-w-[1400px] mx-auto px-3 sm:px-4 flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
           {navLinks.map((link) => (
             <Link
               key={link.href}
