@@ -1,6 +1,7 @@
 import { Category, ExamCategory, type Job, type Exam } from '@jobsetu/types'
 import { supabase } from './supabase'
 import { redisGet, redisSet } from './redis'
+import { EXTENDED_GOVT_JOBS } from './catalog-data'
 
 export interface DetailedPortalItem extends Job {
   shortInfo?: string
@@ -27,6 +28,9 @@ export interface DetailedPortalItem extends Job {
     totalPost: string
     eligibility: string
   }[]
+  specification?: string
+  isUpcoming?: boolean
+  tentativeDate?: string
 }
 
 // ─── Realistic 2026 Indian Sarkari & Career Portal Seed Data ─────────────────
@@ -359,11 +363,590 @@ export const SEED_ITEMS: DetailedPortalItem[] = [
     feeGeneral: '₹100/-',
     feeScSt: '₹0/- (Exempted)',
     feeFemale: '₹0/- (Exempted)',
-    paymentMode: 'UPI, Net Banking, Debit/Credit Card',
     importantLinks: [
       { label: 'Apply Online (SSC OTR Portal)', url: 'https://ssc.gov.in', highlight: true },
       { label: 'Download CHSL Notification PDF', url: 'https://ssc.gov.in' },
       { label: 'Official SSC Portal', url: 'https://ssc.gov.in' },
+    ],
+    specification: 'SSC',
+  },
+  {
+    id: 'job-ctet-teaching-2026',
+    title: 'CBSE Central Teacher Eligibility Test (CTET) 2026 — Online Application Form',
+    slug: 'cbse-ctet-dec-2026-online-form',
+    category: Category.GOVT_JOB,
+    specification: 'Teaching',
+    organization: 'Central Board of Secondary Education (CBSE)',
+    postCount: 22000,
+    qualification: 'B.Ed / D.El.Ed / BTC / Senior Secondary with 50% Marks',
+    lastDate: '2026-10-31',
+    officialLink: 'https://ctet.nic.in',
+    state: 'All India',
+    examName: 'CTET 2026',
+    isActive: true,
+    isFeatured: true,
+    views: 184500,
+    createdAt: '2026-09-25T10:00:00Z',
+    updatedAt: '2026-09-30T15:00:00Z',
+    shortInfo:
+      'Central Board of Secondary Education (CBSE) has released notification for Central Teacher Eligibility Test (CTET) 2026 for Paper-I (Class 1-5) and Paper-II (Class 6-8) Teachers in KVS, NVS, Central Schools.',
+    applicationBegin: '17 Sept 2026',
+    feeLastDate: '31 Oct 2026',
+    examDateText: '01 December 2026',
+    feeGeneral: '₹1000/- (Single Paper) / ₹1200/- (Both)',
+    feeScSt: '₹500/- (Single) / ₹600/- (Both)',
+    importantLinks: [
+      { label: 'Apply Online (CTET Official Portal)', url: 'https://ctet.nic.in', highlight: true },
+      { label: 'Download Information Bulletin PDF', url: 'https://ctet.nic.in' },
+    ],
+  },
+  {
+    id: 'job-army-defence-2026',
+    title: 'Indian Army 10+2 TES 53 & CDS II Recruitment 2026 — Apply Online for 460 Posts',
+    slug: 'indian-army-tes-cds-recruitment-2026',
+    category: Category.GOVT_JOB,
+    specification: 'Defence',
+    organization: 'Indian Armed Forces (Army, Navy, Air Force)',
+    postCount: 460,
+    qualification: '10+2 PCM (Min 60% Marks) + JEE Mains 2026 / Graduation',
+    lastDate: '2026-10-25',
+    officialLink: 'https://joinindianarmy.nic.in',
+    state: 'All India',
+    examName: 'Indian Army TES 53 / CDS',
+    isActive: true,
+    isFeatured: true,
+    views: 139000,
+    createdAt: '2026-09-24T11:00:00Z',
+    updatedAt: '2026-09-30T13:00:00Z',
+    shortInfo:
+      'Indian Armed Forces invites applications for Technical Entry Scheme (TES-53 Course) for 10+2 candidates and Combined Defence Services (CDS) for permanent and short service commissions as Commissioned Officers.',
+    applicationBegin: '20 Sept 2026',
+    feeLastDate: '25 Oct 2026',
+    examDateText: 'SSB Interview: Jan-Feb 2027',
+    ageLimitMin: 16,
+    ageLimitMax: 24,
+    feeGeneral: '₹0/- (No Application Fee)',
+    importantLinks: [
+      { label: 'Apply Online (Join Indian Army Portal)', url: 'https://joinindianarmy.nic.in', highlight: true },
+      { label: 'Official Defence Recruitment Portal', url: 'https://joinindianarmy.nic.in' },
+    ],
+  },
+  {
+    id: 'job-upsc-ese-2026',
+    title: 'UPSC Engineering Services (ESE) & Combined Geo-Scientist 2026 — 457 Posts',
+    slug: 'upsc-ese-engineering-services-2026',
+    category: Category.GOVT_JOB,
+    specification: 'UPSC',
+    organization: 'Union Public Service Commission (UPSC)',
+    postCount: 457,
+    qualification: 'Degree in Engineering (Civil, Mechanical, Electrical, E&T) / M.Sc',
+    lastDate: '2026-10-22',
+    officialLink: 'https://upsconline.nic.in',
+    state: 'All India',
+    examName: 'UPSC ESE 2026',
+    isActive: true,
+    isFeatured: true,
+    views: 112000,
+    createdAt: '2026-09-23T08:00:00Z',
+    updatedAt: '2026-09-30T10:00:00Z',
+    shortInfo:
+      'Union Public Service Commission (UPSC) has announced notification for Engineering Services Examination (ESE 2026) for recruitment of Group A and B engineers in Railways, CPWD, MES, and CWS.',
+    applicationBegin: '18 Sept 2026',
+    feeLastDate: '22 Oct 2026',
+    examDateText: '09 February 2027 (Prelims)',
+    ageLimitMin: 21,
+    ageLimitMax: 30,
+    feeGeneral: '₹200/-',
+    feeScSt: '₹0/- (Nil)',
+    feeFemale: '₹0/- (Exempted)',
+    importantLinks: [
+      { label: 'Apply Online (UPSC OTR Portal)', url: 'https://upsconline.nic.in', highlight: true },
+      { label: 'Download ESE Notification PDF', url: 'https://upsc.gov.in' },
+    ],
+  },
+  {
+    id: 'job-delhi-police-si-2026',
+    title: 'Delhi Police & Central Armed Police Forces (CAPF) SI Recruitment 2026 — 4,187 Posts',
+    slug: 'delhi-police-capf-si-recruitment-2026',
+    category: Category.GOVT_JOB,
+    specification: 'Police',
+    organization: 'Staff Selection Commission (SSC) / Delhi Police',
+    postCount: 4187,
+    qualification: 'Bachelor Degree in Any Stream from Recognized University + LMV License',
+    lastDate: '2026-11-05',
+    officialLink: 'https://ssc.gov.in',
+    state: 'All India',
+    examName: 'SSC CPO SI 2026',
+    isActive: true,
+    isFeatured: true,
+    views: 165000,
+    createdAt: '2026-09-26T14:00:00Z',
+    updatedAt: '2026-09-30T16:00:00Z',
+    shortInfo:
+      'Staff Selection Commission has released notification for Sub-Inspector in Delhi Police and Central Armed Police Forces (BSF, CISF, CRPF, ITBP, SSB) Examination 2026 for 4,187 vacancies.',
+    applicationBegin: '27 Sept 2026',
+    feeLastDate: '05 Nov 2026',
+    examDateText: 'December 2026 (Paper-I)',
+    ageLimitMin: 20,
+    ageLimitMax: 25,
+    feeGeneral: '₹100/-',
+    feeScSt: '₹0/- (Exempted)',
+    feeFemale: '₹0/- (Exempted)',
+    importantLinks: [
+      { label: 'Apply Online (SSC Portal)', url: 'https://ssc.gov.in', highlight: true },
+      { label: 'Download CPO SI Notification PDF', url: 'https://ssc.gov.in' },
+    ],
+  },
+
+  // ─── UPCOMING GOVERNMENT JOBS (2026 - 2027 OFFICIAL CALENDARS) ─────────────
+  {
+    id: 'job-ssc-gd-constable-2027',
+    title: 'SSC Constable GD in CAPFs, SSF & Rifleman (Assam Rifles) 2027 — 39,481 Posts',
+    slug: 'ssc-gd-constable-recruitment-2027',
+    category: Category.GOVT_JOB,
+    specification: 'Police',
+    organization: 'Staff Selection Commission (SSC)',
+    postCount: 39481,
+    qualification: '10th (Matriculation) Exam Passed from Recognized Board',
+    lastDate: '2026-12-31',
+    officialLink: 'https://ssc.gov.in',
+    state: 'All India',
+    examName: 'SSC GD 2027',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Nov 2026',
+    isFeatured: true,
+    views: 420000,
+    createdAt: '2026-09-30T10:00:00Z',
+    updatedAt: '2026-10-01T08:00:00Z',
+    shortInfo:
+      'Staff Selection Commission has announced the upcoming Constable (GD) examination in BSF, CISF, CRPF, SSB, ITBP, AR, and SSF for nearly 40,000 vacancies as per the official SSC 2026-2027 Exam Calendar.',
+    examDateText: 'Jan – Feb 2027 (CBT)',
+    feeGeneral: '₹100/-',
+    feeScSt: '₹0/- (Exempted)',
+    importantLinks: [
+      { label: 'SSC Official Examination Calendar', url: 'https://ssc.gov.in', highlight: true },
+      { label: 'Official SSC Portal', url: 'https://ssc.gov.in' },
+    ],
+  },
+  {
+    id: 'job-rrb-alp-2026-27',
+    title: 'Railway RRB Assistant Loco Pilot (ALP) CEN 01/2026-27 — 18,799 Posts',
+    slug: 'railway-rrb-alp-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Railway',
+    organization: 'Railway Recruitment Boards (RRB)',
+    postCount: 18799,
+    qualification: '10th Pass + ITI / Diploma in Engineering (Mech/Elec/Auto/Electronics)',
+    lastDate: '2026-11-30',
+    officialLink: 'https://www.rrbapply.gov.in',
+    state: 'All India',
+    examName: 'RRB ALP 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Annual Cycle 2026-27',
+    isFeatured: true,
+    views: 380000,
+    createdAt: '2026-09-30T11:00:00Z',
+    updatedAt: '2026-10-01T09:00:00Z',
+    shortInfo:
+      'Ministry of Railways, Railway Recruitment Boards (RRBs) conducting the mega Assistant Loco Pilot (ALP) recruitment cycle across all 21 railway zones for 18,799 posts.',
+    examDateText: 'November 2026 (CBT-1)',
+    importantLinks: [
+      { label: 'RRB Apply Online Portal', url: 'https://www.rrbapply.gov.in', highlight: true },
+      { label: 'Indian Railways Portal', url: 'https://indianrailways.gov.in' },
+    ],
+  },
+  {
+    id: 'job-rrb-group-d-2026-27',
+    title: 'Railway RRB Group D (Level-1 Track Maintainer & Pointsman) 2026-27 — 1,03,769 Posts',
+    slug: 'railway-rrb-group-d-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Railway',
+    organization: 'Railway Recruitment Boards (RRB)',
+    postCount: 103769,
+    qualification: '10th Pass OR National Apprenticeship Certificate (NAC) / ITI',
+    lastDate: '2027-01-15',
+    officialLink: 'https://www.rrbapply.gov.in',
+    state: 'All India',
+    examName: 'RRB Group D 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 650000,
+    createdAt: '2026-09-30T12:00:00Z',
+    updatedAt: '2026-10-01T10:00:00Z',
+    shortInfo:
+      'Indian Railways has slated the next mega Group D (Level-1) CEN notification for over 1 lakh vacancies in track maintenance, electrical, mechanical, and signaling departments as per the Railway Annual Recruitment Calendar.',
+    importantLinks: [
+      { label: 'RRB Centralized Portal', url: 'https://www.rrbapply.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-rrb-technician-2026-27',
+    title: 'Railway RRB Technician Grade I Signal & Grade III Recruitment 2026-27 — 14,298 Posts',
+    slug: 'railway-rrb-technician-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Railway',
+    organization: 'Railway Recruitment Boards (RRB)',
+    postCount: 14298,
+    qualification: 'Matriculation + ITI / NCVT or B.Sc / Diploma in Engineering',
+    lastDate: '2027-01-30',
+    officialLink: 'https://www.rrbapply.gov.in',
+    state: 'All India',
+    examName: 'RRB Technician 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Jan 2027',
+    isFeatured: true,
+    views: 290000,
+    createdAt: '2026-09-30T13:00:00Z',
+    updatedAt: '2026-10-01T10:30:00Z',
+    shortInfo:
+      'Railway Recruitment Boards scheduled the CEN for Technician Grade I Signal & Technician Grade III across zonal workshops and production units.',
+    importantLinks: [
+      { label: 'RRB Application Portal', url: 'https://www.rrbapply.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-upsc-cse-2027',
+    title: 'UPSC Civil Services (IAS / IPS / IFS) Examination 2027 — 1,105 Posts Expected',
+    slug: 'upsc-civil-services-ias-ips-exam-2027',
+    category: Category.GOVT_JOB,
+    specification: 'UPSC',
+    organization: 'Union Public Service Commission (UPSC)',
+    postCount: 1105,
+    qualification: 'Bachelor Degree in Any Stream from Recognized University',
+    lastDate: '2027-03-05',
+    officialLink: 'https://upsconline.nic.in',
+    state: 'All India',
+    examName: 'UPSC CSE 2027',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Feb 2027',
+    isFeatured: true,
+    views: 520000,
+    createdAt: '2026-09-30T14:00:00Z',
+    updatedAt: '2026-10-01T11:00:00Z',
+    shortInfo:
+      'Union Public Service Commission (UPSC) Annual Calendar has scheduled the Civil Services (Preliminary) Examination 2027 with notification release in February 2027.',
+    examDateText: '23 May 2027 (Prelims)',
+    importantLinks: [
+      { label: 'UPSC Annual Calendar 2027 PDF', url: 'https://upsc.gov.in', highlight: true },
+      { label: 'UPSC Online OTR Portal', url: 'https://upsconline.nic.in' },
+    ],
+  },
+  {
+    id: 'job-upsc-nda-1-2027',
+    title: 'UPSC National Defence Academy & Naval Academy Exam (I) 2027 — 400 Posts',
+    slug: 'upsc-nda-na-exam-1-2027',
+    category: Category.GOVT_JOB,
+    specification: 'Defence',
+    organization: 'Union Public Service Commission (UPSC) / Armed Forces',
+    postCount: 400,
+    qualification: '10+2 Passed / Appearing with Physics, Chemistry & Maths',
+    lastDate: '2027-01-09',
+    officialLink: 'https://upsconline.nic.in',
+    state: 'All India',
+    examName: 'UPSC NDA (I) 2027',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 240000,
+    createdAt: '2026-09-30T15:00:00Z',
+    updatedAt: '2026-10-01T11:30:00Z',
+    shortInfo:
+      'UPSC NDA-I 2027 notification for admission to Army, Navy, and Air Force wings of National Defence Academy for 155th Course and 117th Indian Naval Academy Course (INAC).',
+    examDateText: 'April 2027',
+    importantLinks: [
+      { label: 'UPSC OTR Portal', url: 'https://upsconline.nic.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-sbi-po-2026-27',
+    title: 'SBI Probationary Officer (PO) Recruitment 2026-27 — 2,000 Posts',
+    slug: 'sbi-po-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Banking',
+    organization: 'State Bank of India (SBI)',
+    postCount: 2000,
+    qualification: 'Graduation in Any Discipline from a Recognized University',
+    lastDate: '2026-12-15',
+    officialLink: 'https://sbi.co.in/web/careers',
+    state: 'All India',
+    examName: 'SBI PO 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Nov 2026',
+    isFeatured: true,
+    views: 310000,
+    createdAt: '2026-09-30T16:00:00Z',
+    updatedAt: '2026-10-01T12:00:00Z',
+    shortInfo:
+      'State Bank of India is releasing the official notification for recruitment of Probationary Officers (PO) for 2,000 vacancies across SBI administrative circles.',
+    importantLinks: [
+      { label: 'SBI Careers Portal', url: 'https://sbi.co.in/web/careers', highlight: true },
+    ],
+  },
+  {
+    id: 'job-ibps-clerk-xv-2026-27',
+    title: 'IBPS Clerk XV Recruitment 2026-27 — 6,128 Posts in 11 Public Sector Banks',
+    slug: 'ibps-clerk-xv-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Banking',
+    organization: 'Institute of Banking Personnel Selection (IBPS)',
+    postCount: 6128,
+    qualification: 'Graduation in Any Discipline + Proficiency in Local Language',
+    lastDate: '2027-01-20',
+    officialLink: 'https://www.ibps.in',
+    state: 'All India',
+    examName: 'IBPS Clerk XV',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 280000,
+    createdAt: '2026-09-30T17:00:00Z',
+    updatedAt: '2026-10-01T12:30:00Z',
+    shortInfo:
+      'IBPS Clerk XV recruitment for Customer Service Associates (Clerical Cadre) in participating banks including Bank of Baroda, Canara Bank, PNB, and Union Bank.',
+    importantLinks: [
+      { label: 'IBPS Official Portal', url: 'https://www.ibps.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-kvs-teaching-2026-27',
+    title: 'KVS Kendriya Vidyalaya PRT, TGT & PGT Recruitment 2026-27 — 13,404 Posts',
+    slug: 'kvs-teaching-prt-tgt-pgt-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Teaching',
+    organization: 'Kendriya Vidyalaya Sangathan (KVS)',
+    postCount: 13404,
+    qualification: '12th/D.El.Ed (PRT) / B.Ed + CTET Qualified (TGT) / Post Graduation + B.Ed (PGT)',
+    lastDate: '2027-02-15',
+    officialLink: 'https://kvsangathan.nic.in',
+    state: 'All India',
+    examName: 'KVS Direct Recruitment 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Jan 2027',
+    isFeatured: true,
+    views: 340000,
+    createdAt: '2026-09-30T18:00:00Z',
+    updatedAt: '2026-10-01T13:00:00Z',
+    shortInfo:
+      'Kendriya Vidyalaya Sangathan (KVS) upcoming recruitment drive for 13,404 Primary Teachers (PRT), Trained Graduate Teachers (TGT), and Post Graduate Teachers (PGT).',
+    importantLinks: [
+      { label: 'KVS Official Portal', url: 'https://kvsangathan.nic.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-nvs-teaching-2026-27',
+    title: 'NVS Navodaya Vidyalaya Samiti Teachers & Staff Recruitment 2026-27 — 7,500 Posts',
+    slug: 'nvs-navodaya-teachers-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Teaching',
+    organization: 'Navodaya Vidyalaya Samiti (NVS)',
+    postCount: 7500,
+    qualification: 'Graduation / Post Graduation + B.Ed & CTET Qualified',
+    lastDate: '2027-01-25',
+    officialLink: 'https://navodaya.gov.in',
+    state: 'All India',
+    examName: 'NVS Recruitment 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 210000,
+    createdAt: '2026-09-30T19:00:00Z',
+    updatedAt: '2026-10-01T13:30:00Z',
+    shortInfo:
+      'Navodaya Vidyalaya Samiti (NVS) upcoming drive for TGT, PGT, Miscellaneous category teachers and non-teaching personnel in residential Jawahar Navodaya Vidyalayas.',
+    importantLinks: [
+      { label: 'NVS Official Website', url: 'https://navodaya.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-ssc-mts-2026-27',
+    title: 'SSC Multi-Tasking Staff (MTS) & Havaldar (CBIC/CBN) 2026-27 — 9,583 Posts',
+    slug: 'ssc-mts-havaldar-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'SSC',
+    organization: 'Staff Selection Commission (SSC)',
+    postCount: 9583,
+    qualification: '10th (Matriculation) Exam Passed from Recognized Board',
+    lastDate: '2026-12-20',
+    officialLink: 'https://ssc.gov.in',
+    state: 'All India',
+    examName: 'SSC MTS 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Nov 2026',
+    isFeatured: true,
+    views: 275000,
+    createdAt: '2026-09-30T20:00:00Z',
+    updatedAt: '2026-10-01T14:00:00Z',
+    shortInfo:
+      'SSC upcoming cycle for Multi-Tasking (Non-Technical) Staff in Central Govt Ministries and Havaldar in Central Board of Indirect Taxes & Customs (CBIC) and Central Bureau of Narcotics (CBN).',
+    importantLinks: [
+      { label: 'SSC Official Portal', url: 'https://ssc.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-up-police-constable-2026-27',
+    title: 'UP Police Constable & Fireman Re-Exam & Recruitment 2026-27 — 60,244 Posts',
+    slug: 'up-police-constable-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Police',
+    organization: 'UP Police Recruitment & Promotion Board (UPPRPB)',
+    postCount: 60244,
+    qualification: '10+2 (Intermediate) Passed from Any Recognized Board',
+    lastDate: '2026-11-20',
+    officialLink: 'https://uppbpb.gov.in',
+    state: 'Uttar Pradesh',
+    examName: 'UP Police Constable 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Exam: Nov 2026',
+    isFeatured: true,
+    views: 780000,
+    createdAt: '2026-09-30T21:00:00Z',
+    updatedAt: '2026-10-01T14:30:00Z',
+    shortInfo:
+      'Uttar Pradesh Police Recruitment and Promotion Board (UPPRPB) historic recruitment for 60,244 Civil Police Constables across Uttar Pradesh.',
+    importantLinks: [
+      { label: 'UPPRPB Official Portal', url: 'https://uppbpb.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-bpsc-71st-cce-2026-27',
+    title: 'BPSC 71st Combined Competitive Examination (CCE) 2026-27 — 1,950 Posts',
+    slug: 'bpsc-71st-cce-prelims-exam-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'State PSC',
+    organization: 'Bihar Public Service Commission (BPSC)',
+    postCount: 1950,
+    qualification: 'Bachelor Degree in Any Stream from a Recognized University',
+    lastDate: '2027-01-10',
+    officialLink: 'https://www.bpsc.bih.nic.in',
+    state: 'Bihar',
+    examName: 'BPSC 71st CCE',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 320000,
+    createdAt: '2026-09-30T22:00:00Z',
+    updatedAt: '2026-10-01T15:00:00Z',
+    shortInfo:
+      'Bihar Public Service Commission (BPSC) 71st CCE for Deputy Collector, DSP, Revenue Officer, Block Panchayati Raj Officer, and other state administrative officers.',
+    importantLinks: [
+      { label: 'BPSC Official Website', url: 'https://www.bpsc.bih.nic.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-iaf-afcat-1-2027',
+    title: 'Indian Air Force AFCAT (01/2027) Flying & Ground Duty Technical/Non-Technical — 317 Posts',
+    slug: 'iaf-afcat-01-2027-recruitment',
+    category: Category.GOVT_JOB,
+    specification: 'Defence',
+    organization: 'Indian Air Force (IAF)',
+    postCount: 317,
+    qualification: '10+2 with 50% in Maths & Physics + Graduation / B.E. / B.Tech (Min 60%)',
+    lastDate: '2027-01-05',
+    officialLink: 'https://afcat.cdac.in',
+    state: 'All India',
+    examName: 'IAF AFCAT 01/2027',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Dec 2026',
+    isFeatured: true,
+    views: 195000,
+    createdAt: '2026-09-30T23:00:00Z',
+    updatedAt: '2026-10-01T15:30:00Z',
+    shortInfo:
+      'Air Force Common Admission Test (AFCAT 01/2027) for grant of Short Service Commission (SSC) in Flying and Ground Duty (Technical and Non-Technical) branches.',
+    importantLinks: [
+      { label: 'IAF AFCAT CDAC Portal', url: 'https://afcat.cdac.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-navy-agniveer-ssr-2026-27',
+    title: 'Indian Navy Agniveer (SSR & MR) 01/2027 Batch — 4,000 Posts',
+    slug: 'indian-navy-agniveer-ssr-mr-01-2027',
+    category: Category.GOVT_JOB,
+    specification: 'Defence',
+    organization: 'Indian Navy',
+    postCount: 4000,
+    qualification: '10+2 with Maths & Physics (SSR) / 10th Pass (MR)',
+    lastDate: '2026-12-15',
+    officialLink: 'https://www.joinindiannavy.gov.in',
+    state: 'All India',
+    examName: 'Indian Navy Agniveer 01/2027',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Nov 2026',
+    isFeatured: true,
+    views: 260000,
+    createdAt: '2026-10-01T00:00:00Z',
+    updatedAt: '2026-10-01T16:00:00Z',
+    shortInfo:
+      'Indian Navy invites applications from unmarried male and female candidates for enrolment as Agniveer (SSR) and Agniveer (MR) for 01/2027 batch.',
+    importantLinks: [
+      { label: 'Join Indian Navy Official Portal', url: 'https://www.joinindiannavy.gov.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-aiims-norcet-7-2026-27',
+    title: 'AIIMS Nursing Officer Recruitment Common Eligibility Test (NORCET 7) 2026-27 — 3,200 Posts',
+    slug: 'aiims-norcet-7-nursing-officer-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Medical',
+    organization: 'All India Institute of Medical Sciences (AIIMS New Delhi)',
+    postCount: 3200,
+    qualification: 'B.Sc (Hons.) Nursing / B.Sc Nursing OR Diploma in GNM + 2 Years Hospital Experience',
+    lastDate: '2026-10-28',
+    officialLink: 'https://aiimsexams.ac.in',
+    state: 'All India',
+    examName: 'AIIMS NORCET 7',
+    isActive: true,
+    isUpcoming: false,
+    isFeatured: true,
+    views: 175000,
+    createdAt: '2026-09-28T14:00:00Z',
+    updatedAt: '2026-10-01T16:30:00Z',
+    shortInfo:
+      'AIIMS New Delhi conducts NORCET-7 for recruitment of Nursing Officer (Group B) posts across AIIMS New Delhi and all other participating AIIMS across India.',
+    importantLinks: [
+      { label: 'AIIMS Exams Official Portal', url: 'https://aiimsexams.ac.in', highlight: true },
+    ],
+  },
+  {
+    id: 'job-isro-scientist-engineer-2026-27',
+    title: 'ISRO ICRB Scientist / Engineer (SC) Recruitment 2026-27 — 303 Posts',
+    slug: 'isro-scientist-engineer-sc-recruitment-2026-27',
+    category: Category.GOVT_JOB,
+    specification: 'Engineering',
+    organization: 'Indian Space Research Organisation (ISRO)',
+    postCount: 303,
+    qualification: 'B.E / B.Tech in Civil, Electrical, Mechanical, Electronics, Computer Science with Min 65% Marks',
+    lastDate: '2027-02-28',
+    officialLink: 'https://www.isro.gov.in',
+    state: 'All India',
+    examName: 'ISRO ICRB 2026-27',
+    isActive: true,
+    isUpcoming: true,
+    tentativeDate: 'Notification: Jan 2027',
+    isFeatured: true,
+    views: 185000,
+    createdAt: '2026-10-01T01:00:00Z',
+    updatedAt: '2026-10-01T17:00:00Z',
+    shortInfo:
+      'ISRO Centralised Recruitment Board (ICRB) announces recruitment of Scientist/Engineer SC in Level 10 of Pay Matrix across VSSC, URSC, SDSC SHAR, and LPSC.',
+    importantLinks: [
+      { label: 'ISRO Careers Official Website', url: 'https://www.isro.gov.in/Careers.html', highlight: true },
     ],
   },
 
@@ -885,65 +1468,47 @@ export const SEED_PRIVATE_EXAMS: (Exam & { eligibility?: string; nextExamWindow?
 
 // ─── Data Access Layer (Upstash Redis → Supabase PostgreSQL → Seed Enrichment) ─
 
-export async function getPortalItems(category?: Category, limit = 50): Promise<DetailedPortalItem[]> {
+export const ALL_CATALOG_ITEMS: DetailedPortalItem[] = [...SEED_ITEMS, ...EXTENDED_GOVT_JOBS]
+
+export async function getPortalItems(category?: Category, limit = 2000): Promise<DetailedPortalItem[]> {
   const cacheKey = `jobsetu:items:${category ?? 'ALL'}:${limit}`
   const cached = await redisGet<DetailedPortalItem[]>(cacheKey)
-  if (cached && cached.length > 0) return cached
+  if (cached && cached.length > 50) return cached
+
+  let result = category ? ALL_CATALOG_ITEMS.filter((i) => i.category === category) : ALL_CATALOG_ITEMS
 
   try {
-    let query = supabase
+    const { data, error } = await supabase
       .from('Job')
       .select('*')
       .eq('isActive', true)
       .order('createdAt', { ascending: false })
       .limit(limit)
 
-    if (category) {
-      query = query.eq('category', category)
-    }
-
-    const { data, error } = await query
     if (!error && data && data.length > 0) {
-      const mapped: DetailedPortalItem[] = data.map((row: Record<string, unknown>) => {
+      const dbSlugs = new Set(data.map((r: Record<string, unknown>) => String(r['slug'])))
+      const dbMapped = data.map((row: Record<string, unknown>) => {
         const slug = String(row['slug'])
-        const seedMatch = SEED_ITEMS.find((s) => s.slug === slug)
+        const match = ALL_CATALOG_ITEMS.find((s) => s.slug === slug)
         return {
-          ...seedMatch,
-          id: String(row['id']),
-          title: String(row['title']),
-          slug,
-          category: (row['category'] as Category) ?? Category.GOVT_JOB,
-          organization: String(row['organization'] ?? ''),
-          postCount: typeof row['postCount'] === 'number' ? row['postCount'] : seedMatch?.postCount,
-          qualification: row['qualification'] ? String(row['qualification']) : seedMatch?.qualification,
-          lastDate: row['lastDate'] ? String(row['lastDate']) : seedMatch?.lastDate,
-          officialLink: String(row['officialLink'] ?? seedMatch?.officialLink ?? '#'),
-          state: row['state'] ? String(row['state']) : seedMatch?.state,
-          examName: row['examName'] ? String(row['examName']) : seedMatch?.examName,
-          description: row['description'] ? String(row['description']) : seedMatch?.description,
-          shortInfo: seedMatch?.shortInfo ?? (row['description'] ? String(row['description']) : undefined),
-          isActive: Boolean(row['isActive'] ?? true),
-          isFeatured: Boolean(row['isFeatured'] ?? false),
-          views: Number(row['views'] ?? 0),
-          createdAt: String(row['createdAt'] ?? new Date().toISOString()),
-          updatedAt: String(row['updatedAt'] ?? new Date().toISOString()),
-        }
+          ...match,
+          ...row,
+          category: (row['category'] as Category) ?? match?.category ?? Category.GOVT_JOB,
+        } as DetailedPortalItem
       })
-
-      await redisSet(cacheKey, mapped, 300)
-      return mapped
+      const remaining = result.filter((i) => !dbSlugs.has(i.slug))
+      result = [...dbMapped, ...remaining]
+      if (category) {
+        result = result.filter((i) => i.category === category)
+      }
     }
   } catch {
-    // Fallback to seed data
+    // Fallback to catalog
   }
 
-  const fallback = (category
-    ? SEED_ITEMS.filter((item) => item.category === category)
-    : SEED_ITEMS
-  ).slice(0, limit)
-
-  await redisSet(cacheKey, fallback, 300)
-  return fallback
+  const finalItems = result.slice(0, limit)
+  await redisSet(cacheKey, finalItems, 300)
+  return finalItems
 }
 
 export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalItem | null> {
@@ -951,7 +1516,7 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
   const cached = await redisGet<DetailedPortalItem>(cacheKey)
   if (cached) return cached
 
-  const seedMatch = SEED_ITEMS.find((item) => item.slug === slug)
+  const match = ALL_CATALOG_ITEMS.find((item) => item.slug === slug)
 
   try {
     const { data, error } = await supabase
@@ -963,37 +1528,21 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
     if (!error && data) {
       const row = data as Record<string, unknown>
       const item: DetailedPortalItem = {
-        ...seedMatch,
-        id: String(row['id']),
-        title: String(row['title']),
-        slug: String(row['slug']),
-        category: (row['category'] as Category) ?? Category.GOVT_JOB,
-        organization: String(row['organization'] ?? ''),
-        postCount: typeof row['postCount'] === 'number' ? row['postCount'] : seedMatch?.postCount,
-        qualification: row['qualification'] ? String(row['qualification']) : seedMatch?.qualification,
-        lastDate: row['lastDate'] ? String(row['lastDate']) : seedMatch?.lastDate,
-        officialLink: String(row['officialLink'] ?? seedMatch?.officialLink ?? '#'),
-        state: row['state'] ? String(row['state']) : seedMatch?.state,
-        examName: row['examName'] ? String(row['examName']) : seedMatch?.examName,
-        description: row['description'] ? String(row['description']) : seedMatch?.description,
-        shortInfo: seedMatch?.shortInfo ?? (row['description'] ? String(row['description']) : undefined),
-        isActive: Boolean(row['isActive'] ?? true),
-        isFeatured: Boolean(row['isFeatured'] ?? false),
-        views: Number(row['views'] ?? 0),
-        createdAt: String(row['createdAt'] ?? new Date().toISOString()),
-        updatedAt: String(row['updatedAt'] ?? new Date().toISOString()),
-      }
+        ...match,
+        ...row,
+        category: (row['category'] as Category) ?? match?.category ?? Category.GOVT_JOB,
+      } as DetailedPortalItem
       await redisSet(cacheKey, item, 600)
       return item
     }
   } catch {
-    // Fallback to seed data
+    // Fallback
   }
 
-  if (seedMatch) {
-    await redisSet(cacheKey, seedMatch, 600)
+  if (match) {
+    await redisSet(cacheKey, match, 600)
   }
-  return seedMatch ?? null
+  return match ?? null
 }
 
 export async function getTopExamsList() {

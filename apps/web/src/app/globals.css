@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
-/* ─── JobSetu Design System — Teal & Earthy Palette ────────────────────── */
-/* Colors: #88BDBC · #254E58 · #112D32 · #4F4A41 · #6E6658               */
-/* Tailwind v4: CSS-first config                                            */
+/* ─── JobSetu Design System — Electric Blue Palette (Matched to Logo & Favicon) ── */
+/* Primary Brand Blue: #0A9FFC · Deep Blue: #0284c7 · Dark Navy: #0f172a         */
+/* Tailwind v4: CSS-first config                                                   */
 
 @theme {
   /* ── Brand Core ── */
-  --color-brand-darkest:  #112D32;  /* deepest teal — hero text, board headers */
-  --color-brand-dark:     #254E58;  /* primary teal — buttons, nav active      */
-  --color-brand-teal:     #88BDBC;  /* light teal   — accents, highlights      */
-  --color-brand-brown:    #4F4A41;  /* dark earth   — body text                */
-  --color-brand-sand:     #6E6658;  /* mid earth    — muted / secondary text   */
+  --color-brand-blue:       #0A9FFC;  /* vibrant electric sky blue from logo/favicon */
+  --color-brand-blue-hover: #008be3;  /* slightly deeper blue for button hover       */
+  --color-brand-blue-dark:  #0284c7;  /* dark cyan / blue for rich text              */
+  --color-brand-blue-light: #e0f2fe;  /* soft blue background tint                   */
+  --color-brand-blue-ghost: #f0f9ff;  /* ultra light blue canvas tint                */
 
-  /* ── Backwards-compat aliases ── */
-  --color-brand-black:    #112D32;
-  --color-brand-muted:    #4F4A41;
-  --color-brand-border:   #d1dfe0;
-  --color-brand-surface:  #ffffff;
-  --color-brand-canvas:   #f4f8f8;  /* very faint teal tint on page bg */
-  --color-brand-light:    #e8f2f2;  /* light teal surface               */
+  /* ── Neutral Tones ── */
+  --color-brand-darkest:    #0f172a;  /* slate-900 / dark navy for high readability  */
+  --color-brand-dark:       #1e293b;  /* slate-800 for secondary headings            */
+  --color-brand-muted:      #64748b;  /* slate-500 for muted metadata                */
+  --color-brand-border:     #e2e8f0;  /* clean slate-200 border                      */
+  --color-brand-surface:    #ffffff;
+  --color-brand-canvas:     #f8fafc;  /* modern crisp off-white canvas               */
 
   /* ── Semantic Category Colors ── */
-  --color-govt:    #254E58;
-  --color-private: #4F4A41;
-  --color-result:  #be123c;
-  --color-admit:   #0369a1;
-  --color-exam:    #b45309;
+  --color-govt:    #0A9FFC;
+  --color-private: #6366f1;
+  --color-result:  #e11d48;
+  --color-admit:   #0284c7;
+  --color-exam:    #d97706;
 
   /* ── Typography ── */
   --font-heading: 'Jost', system-ui, -apple-system, sans-serif;
@@ -34,7 +34,7 @@
 
   /* ── Shape & Shadow ── */
   --radius-card:  0.75rem;
-  --shadow-card:  0 1px 3px 0 rgb(17 45 50 / 0.08), 0 1px 2px -1px rgb(17 45 50 / 0.06);
+  --shadow-card:  0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.04);
 }
 
 /* ─── Marquee Animation (Breaking Ticker) ───────────────────────────────── */
@@ -74,8 +74,8 @@
 
   body {
     font-family: 'Jost', system-ui, -apple-system, sans-serif;
-    background-color: #f4f8f8;
-    color: #112D32;
+    background-color: #ffffff;
+    color: #0f172a;
     line-height: 1.6;
     min-height: 100%;
     overflow-x: hidden;
@@ -86,7 +86,7 @@
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.015em;
-    color: #112D32;
+    color: #0f172a;
   }
 
   a {
@@ -106,42 +106,52 @@
 
 @layer components {
 
+  /* Job Row item — Clean flat row without boxed card background */
+  .job-row {
+    background: transparent;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.15s ease-in-out;
+  }
+  .job-row:hover {
+    background-color: #f0f9ff;
+  }
+
   /* Card */
   .job-card {
     background: #ffffff;
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
-    border: 1px solid #d1dfe0;
+    border: 1px solid #e2e8f0;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .job-card:hover {
-    box-shadow: 0 10px 25px -5px rgb(17 45 50 / 0.12), 0 4px 10px -6px rgb(17 45 50 / 0.08);
-    border-color: #254E58;
+    box-shadow: 0 10px 25px -5px rgb(10 159 252 / 0.12), 0 4px 10px -6px rgb(10 159 252 / 0.08);
+    border-color: #0A9FFC;
     transform: translateY(-2px);
   }
 
   /* Category Badges */
   .badge-govt {
-    background: #e8f2f2;
-    color: #254E58;
-    border: 1px solid #88BDBC;
+    background: #e0f2fe;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
   .badge-private {
-    background: #efede9;
-    color: #4F4A41;
-    border: 1px solid #c9c3b8;
+    background: #eef2ff;
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 9999px;
   }
   .badge-result {
-    background: #fff1f2;
-    color: #be123c;
+    background: #ffe4e6;
+    color: #e11d48;
     border: 1px solid #fecdd3;
     font-size: 0.75rem;
     font-weight: 600;
@@ -149,9 +159,9 @@
     border-radius: 9999px;
   }
   .badge-admit {
-    background: #e8f2f2;
-    color: #112D32;
-    border: 1px solid #88BDBC;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.15rem 0.6rem;
@@ -159,7 +169,7 @@
   }
   .badge-exam {
     background: #fffbeb;
-    color: #b45309;
+    color: #d97706;
     border: 1px solid #fde68a;
     font-size: 0.75rem;
     font-weight: 600;
@@ -169,47 +179,46 @@
 
   /* Buttons */
   .btn-primary {
-    background: #254E58;
+    background: #0A9FFC;
     color: #ffffff;
     font-weight: 600;
-    padding: 0.625rem 1.35rem;
-    border-radius: 0.625rem;
-    border: 1px solid #254E58;
+    padding: 0.5rem 1.15rem;
+    border-radius: 0.5rem;
+    border: 1px solid #0A9FFC;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
   .btn-primary:hover {
-    background: #112D32;
-    border-color: #112D32;
+    background: #008be3;
+    border-color: #008be3;
   }
 
   .btn-outline {
     background: #ffffff;
-    color: #254E58;
+    color: #0A9FFC;
     font-weight: 600;
-    padding: 0.625rem 1.35rem;
-    border-radius: 0.625rem;
-    border: 1.5px solid #254E58;
+    padding: 0.5rem 1.15rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid #0A9FFC;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
   .btn-outline:hover {
-    background: #254E58;
+    background: #0A9FFC;
     color: #ffffff;
-    border-color: #254E58;
   }
 
   /* Container */
   .container-main {
-    max-width: 1240px;
+    max-width: 1320px;
     margin: 0 auto;
     padding: 0 1rem;
   }
