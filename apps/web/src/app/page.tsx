@@ -10,7 +10,9 @@ export const revalidate = 120
 
 export default async function HomePage() {
   const allItems = await getPortalItems(undefined, 2000)
-  const govtJobs = allItems.filter((i) => i.category === Category.GOVT_JOB)
+  const govtJobs = allItems.filter(
+    (i) => i.category === Category.GOVT_JOB && i.id !== 'job-daily-meditation-crack-exams'
+  )
   const results = allItems.filter((i) => i.category === Category.RESULT)
   const admitCards = allItems.filter((i) => i.category === Category.ADMIT_CARD)
   const answerKeys = allItems.filter((i) => i.category === Category.ANSWER_KEY)
