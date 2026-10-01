@@ -201,7 +201,7 @@ export const SEED_ITEMS: DetailedPortalItem[] = [
     category: Category.GOVT_JOB,
     organization: 'Uttar Pradesh Public Service Commission (UPPSC)',
     postCount: 620,
-    qualification: 'Bachelor Degree in Any Stream + OTR Required',
+    qualification: 'Bachelor Degree in Any Stream from any Recogonised University/College in India',
     lastDate: '2026-11-02',
     officialLink: 'https://uppsc.up.nic.in',
     state: 'Uttar Pradesh',
@@ -1515,7 +1515,13 @@ export async function getPortalItems(category?: Category, limit = 2000): Promise
 export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalItem | null> {
   const cacheKey = `jobsetu:item:${slug}`
   const cached = await redisGet<DetailedPortalItem>(cacheKey)
-  if (cached) return cached
+  if (cached) {
+    if (cached.qualification && cached.qualification.includes('OTR Required')) {
+      cached.qualification = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+      await redisSet(cacheKey, cached, 600)
+    }
+    return cached
+  }
 
   const match = ALL_CATALOG_ITEMS.find((item) => item.slug === slug)
 
@@ -1528,9 +1534,15 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
 
     if (!error && data) {
       const row = data as Record<string, unknown>
+      let qual = (match?.qualification) ?? (row['qualification'] as string)
+      if (qual && qual.includes('OTR Required')) {
+        qual = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+        supabase.from('Job').update({ qualification: qual }).eq('slug', slug).then(() => {})
+      }
       const item: DetailedPortalItem = {
         ...match,
         ...row,
+        qualification: qual,
         category: (row['category'] as Category) ?? match?.category ?? Category.GOVT_JOB,
       } as DetailedPortalItem
       await redisSet(cacheKey, item, 600)
@@ -1541,6 +1553,9 @@ export async function getPortalItemBySlug(slug: string): Promise<DetailedPortalI
   }
 
   if (match) {
+    if (match.qualification && match.qualification.includes('OTR Required')) {
+      match.qualification = 'Bachelor Degree in Any Stream from any Recogonised University/College in India'
+    }
     await redisSet(cacheKey, match, 600)
   }
   return match ?? null

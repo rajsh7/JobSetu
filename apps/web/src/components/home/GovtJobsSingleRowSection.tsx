@@ -20,6 +20,8 @@ import {
   Stethoscope,
   Search,
   Archive,
+  Calendar,
+  Sparkles,
 } from 'lucide-react'
 import { type DetailedPortalItem } from '@/lib/data'
 
@@ -149,6 +151,11 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
     [jobs]
   )
 
+  // Dedicated list of upcoming jobs for the right-side section
+  const upcomingJobs = useMemo(() => {
+    return jobs.filter((j) => j.isUpcoming).slice(0, 15)
+  }, [jobs])
+
   const displayedJobs = filteredJobs.slice(0, visibleCount)
 
   const handleLoadMore = () => {
@@ -161,11 +168,11 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
 
   return (
     <div className="w-full">
-      {/* 2-Column Compact Layout: Left Spec Sidebar + Wide Right Stream (NO background card) */}
-      <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 w-full">
+      {/* 3-Column Layout: Left Spec Sidebar + Middle Vacancies Stream + Right Upcoming Jobs */}
+      <div className="flex flex-col lg:flex-row gap-3.5 xl:gap-4 w-full">
 
-        {/* ── LEFT SIDEBAR: Clean, Flat, Compact Category Navigation ───── */}
-        <aside className="w-full lg:w-[200px] shrink-0">
+        {/* ── LEFT SIDEBAR: Compact Category Navigation (No background cards) ── */}
+        <aside className="w-full lg:w-[185px] xl:w-[195px] shrink-0">
           <div className="sticky top-16 pt-0.5">
             <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -220,9 +227,9 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
           </div>
         </aside>
 
-        {/* ── RIGHT CONTENT: Compact, Flat Vacancies Stream (NO background card) ── */}
+        {/* ── MIDDLE CONTENT: Single Row Vacancies Stream (No background cards) ── */}
         <div className="flex-1 min-w-0 space-y-1">
-          {/* Top Status Tabs + Search Bar (Clean & Compact) */}
+          {/* Top Status Tabs + Search Bar */}
           <div className="flex flex-col gap-2 pb-2.5 border-b border-slate-200">
             {/* Status Tabs */}
             <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -300,7 +307,7 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                     setSearchQuery(e.target.value)
                     setVisibleCount(INITIAL_PAGE_SIZE)
                   }}
-                  placeholder="Quick search across 1,000+ vacancies (e.g. CGL, Constable, Railway, Bank, Teacher)..."
+                  placeholder="Search jobs by Exam, Department, Post (e.g. CGL, Constable, Railway, Bank, Teacher)..."
                   className="w-full rounded-lg border border-slate-200 bg-slate-50/50 py-1.5 pl-8 pr-3 text-xs sm:text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-[#0A9FFC] focus:bg-white transition-all"
                 />
               </div>
@@ -330,7 +337,7 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
             </div>
           </div>
 
-          {/* Vacancy Rows List (Flat, Compact, NO background cards) */}
+          {/* Vacancy Rows (Flat, Plain Text, NO background cards, Magenta Titles) */}
           {filteredJobs.length === 0 ? (
             <div className="py-12 text-center text-slate-500">
               <p className="font-bold text-sm text-slate-700">No vacancies found matching your current filter.</p>
@@ -359,7 +366,7 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                   >
                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3.5">
 
-                      {/* Left Block: Org + Category + Title + Qualification (Compact & Visible) */}
+                      {/* Left Block: Org + Category + Title in MAGENTA + Qualification */}
                       <div className="flex-1 min-w-0 space-y-0.5">
                         {/* Meta Tags Line */}
                         <div className="flex flex-wrap items-center gap-1.5 text-xs">
@@ -398,14 +405,14 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
                           )}
                         </div>
 
-                        {/* Title */}
+                        {/* Title in MAGENTA Colour Text (as explicitly requested) */}
                         <Link href={`/latest-jobs/${job.slug}`} className="block group/title">
-                          <h2 className="text-sm sm:text-[15px] font-bold text-slate-900 group-hover/title:text-[#0A9FFC] transition-colors leading-snug">
+                          <h2 className="text-sm sm:text-[15px] font-bold text-[#c026d3] hover:text-[#0A9FFC] transition-colors leading-snug">
                             {job.title}
                           </h2>
                         </Link>
 
-                        {/* Qualification Pill (Added directly on row & visible to students!) */}
+                        {/* Qualification Pill */}
                         {job.qualification && (
                           <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 pt-0.5">
                             <span className="inline-flex items-center gap-1 text-[#0284c7] font-bold">
@@ -505,6 +512,79 @@ export function GovtJobsSingleRowSection({ jobs }: Props) {
             </div>
           )}
         </div>
+
+        {/* ── RIGHT COLUMN: UPCOMING JOBS (Requested by User) ───────────── */}
+        <aside className="w-full lg:w-[260px] xl:w-[280px] shrink-0 pt-0.5">
+          <div className="sticky top-16">
+            {/* Header */}
+            <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <Clock size={13} className="text-amber-600" />
+                <span>Upcoming Jobs</span>
+              </h2>
+              <button
+                onClick={() => {
+                  setStatusFilter('upcoming')
+                  setVisibleCount(INITIAL_PAGE_SIZE)
+                }}
+                className="text-[11px] font-bold text-amber-700 hover:underline cursor-pointer"
+              >
+                {upcomingCount} Total →
+              </button>
+            </div>
+
+            {/* Upcoming Jobs List (Plain Text, Flat Dividers, No Background Cards) */}
+            <div className="divide-y divide-slate-100">
+              {upcomingJobs.map((item) => (
+                <div key={item.id} className="py-2.5 hover:bg-amber-50/40 px-1 transition-colors">
+                  <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <span className="font-bold text-slate-500 truncate max-w-[170px]">
+                      {item.organization}
+                    </span>
+                    {item.postCount && (
+                      <span className="text-[10px] font-black text-[#0284c7]">
+                        {item.postCount.toLocaleString('en-IN')} Posts
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title in Magenta */}
+                  <Link
+                    href={`/latest-jobs/${item.slug}`}
+                    className="block text-xs font-bold text-[#c026d3] hover:text-[#0A9FFC] leading-snug mt-0.5 line-clamp-2"
+                  >
+                    {item.title}
+                  </Link>
+
+                  {/* Date & Quick Action */}
+                  <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                    <span className="font-semibold text-amber-700">
+                      📌 {item.tentativeDate || 'Expected 2026-27'}
+                    </span>
+                    <Link
+                      href={`/latest-jobs/${item.slug}`}
+                      className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                    >
+                      <span>Details</span>
+                      <ArrowUpRight size={10} />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Filter to Upcoming Button */}
+            <button
+              onClick={() => {
+                setStatusFilter('upcoming')
+                setVisibleCount(INITIAL_PAGE_SIZE)
+              }}
+              className="mt-3 w-full py-1.5 px-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 text-xs font-bold text-center hover:bg-amber-100 transition-colors cursor-pointer"
+            >
+              View All {upcomingCount} Upcoming Vacancies →
+            </button>
+          </div>
+        </aside>
 
       </div>
     </div>
