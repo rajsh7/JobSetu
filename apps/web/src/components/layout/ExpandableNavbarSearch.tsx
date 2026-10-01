@@ -106,7 +106,7 @@ export function ExpandableNavbarSearch() {
         <div
           className={`flex items-center rounded-xl border transition-all duration-200 ${
             isExpanded
-              ? 'w-[280px] sm:w-[380px] md:w-[440px] border-[#0A9FFC] bg-white shadow-md ring-2 ring-sky-100'
+              ? 'w-[280px] sm:w-[420px] md:w-[520px] lg:w-[620px] border-[#0A9FFC] bg-white shadow-md ring-2 ring-sky-100'
               : 'w-[160px] sm:w-[200px] border-slate-200 bg-slate-50/80 hover:border-slate-300 hover:bg-white'
           }`}
         >
@@ -150,7 +150,7 @@ export function ExpandableNavbarSearch() {
 
       {/* Live Search Dropdown Popup */}
       {isExpanded && query.trim().length >= 2 && results && (
-        <div className="absolute right-0 top-full mt-2 w-[320px] sm:w-[440px] md:w-[500px] rounded-xl border border-slate-200 bg-white shadow-xl max-h-[460px] overflow-y-auto no-scrollbar p-3 space-y-3">
+        <div className="absolute right-0 top-full mt-2 w-[320px] sm:w-[460px] md:w-[560px] lg:w-[640px] rounded-xl border border-slate-200 bg-white shadow-xl max-h-[480px] overflow-y-auto no-scrollbar p-3 space-y-3">
           
           {/* Section: Matching Govt Jobs */}
           {jobsList.length > 0 && (

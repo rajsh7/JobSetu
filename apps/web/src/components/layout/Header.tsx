@@ -45,8 +45,8 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
+        {/* Right Actions (Expands generously to the right) */}
+        <div className="flex items-center gap-2.5 justify-end flex-1 max-w-[640px] ml-4">
           <ExpandableNavbarSearch />
         </div>
       </div>

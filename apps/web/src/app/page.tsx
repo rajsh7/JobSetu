@@ -12,6 +12,7 @@ export default async function HomePage() {
   const allItems = await getPortalItems(undefined, 2000)
   const govtJobs = allItems.filter((i) => i.category === Category.GOVT_JOB)
   const results = allItems.filter((i) => i.category === Category.RESULT)
+  const admitCards = allItems.filter((i) => i.category === Category.ADMIT_CARD)
 
   return (
     <>
@@ -21,7 +22,7 @@ export default async function HomePage() {
 
       {/* ── ONLY 1 MAIN SECTION — Centered Layout with clearance from navbar ── */}
       <main className="min-h-[calc(100dvh-180px)] bg-white pt-5 pb-14 px-3 sm:px-4 lg:px-6 w-full flex justify-center">
-        <GovtJobsSingleRowSection jobs={govtJobs} results={results} />
+        <GovtJobsSingleRowSection jobs={govtJobs} results={results} admitCards={admitCards} />
       </main>
 
       <Footer />
