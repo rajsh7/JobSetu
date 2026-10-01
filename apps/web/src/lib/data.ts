@@ -31,6 +31,7 @@ export interface DetailedPortalItem extends Job {
   specification?: string
   isUpcoming?: boolean
   tentativeDate?: string
+  eligibility?: string
 }
 
 // ─── Realistic 2026 Indian Sarkari & Career Portal Seed Data ─────────────────
