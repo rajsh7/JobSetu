@@ -588,11 +588,15 @@ export function GovtJobsSingleRowSection({
 
         {/* ── COLUMN 2 (MIDDLE): Compact Stream for Active Govt Vacancies (Natural Height) ── */}
         <div className="w-full lg:max-w-[460px] xl:max-w-[500px] 2xl:max-w-[540px] flex-1 min-w-0 space-y-1 border border-black rounded-lg p-2.5 sm:p-3 bg-white">
-          {/* Subtle Category Header */}
-          <div id="vacancies-stream-top" className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5 scroll-mt-28">
+          {/* Category Header */}
+          <div
+            id="vacancies-stream-top"
+            className="mb-2.5 flex items-center justify-between px-2.5 py-2 -mx-2.5 -mt-2.5 sm:-mx-3 sm:-mt-3 rounded-t-[7px] text-white scroll-mt-28"
+            style={{ backgroundColor: '#A91103' }}
+          >
             <div className="flex items-center gap-2 flex-wrap min-w-0">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <span className="h-3 w-1 rounded-full bg-[#0A9FFC]" />
+              <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                <Briefcase size={13} className="text-white" />
                 <span>
                   {selectedSpec === 'all'
                     ? 'Latest Govt Vacancies'
@@ -600,14 +604,14 @@ export function GovtJobsSingleRowSection({
                 </span>
               </h2>
               {selectedState !== 'all' && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold px-2 py-0.5">
+                <span className="inline-flex items-center gap-1 rounded bg-white/20 text-white text-[10px] font-bold px-1.5 py-0.5">
                   <span>📍 {STATE_OPTIONS.find((s) => s.id === selectedState)?.label}</span>
                   <button
                     onClick={() => {
                       setSelectedState('all')
                       setCurrentPage(1)
                     }}
-                    className="hover:text-purple-950 font-black cursor-pointer ml-0.5"
+                    className="hover:text-white/80 font-black cursor-pointer ml-0.5"
                     title="Clear State Filter"
                   >
                     ×
@@ -615,7 +619,7 @@ export function GovtJobsSingleRowSection({
                 </span>
               )}
             </div>
-            <span className="text-[11px] font-bold text-[#0A9FFC] shrink-0">
+            <span className="text-[11px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5 shrink-0">
               {filteredJobs.length.toLocaleString('en-IN')} Active
             </span>
           </div>
@@ -848,12 +852,15 @@ export function GovtJobsSingleRowSection({
             
             {/* ── SECTION 1: RESULTS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Award size={13} className="text-emerald-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#D30047' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Award size={13} className="text-white" />
                   <span>Results</span>
                 </h2>
-                <Link href="/results" className="text-[11px] font-bold text-emerald-700 hover:underline">
+                <Link href="/results" className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
                   {results.length.toLocaleString('en-IN')} Total
                 </Link>
               </div>
@@ -905,12 +912,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 2: ANSWER KEY BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Key size={13} className="text-amber-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#9D2237' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Key size={13} className="text-white" />
                   <span>Answer Key</span>
                 </h2>
-                <span className="text-[11px] font-bold text-amber-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {answerKeysList.length} Active
                 </span>
               </div>
@@ -963,12 +973,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 3: 10TH / ITI JOBS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Wrench size={13} className="text-teal-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#BC2625' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Wrench size={13} className="text-white" />
                   <span>10th / ITI Jobs</span>
                 </h2>
-                <span className="text-[11px] font-bold text-teal-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {tenthItiList.length} Active
                 </span>
               </div>
@@ -1017,12 +1030,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 4: CLOSED JOBS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Archive size={13} className="text-slate-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#820000' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Archive size={13} className="text-white" />
                   <span>Closed Jobs</span>
                 </h2>
-                <span className="text-[11px] font-bold text-slate-500">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {closedCount} Archive
                 </span>
               </div>
@@ -1078,12 +1094,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 1: ADMIT CARDS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <GraduationCap size={13} className="text-sky-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#CA3433' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <GraduationCap size={13} className="text-white" />
                   <span>Admit Cards</span>
                 </h2>
-                <Link href="/admit-cards" className="text-[11px] font-bold text-sky-700 hover:underline">
+                <Link href="/admit-cards" className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
                   {admitCards.length.toLocaleString('en-IN')} Total
                 </Link>
               </div>
@@ -1135,12 +1154,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 2: ADMISSION BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <School size={13} className="text-rose-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#AE081E' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <School size={13} className="text-white" />
                   <span>Admission</span>
                 </h2>
-                <span className="text-[11px] font-bold text-rose-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {admissionsList.length} Open
                 </span>
               </div>
@@ -1193,12 +1215,15 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 3: OUTSOURCING JOBS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Users size={13} className="text-cyan-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#6E122B' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Users size={13} className="text-white" />
                   <span>Outsourcing Jobs</span>
                 </h2>
-                <span className="text-[11px] font-bold text-cyan-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {outsourcingList.length} Open
                 </span>
               </div>
@@ -1252,64 +1277,17 @@ export function GovtJobsSingleRowSection({
              ═════════════════════════════════════════════════════════════════════ */}
           <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 space-y-3">
 
-            {/* ── SECTION 1: UPCOMING JOBS BOX ── */}
+            {/* ── SECTION 1: SYLLABUS BOX (Swapped to Top) ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Clock size={13} className="text-orange-600" />
-                  <span>Upcoming Jobs</span>
-                </h2>
-                <span className="text-[11px] font-bold text-orange-700">
-                  {upcomingCount} Total
-                </span>
-              </div>
-
-              <div className="divide-y divide-slate-100">
-                {upcomingJobs.map((item) => (
-                  <div key={item.id} className="py-2 hover:bg-orange-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
-                        {item.organization}
-                      </span>
-                      {item.postCount && (
-                        <span className="text-[10px] font-black text-[#0284c7]">
-                          {item.postCount.toLocaleString('en-IN')} Posts
-                        </span>
-                      )}
-                    </div>
-
-                    <Link
-                      href={`/latest-jobs/${item.slug}`}
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
-                    >
-                      {item.title}
-                    </Link>
-
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="font-semibold text-orange-700 text-[10px]">
-                        📌 {item.tentativeDate || 'Expected 2026-27'}
-                      </span>
-                      <Link
-                        href={`/latest-jobs/${item.slug}`}
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
-                      >
-                        <span>Details</span>
-                        <ArrowUpRight size={10} />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── SECTION 2: SYLLABUS BOX ── */}
-            <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <FileText size={13} className="text-purple-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#9F2A32' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <FileText size={13} className="text-white" />
                   <span>Syllabus</span>
                 </h2>
-                <span className="text-[11px] font-bold text-purple-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {syllabusesList.length} Scheme
                 </span>
               </div>
@@ -1354,14 +1332,70 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
+            {/* ── SECTION 2: UPCOMING JOBS BOX (Swapped below Syllabus) ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#DE4D4D' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Clock size={13} className="text-white" />
+                  <span>Upcoming Jobs</span>
+                </h2>
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                  {upcomingCount} Total
+                </span>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {upcomingJobs.map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-orange-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
+                        {item.organization}
+                      </span>
+                      {item.postCount && (
+                        <span className="text-[10px] font-black text-[#0284c7]">
+                          {item.postCount.toLocaleString('en-IN')} Posts
+                        </span>
+                      )}
+                    </div>
+
+                    <Link
+                      href={`/latest-jobs/${item.slug}`}
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {item.title}
+                    </Link>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="font-semibold text-orange-700 text-[10px]">
+                        📌 {item.tentativeDate || 'Expected 2026-27'}
+                      </span>
+                      <Link
+                        href={`/latest-jobs/${item.slug}`}
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Details</span>
+                        <ArrowUpRight size={10} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* ── SECTION 3: DOCUMENTS & CERTIFICATES BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-indigo-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#CC4A4C' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-white" />
                   <span>Documents</span>
                 </h2>
-                <span className="text-[11px] font-bold text-indigo-700">
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {documentsList.length} Proforma
                 </span>
               </div>
@@ -1408,13 +1442,16 @@ export function GovtJobsSingleRowSection({
 
             {/* ── SECTION 4: CURRENT AFFAIRS & NEWS BOX ── */}
             <div className="border border-black rounded-lg p-2.5 bg-white">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Newspaper size={13} className="text-rose-600" />
+              <div
+                className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
+                style={{ backgroundColor: '#B41F3F' }}
+              >
+                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Newspaper size={13} className="text-white" />
                   <span>Current Affairs &amp; News</span>
                 </h2>
-                <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.2 rounded inline-flex items-center gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
+                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5 inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                   Live
                 </span>
               </div>
