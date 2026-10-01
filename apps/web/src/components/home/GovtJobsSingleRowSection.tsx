@@ -439,7 +439,7 @@ export function GovtJobsSingleRowSection({
   }
 
   return (
-    <div className="w-full max-w-[1640px] 2xl:max-w-[1760px] mx-auto">
+    <div className="w-full max-w-[1380px] xl:max-w-[1440px] 2xl:max-w-[1500px] mx-auto">
       {/* ── TOP TRENDING HIGHLIGHTS GRID (Above all columns) ── */}
       <div className="mb-4 sm:mb-5">
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-2.5">
@@ -577,7 +577,7 @@ export function GovtJobsSingleRowSection({
         </aside>
 
         {/* ── COLUMN 2 (MIDDLE): Compact Stream for Active Govt Vacancies (Natural Height) ── */}
-        <div className="w-full lg:max-w-[430px] xl:max-w-[470px] 2xl:max-w-[500px] flex-1 min-w-0 space-y-1">
+        <div className="w-full lg:max-w-[460px] xl:max-w-[500px] 2xl:max-w-[540px] flex-1 min-w-0 space-y-1">
           {/* Subtle Category Header */}
           <div id="vacancies-stream-top" className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5 scroll-mt-28">
             <div className="flex items-center gap-2 flex-wrap min-w-0">
@@ -940,12 +940,120 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
+            {/* ── SECTION 3: 10TH / ITI JOBS (Below Answer Key) ── */}
+            <div className="pt-2 border-t border-slate-200">
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Wrench size={13} className="text-teal-600" />
+                  <span>10th / ITI Jobs</span>
+                </h2>
+                <span className="text-[11px] font-bold text-teal-700">
+                  {tenthItiList.length} Active
+                </span>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {tenthItiList.slice(0, 6).map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-teal-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
+                        {item.organization}
+                      </span>
+                      {item.postCount && (
+                        <span className="text-[10px] font-bold text-teal-700 bg-teal-50 px-1.5 py-0.2 rounded">
+                          {item.postCount.toLocaleString('en-IN')} Posts
+                        </span>
+                      )}
+                    </div>
+
+                    <a
+                      href={item.officialLink || `/latest-jobs/${item.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {item.title}
+                    </a>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="text-[10px] text-slate-400">
+                        {item.lastDate ? `Till ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}` : '10th / ITI Pass'}
+                      </span>
+                      <a
+                        href={item.officialLink || `/latest-jobs/${item.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Apply</span>
+                        <ArrowUpRight size={10} />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── SECTION 4: CLOSED JOBS (Below 10th/ITI Jobs in Column 1) ── */}
+            <div className="pt-2 border-t border-slate-200">
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Archive size={13} className="text-slate-600" />
+                  <span>Closed Jobs</span>
+                </h2>
+                <span className="text-[11px] font-bold text-slate-500">
+                  {closedCount} Archive
+                </span>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {closedJobs.slice(0, 6).map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-slate-50 px-1 transition-colors opacity-85 hover:opacity-100">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-semibold text-slate-500 truncate max-w-[145px]">
+                        {item.organization}
+                      </span>
+                      <span className="text-[9px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded">
+                        Closed
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/latest-jobs/${item.slug}`}
+                      className="block text-xs font-semibold leading-snug mt-0.5 line-clamp-2 text-slate-700 hover:text-[#7c3aed] hover:underline"
+                    >
+                      {item.title}
+                    </Link>
+
+                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-400">
+                      <span>
+                        {item.lastDate ? `Closed: ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' })}` : 'Archive Notice'}
+                      </span>
+                      <Link
+                        href={`/latest-jobs/${item.slug}`}
+                        className="font-bold text-slate-500 hover:text-slate-800 flex items-center gap-0.5"
+                      >
+                        <span>Notice</span>
+                        <ArrowUpRight size={10} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 border-t border-slate-100">
+                <span className="block text-center text-xs font-bold text-slate-500 py-1 cursor-default">
+                  Past Recruitment Archive ({closedCount})
+                </span>
+              </div>
+            </div>
+
           </aside>
 
           {/* ═════════════════════════════════════════════════════════════════════
-              RIGHT COLUMN 2: Admit Cards & Admission
+              RIGHT COLUMN 2: Admit Cards, Admission & Outsourcing Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 pt-0.5 space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 pt-0.5 space-y-4">
 
             {/* ── SECTION 1: ADMIT CARDS ── */}
             <div>
@@ -1062,12 +1170,66 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
+            {/* ── SECTION 3: OUTSOURCING JOBS (Below Admission) ── */}
+            <div className="pt-2 border-t border-slate-200">
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Users size={13} className="text-cyan-600" />
+                  <span>Outsourcing Jobs</span>
+                </h2>
+                <span className="text-[11px] font-bold text-cyan-700">
+                  {outsourcingList.length} Open
+                </span>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {outsourcingList.slice(0, 6).map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-cyan-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
+                        {item.organization}
+                      </span>
+                      {item.postCount && (
+                        <span className="text-[10px] font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.2 rounded">
+                          {item.postCount.toLocaleString('en-IN')}
+                        </span>
+                      )}
+                    </div>
+
+                    <a
+                      href={item.officialLink || `/latest-jobs/${item.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {item.title}
+                    </a>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="text-[10px] text-cyan-700 font-semibold">
+                        Samvida / Outsourcing
+                      </span>
+                      <a
+                        href={item.officialLink || `/latest-jobs/${item.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Details</span>
+                        <ArrowUpRight size={10} />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </aside>
 
           {/* ═════════════════════════════════════════════════════════════════════
               RIGHT COLUMN 3: Upcoming Jobs, Syllabus & Documents
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 pt-0.5 space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 pt-0.5 space-y-4">
 
             {/* ── SECTION 1: UPCOMING JOBS ── */}
             <div>
@@ -1220,175 +1382,6 @@ export function GovtJobsSingleRowSection({
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-          </aside>
-
-          {/* ═════════════════════════════════════════════════════════════════════
-              RIGHT COLUMN 4: 10th/ITI Jobs, Outsourcing Jobs & Closed Jobs
-             ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 pt-0.5 space-y-4">
-
-            {/* ── SECTION 1: 10TH / ITI JOBS ── */}
-            <div>
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Wrench size={13} className="text-teal-600" />
-                  <span>10th / ITI Jobs</span>
-                </h2>
-                <span className="text-[11px] font-bold text-teal-700">
-                  {tenthItiList.length} Active
-                </span>
-              </div>
-
-              <div className="divide-y divide-slate-100">
-                {tenthItiList.slice(0, 6).map((item) => (
-                  <div key={item.id} className="py-2 hover:bg-teal-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
-                        {item.organization}
-                      </span>
-                      {item.postCount && (
-                        <span className="text-[10px] font-bold text-teal-700 bg-teal-50 px-1.5 py-0.2 rounded">
-                          {item.postCount.toLocaleString('en-IN')} Posts
-                        </span>
-                      )}
-                    </div>
-
-                    <a
-                      href={item.officialLink || `/latest-jobs/${item.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
-                    >
-                      {item.title}
-                    </a>
-
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
-                        {item.lastDate ? `Till ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}` : '10th / ITI Pass'}
-                      </span>
-                      <a
-                        href={item.officialLink || `/latest-jobs/${item.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
-                      >
-                        <span>Apply</span>
-                        <ArrowUpRight size={10} />
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── SECTION 2: OUTSOURCING JOBS ── */}
-            <div className="pt-2 border-t border-slate-200">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Users size={13} className="text-cyan-600" />
-                  <span>Outsourcing Jobs</span>
-                </h2>
-                <span className="text-[11px] font-bold text-cyan-700">
-                  {outsourcingList.length} Open
-                </span>
-              </div>
-
-              <div className="divide-y divide-slate-100">
-                {outsourcingList.slice(0, 5).map((item) => (
-                  <div key={item.id} className="py-2 hover:bg-cyan-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-bold text-slate-500 truncate max-w-[145px]">
-                        {item.organization}
-                      </span>
-                      {item.postCount && (
-                        <span className="text-[10px] font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.2 rounded">
-                          {item.postCount.toLocaleString('en-IN')}
-                        </span>
-                      )}
-                    </div>
-
-                    <a
-                      href={item.officialLink || `/latest-jobs/${item.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
-                    >
-                      {item.title}
-                    </a>
-
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-cyan-700 font-semibold">
-                        Samvida / Outsourcing
-                      </span>
-                      <a
-                        href={item.officialLink || `/latest-jobs/${item.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
-                      >
-                        <span>Details</span>
-                        <ArrowUpRight size={10} />
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── SECTION 3: CLOSED JOBS ("also the closed jobs go beside") ── */}
-            <div className="pt-2 border-t border-slate-200">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <Archive size={13} className="text-slate-600" />
-                  <span>Closed Jobs</span>
-                </h2>
-                <span className="text-[11px] font-bold text-slate-500">
-                  {closedCount} Archive
-                </span>
-              </div>
-
-              <div className="divide-y divide-slate-100">
-                {closedJobs.slice(0, 6).map((item) => (
-                  <div key={item.id} className="py-2 hover:bg-slate-50 px-1 transition-colors opacity-85 hover:opacity-100">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                      <span className="font-semibold text-slate-500 truncate max-w-[145px]">
-                        {item.organization}
-                      </span>
-                      <span className="text-[9px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded">
-                        Closed
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/latest-jobs/${item.slug}`}
-                      className="block text-xs font-semibold leading-snug mt-0.5 line-clamp-2 text-slate-700 hover:text-[#7c3aed] hover:underline"
-                    >
-                      {item.title}
-                    </Link>
-
-                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-400">
-                      <span>
-                        {item.lastDate ? `Closed: ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' })}` : 'Archive Notice'}
-                      </span>
-                      <Link
-                        href={`/latest-jobs/${item.slug}`}
-                        className="font-bold text-slate-500 hover:text-slate-800 flex items-center gap-0.5"
-                      >
-                        <span>Notice</span>
-                        <ArrowUpRight size={10} />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-2 border-t border-slate-100">
-                <span className="block text-center text-xs font-bold text-slate-500 py-1 cursor-default">
-                  Past Recruitment Archive ({closedCount})
-                </span>
               </div>
             </div>
 
