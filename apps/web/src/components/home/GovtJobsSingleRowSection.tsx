@@ -76,8 +76,6 @@ const INITIAL_PAGE_SIZE = 40
 const PAGE_STEP = 40
 
 export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Props) {
-  // 3 Primary Tabs as requested: Jobs | Results | Exams
-  const [activeMainTab, setActiveMainTab] = useState<'jobs' | 'results' | 'exams'>('jobs')
   const [selectedSpec, setSelectedSpec] = useState<string>('all')
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE)
 
@@ -168,11 +166,10 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                     key={spec.id}
                     onClick={() => {
                       setSelectedSpec(spec.id)
-                      setActiveMainTab('jobs')
                       setVisibleCount(INITIAL_PAGE_SIZE)
                     }}
                     className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
-                      isActive && activeMainTab === 'jobs'
+                      isActive
                         ? 'bg-[#0A9FFC] text-white shadow-xs font-bold'
                         : 'text-slate-700 hover:bg-sky-50 hover:text-[#0A9FFC] bg-slate-50/70 lg:bg-transparent'
                     }`}
@@ -180,13 +177,13 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                     <div className="flex items-center gap-1.5 min-w-0">
                       <Icon
                         size={13}
-                        className={isActive && activeMainTab === 'jobs' ? 'text-white' : 'text-[#0A9FFC] shrink-0'}
+                        className={isActive ? 'text-white' : 'text-[#0A9FFC] shrink-0'}
                       />
                       <span className="truncate">{spec.label}</span>
                     </div>
                     <span
                       className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
-                        isActive && activeMainTab === 'jobs'
+                        isActive
                           ? 'bg-white/25 text-white'
                           : 'bg-slate-100 text-slate-500'
                       }`}
@@ -200,56 +197,25 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
           </div>
         </aside>
 
-        {/* ── COLUMN 2 (MIDDLE): Shrunk Compact Stream with 3 Main Tabs: Jobs, Results, Exams ── */}
-        <div className="w-full lg:max-w-[680px] xl:max-w-[740px] flex-1 min-w-0 space-y-1">
-          {/* Top 3 Primary Tabs with Increased Text & Particular Margins (NO search bar) */}
-          <div className="flex items-center border-b border-slate-200 pb-2 mb-2 gap-4 sm:gap-6 overflow-x-auto no-scrollbar">
-            <button
-              onClick={() => {
-                setActiveMainTab('jobs')
-                setVisibleCount(INITIAL_PAGE_SIZE)
-              }}
-              className={`text-base sm:text-lg font-black transition-all cursor-pointer relative pb-1 mr-2 ${
-                activeMainTab === 'jobs'
-                  ? 'text-[#0A9FFC] border-b-2 border-[#0A9FFC] -mb-[9px]'
-                  : 'text-slate-500 hover:text-slate-900'
-              }`}
-            >
-              Jobs ({jobs.length.toLocaleString('en-IN')})
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveMainTab('results')
-                setVisibleCount(INITIAL_PAGE_SIZE)
-              }}
-              className={`text-base sm:text-lg font-black transition-all cursor-pointer relative pb-1 mr-2 ${
-                activeMainTab === 'results'
-                  ? 'text-[#0A9FFC] border-b-2 border-[#0A9FFC] -mb-[9px]'
-                  : 'text-slate-500 hover:text-slate-900'
-              }`}
-            >
-              Results ({results.length.toLocaleString('en-IN')})
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveMainTab('exams')
-                setVisibleCount(INITIAL_PAGE_SIZE)
-              }}
-              className={`text-base sm:text-lg font-black transition-all cursor-pointer relative pb-1 mr-2 ${
-                activeMainTab === 'exams'
-                  ? 'text-[#0A9FFC] border-b-2 border-[#0A9FFC] -mb-[9px]'
-                  : 'text-slate-500 hover:text-slate-900'
-              }`}
-            >
-              Exams ({exams.length.toLocaleString('en-IN')})
-            </button>
+        {/* ── COLUMN 2 (MIDDLE): Shrunk Compact Stream for Latest Govt Vacancies ── */}
+        <div className="w-full lg:max-w-[450px] xl:max-w-[510px] 2xl:max-w-[560px] flex-1 min-w-0 space-y-1">
+          {/* Subtle Category Header (NO JOBS RESULT EXAMS text tabs) */}
+          <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+            <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <span className="h-3 w-1 rounded-full bg-[#0A9FFC]" />
+              <span>
+                {selectedSpec === 'all'
+                  ? 'Latest Govt Vacancies'
+                  : `${SPECIFICATIONS.find((s) => s.id === selectedSpec)?.label || selectedSpec} Jobs`}
+              </span>
+            </h2>
+            <span className="text-[11px] font-bold text-[#0A9FFC]">
+              {filteredJobs.length.toLocaleString('en-IN')} Active
+            </span>
           </div>
 
-          {/* ── TAB 1: JOBS STREAM (Shrunk & Compact, Violet Titles) ── */}
-          {activeMainTab === 'jobs' && (
-            <div>
+          {/* Jobs List (Shrunk & Compact, Violet Titles) */}
+          <div>
               {displayedJobs.length === 0 ? (
                 <div className="py-10 text-center text-slate-500 text-xs">
                   <p className="font-bold text-slate-700">No active vacancies found for this category.</p>
@@ -413,161 +379,192 @@ export function GovtJobsSingleRowSection({ jobs, results = [], exams = [] }: Pro
                 </div>
               )}
             </div>
-          )}
+          </div>
 
-          {/* ── TAB 2: RESULTS STREAM (Violet Titles, Flat Rows) ── */}
-          {activeMainTab === 'results' && (
-            <div className="divide-y divide-slate-100">
-              {results.length === 0 ? (
-                <div className="py-10 text-center text-slate-500 text-xs">
-                  <p>No results found currently.</p>
-                </div>
-              ) : (
-                results.map((res) => (
-                  <div key={res.id} className="hover:bg-emerald-50/40 py-2 sm:py-2.5 px-1 sm:px-1.5 transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="space-y-0.5 flex-1 min-w-0">
-                        <span className="text-xs font-bold text-slate-700 block">
-                          {res.organization}
-                        </span>
-                        <Link href={`/results/${res.slug}`} className="block job-title-violet">
-                          <h2 className="text-sm sm:text-[14.5px] font-bold text-[#7c3aed] leading-snug">
-                            {res.title}
-                          </h2>
-                        </Link>
-                        {res.resultDateText && (
-                          <span className="text-xs font-semibold text-emerald-600 block">
-                            Declared: {res.resultDateText}
-                          </span>
-                        )}
-                      </div>
+        {/* ── RIGHT SIDE COLUMNS: Results, Exams, Upcoming Jobs (Same Style) ── */}
+        <div className="flex flex-col sm:flex-row flex-wrap 2xl:flex-nowrap gap-3 xl:gap-3.5 shrink-0">
 
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <Link
-                          href={`/results/${res.slug}`}
-                          className="btn-outline text-xs py-1 px-2.5 font-bold"
-                        >
-                          <span>Details</span>
-                          <ArrowUpRight size={11} />
-                        </Link>
-                        <a
-                          href={res.officialLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-primary text-xs py-1 px-2.5 font-bold"
-                        >
-                          <span>Download PDF</span>
-                          <ExternalLink size={11} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
+          {/* ── RIGHT COLUMN 1: RESULTS ── */}
+          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
+            <div className="sticky top-16">
+              {/* Header */}
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Award size={13} className="text-emerald-600" />
+                  <span>Results</span>
+                </h2>
+                <Link href="/results" className="text-[11px] font-bold text-emerald-700 hover:underline">
+                  {results.length.toLocaleString('en-IN')} Total
+                </Link>
+              </div>
 
-          {/* ── TAB 3: EXAMS STREAM (Violet Titles, Flat Rows) ── */}
-          {activeMainTab === 'exams' && (
-            <div className="divide-y divide-slate-100">
-              {exams.length === 0 ? (
-                <div className="py-10 text-center text-slate-500 text-xs">
-                  <p>No exams available.</p>
-                </div>
-              ) : (
-                exams.map((ex) => (
-                  <div key={ex.id} className="hover:bg-amber-50/40 py-2 sm:py-2.5 px-1 sm:px-1.5 transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="space-y-0.5 flex-1 min-w-0">
-                        {ex.conductedBy && (
-                          <span className="text-xs font-bold text-slate-700 block">
-                            {ex.conductedBy}
-                          </span>
-                        )}
-                        <Link href={`/top-exams/${ex.slug}`} className="block job-title-violet">
-                          <h2 className="text-sm sm:text-[14.5px] font-bold text-[#7c3aed] leading-snug">
-                            {ex.name}
-                          </h2>
-                        </Link>
-                        {ex.nextExamWindow && (
-                          <span className="text-xs font-semibold text-amber-700 block">
-                            📌 {ex.nextExamWindow}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <Link
-                          href={`/top-exams/${ex.slug}`}
-                          className="btn-outline text-xs py-1 px-2.5 font-bold"
-                        >
-                          <span>Details</span>
-                          <ArrowUpRight size={11} />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ── COLUMN 3 (RIGHT): UPCOMING JOBS (No background cards) ───────────── */}
-        <aside className="w-full lg:w-[250px] xl:w-[270px] shrink-0 pt-0.5">
-          <div className="sticky top-16">
-            {/* Header */}
-            <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                <Clock size={13} className="text-amber-600" />
-                <span>Upcoming Jobs</span>
-              </h2>
-              <span className="text-[11px] font-bold text-amber-700">
-                {upcomingCount} Total
-              </span>
-            </div>
-
-            {/* Upcoming Jobs List (Plain Text, Flat Dividers, Violet Titles) */}
-            <div className="divide-y divide-slate-100">
-              {upcomingJobs.map((item) => (
-                <div key={item.id} className="py-2 hover:bg-amber-50/40 px-1 transition-colors">
-                  <div className="flex items-center justify-between gap-1 text-[11px]">
-                    <span className="font-bold text-slate-500 truncate max-w-[160px]">
-                      {item.organization}
-                    </span>
-                    {item.postCount && (
-                      <span className="text-[10px] font-black text-[#0284c7]">
-                        {item.postCount.toLocaleString('en-IN')} Posts
+              {/* Results List */}
+              <div className="divide-y divide-slate-100">
+                {results.slice(0, 15).map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-emerald-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                        {item.organization}
                       </span>
-                    )}
+                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
+                        Declared
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/results/${item.slug}`}
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {item.title}
+                    </Link>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="text-[10px] text-slate-400">
+                        {item.resultDateText || (item.lastDate ? new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : 'Declared')}
+                      </span>
+                      <Link
+                        href={`/results/${item.slug}`}
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Check</span>
+                        <ArrowUpRight size={10} />
+                      </Link>
+                    </div>
                   </div>
+                ))}
+              </div>
 
-                  {/* Title in VIOLET */}
-                  <Link
-                    href={`/latest-jobs/${item.slug}`}
-                    className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
-                  >
-                    {item.title}
-                  </Link>
+              {/* View All Footer Link */}
+              <div className="pt-2 border-t border-slate-100">
+                <Link
+                  href="/results"
+                  className="block text-center text-xs font-bold text-[#0A9FFC] hover:underline py-1"
+                >
+                  View All Results ({results.length}) →
+                </Link>
+              </div>
+            </div>
+          </aside>
 
-                  {/* Date & Quick Action */}
-                  <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                    <span className="font-semibold text-amber-700">
-                      📌 {item.tentativeDate || 'Expected 2026-27'}
-                    </span>
+          {/* ── RIGHT COLUMN 2: EXAMS ── */}
+          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
+            <div className="sticky top-16">
+              {/* Header */}
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <GraduationCap size={13} className="text-indigo-600" />
+                  <span>Top Exams</span>
+                </h2>
+                <Link href="/top-exams" className="text-[11px] font-bold text-indigo-700 hover:underline">
+                  {exams.length} Total
+                </Link>
+              </div>
+
+              {/* Exams List */}
+              <div className="divide-y divide-slate-100">
+                {exams.slice(0, 15).map((ex) => (
+                  <div key={ex.id} className="py-2 hover:bg-indigo-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                        {ex.conductedBy || 'Govt Body'}
+                      </span>
+                      {ex.frequency && (
+                        <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
+                          {ex.frequency}
+                        </span>
+                      )}
+                    </div>
+
+                    <Link
+                      href={`/top-exams/${ex.slug}`}
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                    >
+                      {ex.name}
+                    </Link>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="font-semibold text-amber-700 text-[10px]">
+                        {ex.nextExamWindow ? `📌 ${ex.nextExamWindow}` : 'Annual Exam'}
+                      </span>
+                      <Link
+                        href={`/top-exams/${ex.slug}`}
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Details</span>
+                        <ArrowUpRight size={10} />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* View All Footer Link */}
+              <div className="pt-2 border-t border-slate-100">
+                <Link
+                  href="/top-exams"
+                  className="block text-center text-xs font-bold text-[#0A9FFC] hover:underline py-1"
+                >
+                  View All Top Exams ({exams.length}) →
+                </Link>
+              </div>
+            </div>
+          </aside>
+
+          {/* ── RIGHT COLUMN 3: UPCOMING JOBS ── */}
+          <aside className="w-full sm:w-[205px] lg:w-[195px] xl:w-[210px] 2xl:w-[230px] shrink-0 pt-0.5">
+            <div className="sticky top-16">
+              {/* Header */}
+              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Clock size={13} className="text-amber-600" />
+                  <span>Upcoming Jobs</span>
+                </h2>
+                <span className="text-[11px] font-bold text-amber-700">
+                  {upcomingCount} Total
+                </span>
+              </div>
+
+              {/* Upcoming Jobs List */}
+              <div className="divide-y divide-slate-100">
+                {upcomingJobs.map((item) => (
+                  <div key={item.id} className="py-2 hover:bg-amber-50/40 px-1 transition-colors">
+                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                      <span className="font-bold text-slate-500 truncate max-w-[140px]">
+                        {item.organization}
+                      </span>
+                      {item.postCount && (
+                        <span className="text-[10px] font-black text-[#0284c7]">
+                          {item.postCount.toLocaleString('en-IN')} Posts
+                        </span>
+                      )}
+                    </div>
+
                     <Link
                       href={`/latest-jobs/${item.slug}`}
-                      className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
-                      <span>Details</span>
-                      <ArrowUpRight size={10} />
+                      {item.title}
                     </Link>
+
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="font-semibold text-amber-700 text-[10px]">
+                        📌 {item.tentativeDate || 'Expected 2026-27'}
+                      </span>
+                      <Link
+                        href={`/latest-jobs/${item.slug}`}
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                      >
+                        <span>Details</span>
+                        <ArrowUpRight size={10} />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+
+        </div>
 
       </div>
     </div>

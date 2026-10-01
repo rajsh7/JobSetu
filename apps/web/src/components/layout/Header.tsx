@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
 import { ExpandableNavbarSearch } from './ExpandableNavbarSearch'
 
 const navLinks = [
@@ -49,14 +48,6 @@ export function Header() {
         {/* Right Actions */}
         <div className="flex items-center gap-2.5">
           <ExpandableNavbarSearch />
-
-          <Link
-            href="/top-exams"
-            className="hidden items-center gap-1 rounded-lg bg-[#0A9FFC] px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-[#008be3] sm:inline-flex"
-          >
-            <span>Explore Exams</span>
-            <ArrowUpRight size={15} />
-          </Link>
         </div>
       </div>
 
