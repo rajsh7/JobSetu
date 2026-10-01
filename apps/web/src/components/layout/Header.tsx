@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Search, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
+import { ExpandableNavbarSearch } from './ExpandableNavbarSearch'
 
 const navLinks = [
   { label: 'Sarkari Jobs', href: '/latest-jobs', badge: 'NEW' },
@@ -47,14 +48,7 @@ export function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2.5">
-          <Link
-            href="/search"
-            aria-label="Search Jobs, Results & Admit Cards"
-            className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-700 transition-all hover:border-[#0A9FFC] hover:bg-white hover:text-[#0A9FFC]"
-          >
-            <Search size={16} />
-            <span className="hidden sm:inline">Search Portal...</span>
-          </Link>
+          <ExpandableNavbarSearch />
 
           <Link
             href="/top-exams"
