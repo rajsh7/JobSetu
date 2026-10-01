@@ -67,61 +67,61 @@ interface HighlightItem {
   borderColor: string
 }
 
-// 8 Top Highlights specified by user
+// 8 Top Highlights specified by user (Opens directly inside JobSetu)
 const TOP_HIGHLIGHTS: HighlightItem[] = [
   {
     title: 'BPSC School Teacher Form',
     posts: '33,320 Posts',
-    url: 'https://sarkariresult.com.cm/bpsc-school-teacher-tre-4-0-2026/',
+    url: '/latest-jobs/bpsc-school-teacher-tre-4-0-2026',
     color: 'text-rose-600 hover:text-rose-700',
     borderColor: 'border-rose-200 hover:border-rose-400 bg-rose-50/40',
   },
   {
     title: 'Daily 5 Min Meditation & Crack Exams',
     posts: 'Mind Focus Video',
-    url: 'https://www.youtube.com/watch?v=gwQ7uPPWKx4',
+    url: '/latest-jobs/daily-5-minute-meditation-crack-exams',
     color: 'text-amber-700 hover:text-amber-800',
     borderColor: 'border-amber-200 hover:border-amber-400 bg-amber-50/40',
   },
   {
     title: 'UPESSC PGT Teacher Form',
     posts: '2,607 Posts',
-    url: 'https://sarkariresult.com.cm/up-pgt-teacher-2026/',
+    url: '/latest-jobs/up-pgt-teacher-2026',
     color: 'text-blue-600 hover:text-blue-700',
     borderColor: 'border-blue-200 hover:border-blue-400 bg-blue-50/40',
   },
   {
     title: 'Rajasthan Safai Karmchari',
     posts: '24,752 Posts',
-    url: 'https://sarkariresult.com.cm/rajasthan-safai-karmchari-2026/',
+    url: '/latest-jobs/rajasthan-safai-karmchari-2026',
     color: 'text-emerald-600 hover:text-emerald-700',
     borderColor: 'border-emerald-200 hover:border-emerald-400 bg-emerald-50/40',
   },
   {
     title: 'UPESSC Assistant Teacher Form',
     posts: '12,405 Posts',
-    url: 'https://sarkariresult.com.cm/upessc-prt-assistant-teacher-2026/',
+    url: '/latest-jobs/upessc-prt-assistant-teacher-2026',
     color: 'text-purple-600 hover:text-purple-700',
     borderColor: 'border-purple-200 hover:border-purple-400 bg-purple-50/40',
   },
   {
     title: 'SSC CHSL Online Form',
     posts: '2,536 Posts',
-    url: 'https://sarkariresult.com.cm/ssc-chsl-sep-2026/',
+    url: '/latest-jobs/ssc-chsl-sep-2026',
     color: 'text-sky-600 hover:text-sky-700',
     borderColor: 'border-sky-200 hover:border-sky-400 bg-sky-50/40',
   },
   {
     title: 'RRB NTPC UG Level Form',
     posts: '1,688 Posts',
-    url: 'https://sarkariresult.com.cm/rrb-ntpc-inter-level-07-2026/',
+    url: '/latest-jobs/rrb-ntpc-inter-level-07-2026',
     color: 'text-teal-600 hover:text-teal-700',
     borderColor: 'border-teal-200 hover:border-teal-400 bg-teal-50/40',
   },
   {
     title: 'RRB NTPC Graduate Level Form',
     posts: '3,477 Posts',
-    url: 'https://sarkariresult.com.cm/rrb-ntpc-graduate-level-06-2026/',
+    url: '/latest-jobs/rrb-ntpc-graduate-level-06-2026',
     color: 'text-indigo-600 hover:text-indigo-700',
     borderColor: 'border-indigo-200 hover:border-indigo-400 bg-indigo-50/40',
   },
@@ -450,24 +450,22 @@ export function GovtJobsSingleRowSection({
 
   return (
     <div className="w-full max-w-[1380px] xl:max-w-[1440px] 2xl:max-w-[1500px] mx-auto">
-      {/* ── TOP TRENDING HIGHLIGHTS GRID (Above all columns) ── */}
+      {/* ── TOP TRENDING HIGHLIGHTS GRID (Above all columns — Open within JobSetu) ── */}
       <div className="mb-4 sm:mb-5">
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-2.5">
           {TOP_HIGHLIGHTS.map((item, idx) => (
-            <a
+            <Link
               key={idx}
               href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex flex-col items-center justify-center text-center p-2 sm:p-2.5 rounded-lg border transition-all hover:shadow-xs group cursor-pointer ${item.borderColor}`}
+              className={`flex flex-col items-center justify-center text-center p-2.5 sm:p-3 rounded-lg border transition-all hover:shadow-xs group cursor-pointer ${item.borderColor}`}
             >
-              <span className={`text-xs sm:text-[13px] font-extrabold line-clamp-1 group-hover:underline ${item.color}`}>
+              <span className={`text-[13px] sm:text-[14.5px] font-extrabold line-clamp-1 group-hover:underline ${item.color}`}>
                 {item.title}
               </span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 mt-0.5">
+              <span className="text-[11px] sm:text-xs font-bold text-slate-600 mt-0.5">
                 {item.posts}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
@@ -486,11 +484,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#FF0801' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Briefcase size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Briefcase size={14} className="text-white shrink-0" />
                   <span>Categories</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-[11px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {counts['all']?.toLocaleString('en-IN') ?? jobs.length.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -509,7 +507,7 @@ export function GovtJobsSingleRowSection({
                         setSelectedSpec(spec.id)
                         setCurrentPage(1)
                       }}
-                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all md:w-full cursor-pointer ${
+                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs sm:text-[13px] font-semibold transition-all md:w-full cursor-pointer ${
                         isActive
                           ? 'bg-purple-600 text-white shadow-xs font-bold'
                           : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 md:bg-transparent'
@@ -517,13 +515,13 @@ export function GovtJobsSingleRowSection({
                     >
                       <div className="flex items-center gap-1.5 min-w-0">
                         <Icon
-                          size={13}
+                          size={14}
                           className={isActive ? 'text-white' : 'text-purple-600 shrink-0'}
                         />
                         <span className="truncate">{spec.label}</span>
                       </div>
                       <span
-                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] sm:text-[11px] font-bold shrink-0 ${
                           isActive
                             ? 'bg-white/25 text-white'
                             : 'bg-slate-100 text-slate-500'
@@ -543,8 +541,8 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#9F000E' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <MapPin size={12} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <MapPin size={13} className="text-white shrink-0" />
                   <span>State / City</span>
                 </h2>
                 {selectedState !== 'all' && (
@@ -553,7 +551,7 @@ export function GovtJobsSingleRowSection({
                       setSelectedState('all')
                       setCurrentPage(1)
                     }}
-                    className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5 cursor-pointer"
+                    className="text-[10px] sm:text-[11px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5 cursor-pointer"
                   >
                     Reset
                   </button>
@@ -572,7 +570,7 @@ export function GovtJobsSingleRowSection({
                         setSelectedState(st.id)
                         setCurrentPage(1)
                       }}
-                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all md:w-full cursor-pointer ${
+                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs sm:text-[13px] font-semibold transition-all md:w-full cursor-pointer ${
                         isActive
                           ? 'bg-purple-600 text-white shadow-xs font-bold'
                           : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 md:bg-transparent'
@@ -580,7 +578,7 @@ export function GovtJobsSingleRowSection({
                     >
                       <span className="truncate">{st.label}</span>
                       <span
-                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] sm:text-[11px] font-bold shrink-0 ${
                           isActive
                             ? 'bg-white/25 text-white'
                             : 'bg-slate-100 text-slate-500'
@@ -604,159 +602,159 @@ export function GovtJobsSingleRowSection({
               style={{ backgroundColor: '#A91103' }}
             >
               <div className="flex items-center gap-2 flex-wrap min-w-0">
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Briefcase size={13} className="text-white" />
-                <span>
-                  {selectedSpec === 'all'
-                    ? 'Latest Govt Vacancies'
-                    : `${SPECIFICATIONS.find((s) => s.id === selectedSpec)?.label || selectedSpec} Jobs`}
-                </span>
-              </h2>
-              {selectedState !== 'all' && (
-                <span className="inline-flex items-center gap-1 rounded bg-white/20 text-white text-[10px] font-bold px-1.5 py-0.5">
-                  <span>📍 {STATE_OPTIONS.find((s) => s.id === selectedState)?.label}</span>
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Briefcase size={14} className="text-white shrink-0" />
+                  <span>
+                    {selectedSpec === 'all'
+                      ? 'Latest Govt Vacancies'
+                      : `${SPECIFICATIONS.find((s) => s.id === selectedSpec)?.label || selectedSpec} Jobs`}
+                  </span>
+                </h2>
+                {selectedState !== 'all' && (
+                  <span className="inline-flex items-center gap-1 rounded bg-white/20 text-white text-[11px] font-bold px-1.5 py-0.5">
+                    <span>📍 {STATE_OPTIONS.find((s) => s.id === selectedState)?.label}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedState('all')
+                        setCurrentPage(1)
+                      }}
+                      className="hover:text-white/80 font-black cursor-pointer ml-0.5"
+                      title="Clear State Filter"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
+              </div>
+              <span className="text-xs font-bold text-white bg-white/20 rounded px-2 py-0.5 shrink-0">
+                {filteredJobs.length.toLocaleString('en-IN')} Active
+              </span>
+            </div>
+
+            {/* Active Jobs List (Violet Titles, Plain Text, No bulky cards) */}
+            <div>
+              {paginatedJobs.length === 0 ? (
+                <div className="py-10 text-center text-slate-500 text-xs sm:text-sm">
+                  <p className="font-bold text-slate-700">No active vacancies found for this filter combination.</p>
                   <button
                     onClick={() => {
+                      setSelectedSpec('all')
                       setSelectedState('all')
                       setCurrentPage(1)
                     }}
-                    className="hover:text-white/80 font-black cursor-pointer ml-0.5"
-                    title="Clear State Filter"
+                    className="mt-2 text-[#0A9FFC] font-bold hover:underline cursor-pointer"
                   >
-                    ×
+                    Reset All Filters →
                   </button>
-                </span>
-              )}
-            </div>
-            <span className="text-[11px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5 shrink-0">
-              {filteredJobs.length.toLocaleString('en-IN')} Active
-            </span>
-          </div>
+                </div>
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {paginatedJobs.map((job) => {
+                    const specStyle = job.specification ? SPEC_STYLES[job.specification] : null
 
-          {/* Active Jobs List (Violet Titles, Plain Text, No bulky cards) */}
-          <div>
-            {paginatedJobs.length === 0 ? (
-              <div className="py-10 text-center text-slate-500 text-xs">
-                <p className="font-bold text-slate-700">No active vacancies found for this filter combination.</p>
-                <button
-                  onClick={() => {
-                    setSelectedSpec('all')
-                    setSelectedState('all')
-                    setCurrentPage(1)
-                  }}
-                  className="mt-2 text-[#0A9FFC] font-bold hover:underline cursor-pointer"
-                >
-                  Reset All Filters →
-                </button>
-              </div>
-            ) : (
-              <div className="divide-y divide-slate-100">
-                {paginatedJobs.map((job) => {
-                  const specStyle = job.specification ? SPEC_STYLES[job.specification] : null
-
-                  return (
-                    <div
-                      key={job.id}
-                      className="hover:bg-sky-50/40 py-2.5 px-1 sm:px-1.5 transition-colors"
-                    >
-                      {/* Line 1: Organization + Category Badge + Active Indicator + State */}
-                      <div className="flex flex-wrap items-center gap-1.5 text-xs mb-1">
-                        <span className="font-bold text-slate-800 flex items-center gap-1">
-                          <Building2 size={12} className="text-[#0A9FFC] shrink-0" />
-                          <span className="truncate max-w-[180px] sm:max-w-[240px]">{job.organization}</span>
-                        </span>
-
-                        {job.specification && (
-                          <span className={`rounded px-1.5 py-0.2 font-bold text-[10px] ${specStyle?.bg ?? 'bg-sky-50'} ${specStyle?.text ?? 'text-sky-700'}`}>
-                            {job.specification}
+                    return (
+                      <div
+                        key={job.id}
+                        className="hover:bg-sky-50/40 py-3 px-1.5 sm:px-2 transition-colors"
+                      >
+                        {/* Line 1: Organization + Category Badge + Active Indicator + State */}
+                        <div className="flex flex-wrap items-center gap-1.5 text-xs sm:text-[13px] mb-1">
+                          <span className="font-bold text-slate-800 flex items-center gap-1">
+                            <Building2 size={13} className="text-[#0A9FFC] shrink-0" />
+                            <span className="truncate max-w-[200px] sm:max-w-[280px]">{job.organization}</span>
                           </span>
-                        )}
 
-                        <span className="rounded bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 text-[10px] inline-flex items-center gap-1">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                          Active
-                        </span>
-
-                        {job.state && (
-                          <span className="text-slate-400 text-[11px]">• {job.state}</span>
-                        )}
-                      </div>
-
-                      {/* Line 2: Full-Width Title in VIOLET — Never squished! */}
-                      <Link href={`/latest-jobs/${job.slug}`} className="block job-title-violet mb-1">
-                        <h2 className="text-xs sm:text-[13.5px] font-bold text-[#7c3aed] leading-snug hover:underline">
-                          {job.title}
-                        </h2>
-                      </Link>
-
-                      {/* Line 3: Eligibility / Qualification (if available) */}
-                      {job.qualification && (
-                        <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-600 mb-1.5">
-                          <span className="inline-flex items-center gap-1 text-[#0284c7] font-bold shrink-0">
-                            <GraduationCap size={12} className="text-[#0A9FFC] shrink-0" />
-                            Eligibility:
-                          </span>
-                          <span className="text-slate-600 line-clamp-1">{job.qualification}</span>
-                          {job.tentativeDate && (
-                            <span className="font-semibold text-amber-700 text-[10px] ml-1">
-                              📌 {job.tentativeDate}
+                          {job.specification && (
+                            <span className={`rounded px-1.5 py-0.2 font-bold text-[10.5px] sm:text-[11px] ${specStyle?.bg ?? 'bg-sky-50'} ${specStyle?.text ?? 'text-sky-700'}`}>
+                              {job.specification}
                             </span>
                           )}
-                        </div>
-                      )}
 
-                      {/* Line 4: Bottom Meta & Action Buttons Row (Responsive alignment) */}
-                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100/70">
-                        {/* Left: Posts & Last Date */}
-                        <div className="flex items-center gap-2.5 sm:gap-3 text-xs flex-wrap">
-                          {job.postCount ? (
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-[9px] uppercase font-bold text-slate-400">Posts</span>
-                              <span className="text-xs font-black text-[#0284c7]">
-                                {job.postCount.toLocaleString('en-IN')}
-                              </span>
-                            </div>
-                          ) : null}
+                          <span className="rounded bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 text-[10.5px] sm:text-[11px] inline-flex items-center gap-1">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            Active
+                          </span>
 
-                          {job.lastDate ? (
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-[9px] uppercase font-bold text-slate-400">Last</span>
-                              <span className="text-xs font-bold text-rose-600">
-                                {new Date(job.lastDate).toLocaleDateString('en-IN', {
-                                  day: '2-digit',
-                                  month: 'short',
-                                  year: '2-digit',
-                                })}
-                              </span>
-                            </div>
-                          ) : null}
+                          {job.state && (
+                            <span className="text-slate-400 text-xs">• {job.state}</span>
+                          )}
                         </div>
 
-                        {/* Right: Details & Apply Action Buttons */}
-                        <div className="flex items-center gap-1 shrink-0">
-                          <Link
-                            href={`/latest-jobs/${job.slug}`}
-                            className="btn-outline text-[11px] py-0.5 px-2 font-bold"
-                          >
-                            <span>Details</span>
-                            <ArrowUpRight size={10} />
-                          </Link>
+                        {/* Line 2: Full-Width Title in VIOLET — Increased font size! */}
+                        <Link href={`/latest-jobs/${job.slug}`} className="block job-title-violet mb-1.5">
+                          <h2 className="text-[13.5px] sm:text-[15.5px] font-bold text-[#7c3aed] leading-snug hover:underline">
+                            {job.title}
+                          </h2>
+                        </Link>
 
-                          <a
-                            href={job.officialLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Direct Official Government Application Portal"
-                            className="btn-primary text-[11px] py-0.5 px-2.5 font-bold"
-                          >
-                            <span>Apply</span>
-                            <ExternalLink size={10} />
-                          </a>
+                        {/* Line 3: Eligibility / Qualification (if available) */}
+                        {job.qualification && (
+                          <div className="flex flex-wrap items-center gap-1.5 text-xs sm:text-[13px] text-slate-600 mb-2">
+                            <span className="inline-flex items-center gap-1 text-[#0284c7] font-bold shrink-0">
+                              <GraduationCap size={13} className="text-[#0A9FFC] shrink-0" />
+                              Eligibility:
+                            </span>
+                            <span className="text-slate-700 line-clamp-1">{job.qualification}</span>
+                            {job.tentativeDate && (
+                              <span className="font-semibold text-amber-700 text-xs ml-1">
+                                📌 {job.tentativeDate}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Line 4: Bottom Meta & Action Buttons Row (Responsive alignment) */}
+                        <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-slate-100/80">
+                          {/* Left: Posts & Last Date */}
+                          <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-[13px] flex-wrap">
+                            {job.postCount ? (
+                              <div className="flex items-baseline gap-1">
+                                <span className="text-[10px] uppercase font-bold text-slate-400">Posts</span>
+                                <span className="text-xs sm:text-[13.5px] font-black text-[#0284c7]">
+                                  {job.postCount.toLocaleString('en-IN')}
+                                </span>
+                              </div>
+                            ) : null}
+
+                            {job.lastDate ? (
+                              <div className="flex items-baseline gap-1">
+                                <span className="text-[10px] uppercase font-bold text-slate-400">Last</span>
+                                <span className="text-xs sm:text-[13px] font-bold text-rose-600">
+                                  {new Date(job.lastDate).toLocaleDateString('en-IN', {
+                                    day: '2-digit',
+                                    month: 'short',
+                                    year: '2-digit',
+                                  })}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+
+                          {/* Right: Details & Apply Action Buttons */}
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <Link
+                              href={`/latest-jobs/${job.slug}`}
+                              className="btn-outline text-xs py-1 px-2.5 font-bold"
+                            >
+                              <span>Details</span>
+                              <ArrowUpRight size={12} />
+                            </Link>
+
+                            <a
+                              href={job.officialLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Direct Official Government Application Portal"
+                              className="btn-primary text-xs py-1 px-3 font-bold"
+                            >
+                              <span>Apply</span>
+                              <ExternalLink size={12} />
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
 
                 {/* View More Button for Quick Exploration */}
                 <div className="pt-3 pb-2 border-t border-slate-100">
@@ -860,11 +858,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#D30047' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Award size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Award size={14} className="text-white" />
                   <span>Results</span>
                 </h2>
-                <Link href="/results" className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
+                <Link href="/results" className="text-[10px] sm:text-xs font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
                   {results.length.toLocaleString('en-IN')} Total
                 </Link>
               </div>
@@ -872,32 +870,32 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {results.slice(0, 8).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-emerald-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
                         Declared
                       </span>
                     </div>
 
                     <Link
                       href={`/results/${item.slug}`}
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {item.title}
                     </Link>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         {item.resultDateText || (item.lastDate ? new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : 'Declared')}
                       </span>
                       <Link
                         href={`/results/${item.slug}`}
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Check</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </Link>
                     </div>
                   </div>
@@ -907,7 +905,7 @@ export function GovtJobsSingleRowSection({
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   href="/results"
-                  className="block text-center text-xs font-bold text-[#0A9FFC] hover:underline py-1"
+                  className="block text-center text-xs sm:text-[13px] font-bold text-[#0A9FFC] hover:underline py-1"
                 >
                   View All Results ({results.length}) →
                 </Link>
@@ -920,11 +918,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#9D2237' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Key size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Key size={14} className="text-white" />
                   <span>Answer Key</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {answerKeysList.length} Active
                 </span>
               </div>
@@ -932,11 +930,11 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {answerKeysList.slice(0, 8).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-amber-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded">
                         Released
                       </span>
                     </div>
@@ -945,23 +943,23 @@ export function GovtJobsSingleRowSection({
                       href={item.officialLink || `/latest-jobs/${item.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {item.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         {item.lastDate ? `Till ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}` : 'Download'}
                       </span>
                       <a
                         href={item.officialLink || `/latest-jobs/${item.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>View Key</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -969,7 +967,7 @@ export function GovtJobsSingleRowSection({
               </div>
 
               <div className="pt-2 border-t border-slate-100">
-                <span className="block text-center text-xs font-bold text-[#0A9FFC] py-1 cursor-default">
+                <span className="block text-center text-xs sm:text-[13px] font-bold text-[#0A9FFC] py-1 cursor-default">
                   All Answer Keys Updated Daily
                 </span>
               </div>
@@ -981,11 +979,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#BC2625' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Wrench size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Wrench size={14} className="text-white" />
                   <span>10th / ITI Jobs</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {tenthItiList.length} Active
                 </span>
               </div>
@@ -993,12 +991,12 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {tenthItiList.slice(0, 6).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-teal-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
                       {item.postCount && (
-                        <span className="text-[10px] font-bold text-teal-700 bg-teal-50 px-1.5 py-0.2 rounded">
+                        <span className="text-[10px] sm:text-xs font-bold text-teal-700 bg-teal-50 px-1.5 py-0.2 rounded">
                           {item.postCount.toLocaleString('en-IN')} Posts
                         </span>
                       )}
@@ -1008,23 +1006,23 @@ export function GovtJobsSingleRowSection({
                       href={item.officialLink || `/latest-jobs/${item.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {item.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         {item.lastDate ? `Till ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}` : '10th / ITI Pass'}
                       </span>
                       <a
                         href={item.officialLink || `/latest-jobs/${item.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Apply</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1038,11 +1036,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#820000' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Archive size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Archive size={14} className="text-white" />
                   <span>Closed Jobs</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {closedCount} Archive
                 </span>
               </div>
@@ -1050,23 +1048,23 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {closedJobs.slice(0, 6).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-slate-50 px-1 transition-colors opacity-85 hover:opacity-100">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-semibold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
-                      <span className="text-[9px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded">
                         Closed
                       </span>
                     </div>
 
                     <Link
                       href={`/latest-jobs/${item.slug}`}
-                      className="block text-xs font-semibold leading-snug mt-0.5 line-clamp-2 text-slate-700 hover:text-[#7c3aed] hover:underline"
+                      className="block text-[13px] sm:text-[14.5px] font-semibold leading-snug mt-0.5 line-clamp-2 text-slate-700 hover:text-[#7c3aed] hover:underline"
                     >
                       {item.title}
                     </Link>
 
-                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-[10px] sm:text-xs text-slate-400">
                       <span>
                         {item.lastDate ? `Closed: ${new Date(item.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' })}` : 'Archive Notice'}
                       </span>
@@ -1075,7 +1073,7 @@ export function GovtJobsSingleRowSection({
                         className="font-bold text-slate-500 hover:text-slate-800 flex items-center gap-0.5"
                       >
                         <span>Notice</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </Link>
                     </div>
                   </div>
@@ -1083,7 +1081,7 @@ export function GovtJobsSingleRowSection({
               </div>
 
               <div className="pt-2 border-t border-slate-100">
-                <span className="block text-center text-xs font-bold text-slate-500 py-1 cursor-default">
+                <span className="block text-center text-xs sm:text-[13px] font-bold text-slate-500 py-1 cursor-default">
                   Past Recruitment Archive ({closedCount})
                 </span>
               </div>
@@ -1102,11 +1100,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#CA3433' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <GraduationCap size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <GraduationCap size={14} className="text-white" />
                   <span>Admit Cards</span>
                 </h2>
-                <Link href="/admit-cards" className="text-[10px] font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
+                <Link href="/admit-cards" className="text-[10px] sm:text-xs font-bold text-white bg-white/20 hover:bg-white/30 rounded px-1.5 py-0.5">
                   {admitCards.length.toLocaleString('en-IN')} Total
                 </Link>
               </div>
@@ -1114,32 +1112,32 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {admitCards.slice(0, 8).map((card) => (
                   <div key={card.id} className="py-2 hover:bg-sky-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {card.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-sky-700 bg-sky-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-sky-700 bg-sky-50 px-1.5 py-0.2 rounded">
                         Available
                       </span>
                     </div>
 
                     <Link
                       href={`/admit-cards/${card.slug}`}
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {card.title}
                     </Link>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         {card.examDateText || 'Hall Ticket'}
                       </span>
                       <Link
                         href={`/admit-cards/${card.slug}`}
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Download</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </Link>
                     </div>
                   </div>
@@ -1149,7 +1147,7 @@ export function GovtJobsSingleRowSection({
               <div className="pt-2 border-t border-slate-100">
                 <Link
                   href="/admit-cards"
-                  className="block text-center text-xs font-bold text-[#0A9FFC] hover:underline py-1"
+                  className="block text-center text-xs sm:text-[13px] font-bold text-[#0A9FFC] hover:underline py-1"
                 >
                   View All Admit Cards ({admitCards.length}) →
                 </Link>
@@ -1162,11 +1160,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#AE081E' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <School size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <School size={14} className="text-white" />
                   <span>Admission</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {admissionsList.length} Open
                 </span>
               </div>
@@ -1174,11 +1172,11 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {admissionsList.slice(0, 8).map((adm) => (
                   <div key={adm.id} className="py-2 hover:bg-rose-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {adm.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-rose-700 bg-rose-50 px-1.5 py-0.2 rounded">
                         Open
                       </span>
                     </div>
@@ -1187,23 +1185,23 @@ export function GovtJobsSingleRowSection({
                       href={adm.officialLink || `/latest-jobs/${adm.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {adm.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         {adm.lastDate ? `Last: ${new Date(adm.lastDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}` : 'Counselling'}
                       </span>
                       <a
                         href={adm.officialLink || `/latest-jobs/${adm.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Apply</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1211,8 +1209,8 @@ export function GovtJobsSingleRowSection({
               </div>
 
               <div className="pt-2 border-t border-slate-100">
-                <span className="block text-center text-xs font-bold text-[#0A9FFC] py-1 cursor-default">
-                  Top Colleges & Entrance Forms
+                <span className="block text-center text-xs sm:text-[13px] font-bold text-[#0A9FFC] py-1 cursor-default">
+                  Top Colleges &amp; Entrance Forms
                 </span>
               </div>
             </div>
@@ -1223,11 +1221,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#6E122B' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Users size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Users size={14} className="text-white" />
                   <span>Outsourcing Jobs</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {outsourcingList.length} Open
                 </span>
               </div>
@@ -1235,12 +1233,12 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {outsourcingList.slice(0, 6).map((item) => (
                   <div key={item.id} className="py-2 hover:bg-cyan-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
                       {item.postCount && (
-                        <span className="text-[10px] font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.2 rounded">
+                        <span className="text-[10px] sm:text-xs font-bold text-cyan-700 bg-cyan-50 px-1.5 py-0.2 rounded">
                           {item.postCount.toLocaleString('en-IN')}
                         </span>
                       )}
@@ -1250,23 +1248,23 @@ export function GovtJobsSingleRowSection({
                       href={item.officialLink || `/latest-jobs/${item.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {item.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-cyan-700 font-semibold">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-cyan-700 font-semibold">
                         Samvida / Outsourcing
                       </span>
                       <a
                         href={item.officialLink || `/latest-jobs/${item.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Details</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1287,11 +1285,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#9F2A32' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <FileText size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <FileText size={14} className="text-white" />
                   <span>Syllabus</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {syllabusesList.length} Scheme
                 </span>
               </div>
@@ -1299,11 +1297,11 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {syllabusesList.slice(0, 6).map((syl) => (
                   <div key={syl.id} className="py-2 hover:bg-purple-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {syl.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-purple-700 bg-purple-50 px-1.5 py-0.2 rounded">
                         PDF
                       </span>
                     </div>
@@ -1312,23 +1310,23 @@ export function GovtJobsSingleRowSection({
                       href={syl.officialLink || `/latest-jobs/${syl.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {syl.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         Exam Pattern
                       </span>
                       <a
                         href={syl.officialLink || `/latest-jobs/${syl.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Download</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1342,11 +1340,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#DE4D4D' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Clock size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Clock size={14} className="text-white" />
                   <span>Upcoming Jobs</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {upcomingCount} Total
                 </span>
               </div>
@@ -1354,12 +1352,12 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {upcomingJobs.map((item) => (
                   <div key={item.id} className="py-2 hover:bg-orange-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {item.organization}
                       </span>
                       {item.postCount && (
-                        <span className="text-[10px] font-black text-[#0284c7]">
+                        <span className="text-[10px] sm:text-xs font-black text-[#0284c7]">
                           {item.postCount.toLocaleString('en-IN')} Posts
                         </span>
                       )}
@@ -1367,21 +1365,21 @@ export function GovtJobsSingleRowSection({
 
                     <Link
                       href={`/latest-jobs/${item.slug}`}
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {item.title}
                     </Link>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="font-semibold text-orange-700 text-[10px]">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="font-semibold text-orange-700 text-[10px] sm:text-xs">
                         📌 {item.tentativeDate || 'Expected 2026-27'}
                       </span>
                       <Link
                         href={`/latest-jobs/${item.slug}`}
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Details</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </Link>
                     </div>
                   </div>
@@ -1395,11 +1393,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#CC4A4C' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <ShieldCheck size={14} className="text-white" />
                   <span>Documents</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5">
                   {documentsList.length} Proforma
                 </span>
               </div>
@@ -1407,11 +1405,11 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {documentsList.slice(0, 5).map((doc) => (
                   <div key={doc.id} className="py-2 hover:bg-indigo-50/40 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[145px]">
                         {doc.organization}
                       </span>
-                      <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] sm:text-xs font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded">
                         Verify
                       </span>
                     </div>
@@ -1420,23 +1418,23 @@ export function GovtJobsSingleRowSection({
                       href={doc.officialLink || `/latest-jobs/${doc.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {doc.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-xs sm:text-[13px] text-slate-500">
+                      <span className="text-[10px] sm:text-xs text-slate-400">
                         Official Format
                       </span>
                       <a
                         href={doc.officialLink || `/latest-jobs/${doc.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px]"
+                        className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5 text-[10px] sm:text-xs"
                       >
                         <span>Verify / Form</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1450,11 +1448,11 @@ export function GovtJobsSingleRowSection({
                 className="mb-2 flex items-center justify-between px-2.5 py-1.5 -mx-2.5 -mt-2.5 rounded-t-[7px] text-white"
                 style={{ backgroundColor: '#B41F3F' }}
               >
-                <h2 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Newspaper size={13} className="text-white" />
+                <h2 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                  <Newspaper size={14} className="text-white" />
                   <span>Current Affairs &amp; News</span>
                 </h2>
-                <span className="text-[10px] font-bold text-white bg-white/20 rounded px-1.5 py-0.5 inline-flex items-center gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-white bg-white/20 rounded px-1.5 py-0.5 inline-flex items-center gap-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                   Live
                 </span>
@@ -1463,12 +1461,12 @@ export function GovtJobsSingleRowSection({
               <div className="divide-y divide-slate-100">
                 {FALLBACK_CURRENT_AFFAIRS.map((news) => (
                   <div key={news.id} className="py-2 hover:bg-rose-50/30 px-1 transition-colors">
-                    <div className="flex items-center justify-between gap-1 text-[11px]">
+                    <div className="flex items-center justify-between gap-1 text-xs sm:text-[13px]">
                       <span className="font-bold text-slate-500 truncate max-w-[140px]">
                         {news.source}
                       </span>
                       {news.tag && (
-                        <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1 py-0.2 rounded">
+                        <span className="text-[9px] sm:text-[10px] font-bold text-rose-600 bg-rose-50 px-1 py-0.2 rounded">
                           {news.tag}
                         </span>
                       )}
@@ -1478,12 +1476,12 @@ export function GovtJobsSingleRowSection({
                       href={news.officialLink || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-xs font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
+                      className="block text-[13px] sm:text-[14.5px] font-bold leading-snug mt-0.5 line-clamp-2 job-title-violet"
                     >
                       {news.title}
                     </a>
 
-                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-400">
+                    <div className="mt-1 flex items-center justify-between text-[10px] sm:text-xs text-slate-400">
                       <span>{news.date}</span>
                       <a
                         href={news.officialLink || '#'}
@@ -1492,7 +1490,7 @@ export function GovtJobsSingleRowSection({
                         className="font-bold text-[#0A9FFC] hover:underline flex items-center gap-0.5"
                       >
                         <span>Read</span>
-                        <ArrowUpRight size={10} />
+                        <ArrowUpRight size={11} />
                       </a>
                     </div>
                   </div>
@@ -1500,7 +1498,7 @@ export function GovtJobsSingleRowSection({
               </div>
 
               <div className="pt-2 border-t border-slate-100">
-                <span className="block text-center text-xs font-bold text-slate-500 py-1 cursor-default">
+                <span className="block text-center text-xs sm:text-[13px] font-bold text-slate-500 py-1 cursor-default">
                   Daily Exam &amp; Educational News
                 </span>
               </div>
