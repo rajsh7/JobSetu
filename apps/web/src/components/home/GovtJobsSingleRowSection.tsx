@@ -476,8 +476,9 @@ export function GovtJobsSingleRowSection({
       <div className="flex flex-col lg:flex-row justify-center items-start gap-3 xl:gap-3.5 2xl:gap-4 w-full">
 
         {/* ── COLUMN 1 (LEFT): Compact Category Navigation & State/City Filter (Natural Height) ── */}
-        <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 border border-black rounded-lg p-2.5 bg-white">
-          <div>
+        <aside className="w-full lg:w-[170px] xl:w-[180px] shrink-0 space-y-3">
+          {/* Categories Box */}
+          <div className="border border-black rounded-lg p-2.5 bg-white">
             <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <span className="h-3 w-1 rounded-full bg-purple-600" />
@@ -528,61 +529,60 @@ export function GovtJobsSingleRowSection({
                 )
               })}
             </div>
+          </div>
 
-            {/* ── STATE / CITY FILTER ── */}
-            <div className="mt-4 pt-3 border-t border-slate-200">
-              <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                  <MapPin size={12} className="text-purple-600" />
-                  State / City
-                </h2>
-                {selectedState !== 'all' && (
-                  <button
-                    onClick={() => {
-                      setSelectedState('all')
-                      setCurrentPage(1)
-                    }}
-                    className="text-[10px] font-bold text-rose-500 hover:underline cursor-pointer"
-                  >
-                    Reset
-                  </button>
-                )}
-              </div>
-
-              <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
-                {STATE_OPTIONS.map((st) => {
-                  const isActive = selectedState === st.id
-                  const count = stateCounts[st.id] ?? 0
-
-                  return (
-                    <button
-                      key={st.id}
-                      onClick={() => {
-                        setSelectedState(st.id)
-                        setCurrentPage(1)
-                      }}
-                      className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
-                        isActive
-                          ? 'bg-purple-600 text-white shadow-xs font-bold'
-                          : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 lg:bg-transparent'
-                      }`}
-                    >
-                      <span className="truncate">{st.label}</span>
-                      <span
-                        className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
-                          isActive
-                            ? 'bg-white/25 text-white'
-                            : 'bg-slate-100 text-slate-500'
-                        }`}
-                      >
-                        {count.toLocaleString('en-IN')}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
+          {/* ── STATE / CITY FILTER BOX ── */}
+          <div className="border border-black rounded-lg p-2.5 bg-white">
+            <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <MapPin size={12} className="text-purple-600" />
+                State / City
+              </h2>
+              {selectedState !== 'all' && (
+                <button
+                  onClick={() => {
+                    setSelectedState('all')
+                    setCurrentPage(1)
+                  }}
+                  className="text-[10px] font-bold text-rose-500 hover:underline cursor-pointer"
+                >
+                  Reset
+                </button>
+              )}
             </div>
 
+            <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
+              {STATE_OPTIONS.map((st) => {
+                const isActive = selectedState === st.id
+                const count = stateCounts[st.id] ?? 0
+
+                return (
+                  <button
+                    key={st.id}
+                    onClick={() => {
+                      setSelectedState(st.id)
+                      setCurrentPage(1)
+                    }}
+                    className={`flex shrink-0 items-center justify-between rounded-lg px-2 py-1.5 text-xs font-semibold transition-all lg:w-full cursor-pointer ${
+                      isActive
+                        ? 'bg-purple-600 text-white shadow-xs font-bold'
+                        : 'text-slate-700 hover:bg-purple-50 hover:text-purple-700 bg-slate-50/70 lg:bg-transparent'
+                    }`}
+                  >
+                    <span className="truncate">{st.label}</span>
+                    <span
+                      className={`ml-1 rounded-full px-1.5 py-0.2 text-[10px] font-bold shrink-0 ${
+                        isActive
+                          ? 'bg-white/25 text-white'
+                          : 'bg-slate-100 text-slate-500'
+                      }`}
+                    >
+                      {count.toLocaleString('en-IN')}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </aside>
 
@@ -842,12 +842,12 @@ export function GovtJobsSingleRowSection({
         <div className="flex flex-wrap lg:flex-nowrap gap-3 xl:gap-3.5 2xl:gap-4 shrink-0">
 
           {/* ═════════════════════════════════════════════════════════════════════
-              RIGHT COLUMN 1: Results & Answer Key
+              RIGHT COLUMN 1: Results, Answer Key, 10th/ITI, Closed Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
+          <aside className="w-full sm:w-[215px] lg:w-[200px] xl:w-[215px] 2xl:w-[225px] shrink-0 space-y-3">
             
-            {/* ── SECTION 1: RESULTS ── */}
-            <div>
+            {/* ── SECTION 1: RESULTS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Award size={13} className="text-emerald-600" />
@@ -903,8 +903,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 2: ANSWER KEY ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 2: ANSWER KEY BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Key size={13} className="text-amber-600" />
@@ -961,8 +961,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 3: 10TH / ITI JOBS (Below Answer Key) ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 3: 10TH / ITI JOBS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Wrench size={13} className="text-teal-600" />
@@ -1015,8 +1015,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 4: CLOSED JOBS (Below 10th/ITI Jobs in Column 1) ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 4: CLOSED JOBS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Archive size={13} className="text-slate-600" />
@@ -1072,12 +1072,12 @@ export function GovtJobsSingleRowSection({
           </aside>
 
           {/* ═════════════════════════════════════════════════════════════════════
-              RIGHT COLUMN 2: Admit Cards, Admission & Outsourcing Jobs
+              RIGHT COLUMN 2: Admit Cards, Admission, Outsourcing Jobs
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 space-y-3">
 
-            {/* ── SECTION 1: ADMIT CARDS ── */}
-            <div>
+            {/* ── SECTION 1: ADMIT CARDS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <GraduationCap size={13} className="text-sky-600" />
@@ -1133,8 +1133,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 2: ADMISSION ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 2: ADMISSION BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <School size={13} className="text-rose-600" />
@@ -1191,8 +1191,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 3: OUTSOURCING JOBS (Below Admission) ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 3: OUTSOURCING JOBS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Users size={13} className="text-cyan-600" />
@@ -1248,12 +1248,12 @@ export function GovtJobsSingleRowSection({
           </aside>
 
           {/* ═════════════════════════════════════════════════════════════════════
-              RIGHT COLUMN 3: Upcoming Jobs, Syllabus & Documents
+              RIGHT COLUMN 3: Upcoming Jobs, Syllabus, Documents, News
              ═════════════════════════════════════════════════════════════════════ */}
-          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 border border-black rounded-lg p-2.5 bg-white space-y-4">
+          <aside className="w-full sm:w-[220px] lg:w-[210px] xl:w-[225px] 2xl:w-[235px] shrink-0 space-y-3">
 
-            {/* ── SECTION 1: UPCOMING JOBS ── */}
-            <div>
+            {/* ── SECTION 1: UPCOMING JOBS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Clock size={13} className="text-orange-600" />
@@ -1302,8 +1302,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 2: SYLLABUS ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 2: SYLLABUS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <FileText size={13} className="text-purple-600" />
@@ -1354,8 +1354,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 3: DOCUMENTS & CERTIFICATES ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 3: DOCUMENTS & CERTIFICATES BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <ShieldCheck size={13} className="text-indigo-600" />
@@ -1406,8 +1406,8 @@ export function GovtJobsSingleRowSection({
               </div>
             </div>
 
-            {/* ── SECTION 4: CURRENT AFFAIRS & NEWS (Below Documents) ── */}
-            <div className="pt-2 border-t border-slate-200">
+            {/* ── SECTION 4: CURRENT AFFAIRS & NEWS BOX ── */}
+            <div className="border border-black rounded-lg p-2.5 bg-white">
               <div className="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
                 <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                   <Newspaper size={13} className="text-rose-600" />
